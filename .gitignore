@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Poetry
+poetry.lock
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Docker
+*.log
+
+# SO
+.DS_Store
+Thumbs.db
+
+# Credenciais — nunca commitar
+*.pem
+*.key
+credentials.json

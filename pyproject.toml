@@ -1,0 +1,16 @@
+[project]
+name = "ccf-framework"
+version = "0.1.0"
+description = "Framework de Perícia Digital Multi-Modal em Ambientes de Nuvem para Combate ao CSAM"
+authors = [
+    {name = "Lorena Guedes"}
+]
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
