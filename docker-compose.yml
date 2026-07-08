@@ -1,0 +1,36 @@
+services:
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN}
+      - SERVICES=s3,logs
+    volumes:
+      - localstack-data:/var/lib/localstack
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: azurite
+    command: azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0 --skipApiVersionCheck
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    volumes:
+      - azurite-data:/data
+
+  fake-gcs-server:
+    image: fsouza/fake-gcs-server
+    container_name: fake-gcs-server
+    command: -scheme http
+    ports:
+      - "4443:4443"
+    volumes:
+      - gcs-data:/data
+
+volumes:
+  localstack-data:
+  azurite-data:
+  gcs-data:
