@@ -57,10 +57,16 @@ def classify_explicit_content(
         "flag": flag,
     }
 
-def create_opennsfw2_predict_fn() -> Callable[[Image.Image], float]:
+def create_opennsfw2_predict_fn() -> Callable[[Image.Image], float]:  # pragma: no cover
     """Cria a funcao de predicao real usando o modelo OpenNSFW2
     pre-treinado (Yahoo/bhky), para uso em producao (nao em testes
     unitarios, que usam predict_fn sinteticas).
+
+    Nota: excluida da cobertura de testes unitarios propositalmente -
+    depende do modelo TensorFlow real (pesos ~24MB, download HTTP),
+    validada manualmente (ver commit 6fd9aba) em vez de mock, para
+    evitar falso sentimento de seguranca de um teste que so verificaria
+    a integracao superficial da API, nao o comportamento do modelo real.
 
     Returns:
         Funcao compativel com classify_explicit_content, que recebe
