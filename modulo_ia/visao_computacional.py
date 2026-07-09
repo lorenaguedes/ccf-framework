@@ -56,3 +56,19 @@ def classify_explicit_content(
         "probabilidade_nsfw": probabilidade,
         "flag": flag,
     }
+
+def create_opennsfw2_predict_fn() -> Callable[[Image.Image], float]:
+    """Cria a funcao de predicao real usando o modelo OpenNSFW2
+    pre-treinado (Yahoo/bhky), para uso em producao (nao em testes
+    unitarios, que usam predict_fn sinteticas).
+
+    Returns:
+        Funcao compativel com classify_explicit_content, que recebe
+        uma imagem PIL e retorna a probabilidade NSFW real.
+    """
+    import opennsfw2 as n2
+
+    def predict_fn(image: Image.Image) -> float:
+        return n2.predict_image(image)
+
+    return predict_fn
