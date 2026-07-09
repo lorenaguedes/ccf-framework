@@ -66,3 +66,54 @@ def classify_grooming(
         "flag": flag,
         "tokens_relevantes": tokens_relevantes,
     }
+
+def create_bert_predict_fn(model_path: str = None) -> Callable[[str], dict]:  # pragma: no cover
+    """Cria a funcao de predicao real usando BERT fine-tuned para
+    deteccao de grooming (Estagio E4), para uso em producao (nao em
+    testes unitarios, que usam predict_fn sinteticas).
+
+    Nota: excluida da cobertura de testes unitarios propositalmente -
+    depende do modelo BERT real (fine-tuned no Colab sobre PAN12,
+    ver notebook proprio), validada manualmente, nao por mock.
+
+    Args:
+        model_path: caminho para os pesos do modelo fine-tuned
+            (state_dict salvo do Colab). Se None, usa o BERT base
+            sem fine-tuning (apenas para teste de integracao da API,
+            nao para uso real).
+
+    Returns:
+        Funcao compativel com classify_grooming, que recebe um texto
+        e retorna score + tokens relevantes.
+    """
+    from transformers import BertTokenizer, BertForSequenceClassification
+    import torch
+
+    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+    modelo = BertForSequenceClassification.from_pretrained(
+        "bert-base-uncased", num_labels=2
+    )
+
+    if model_path:
+        modelo.load_state_dict(torch.load(model_path, map_location="cpu"))
+
+    modelo.eval()
+
+    def predict_fn(text: str) -> dict:
+        encoding = tokenizer(
+            text, truncation=True, padding="max_length", max_length=128, return_tensors="pt"
+        )
+        with torch.no_grad():
+            saida = modelo(**encoding)
+            probabilidades = torch.softmax(saida.logits, dim=1)
+            score_grooming = probabilidades[0][1].item()  # classe 1 = GROOMING
+
+        # Extracao simples de tokens: palavras do texto original que
+        # aparecem no vocabulario do tokenizer (aproximacao - uma
+        # implementacao mais rica usaria attention weights ou LIME/SHAP
+        # sobre o texto, similar ao Estagio E6)
+        tokens_relevantes = tokenizer.tokenize(text)[:10]
+
+        return {"score": score_grooming, "tokens_relevantes": tokens_relevantes}
+
+    return predict_fn
