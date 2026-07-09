@@ -23,6 +23,7 @@ def generate_lime_explanation(
     image: np.ndarray,
     predict_fn: Callable[[np.ndarray], np.ndarray],
     num_samples: int = 200,
+    random_state: int = 42,
 ) -> np.ndarray:
     """Gera uma mascara de importancia via LIME para uma imagem,
     usando uma funcao de predicao externa (injecao de dependencia).
@@ -46,12 +47,13 @@ def generate_lime_explanation(
     def predict_fn_lime(images_array):
         return predict_fn(images_array).reshape(-1, 1)
 
-    explainer = lime_image.LimeImageExplainer()
+    explainer = lime_image.LimeImageExplainer(random_state=random_state)
     explicacao = explainer.explain_instance(
         image,
         predict_fn_lime,
         hide_color=0,
         num_samples=num_samples,
+        random_seed=random_state,
     )
 
     segments = explicacao.segments
