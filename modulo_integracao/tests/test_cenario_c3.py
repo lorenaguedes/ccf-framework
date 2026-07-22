@@ -12,16 +12,15 @@ from modulo_integracao.cenarios_simulacao.cenario_c3 import executar_cenario_c3
 
 
 def _aws_collector_fn(bucket, key):
-    return {"provider": "aws", "hashes": {"sha256": "hash-aws-001"}, "flag_explicito": True}
+    return {"cloud_provider": "aws", "hashes": {"sha256": "hash-aws-001"}, "flag_explicito": True}
 
 
 def _gcp_collector_fn(bucket, key):
-    return {"provider": "gcp", "hashes": {"sha256": "hash-gcp-001"}, "anomalia_detectada": True}
+    return {"cloud_provider": "gcp", "hashes": {"sha256": "hash-gcp-001"}, "anomalia_detectada": True}
 
 
 def _azure_collector_fn(container, blob):
-    return {"provider": "azure", "hashes": {"sha256": "hash-azure-001"}, "metadados_suspeitos": True}
-
+    return {"cloud_provider": "azure", "hashes": {"sha256": "hash-azure-001"}, "metadados_suspeitos": True}
 
 def _custody_register_fn_sucesso(evidence_id, hash_sha256, metadata):
     return {"status": "success", "tx_id": f"tx-{evidence_id}"}
@@ -52,7 +51,7 @@ def test_executar_cenario_c3_correlates_all_three_providers():
         custody_register_fn=_custody_register_fn_sucesso,
     )
 
-    providers_encontrados = {ev["provider"] for ev in resultado["evidencias"]}
+    providers_encontrados = {ev["cloud_provider"] for ev in resultado["evidencias"]}
     assert providers_encontrados == {"aws", "gcp", "azure"}
     assert resultado["correlacao"]["total_csps_envolvidos"] == 3
 

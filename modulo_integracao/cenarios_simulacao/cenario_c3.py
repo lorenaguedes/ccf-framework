@@ -61,13 +61,13 @@ def executar_cenario_c3(
     registros_custodia = []
     for evidencia in evidencias:
         registro = custody_register_fn(
-            f"evid-c3-{evidencia['provider']}",
+            f"evid-c3-{evidencia['cloud_provider']}",
             evidencia["hashes"]["sha256"],
             evidencia,
         )
         registros_custodia.append(registro)
 
-    providers_coletados = {ev["provider"] for ev in evidencias}
+    providers_coletados = {ev["cloud_provider"] for ev in evidencias}
 
     if len(evidencias) == 3:
         status = "SUCESSO"

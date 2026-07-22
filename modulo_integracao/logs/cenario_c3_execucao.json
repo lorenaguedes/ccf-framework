@@ -1,0 +1,86 @@
+{
+  "cenario": "C3",
+  "executado_em": "2026-07-22T17:11:24.508554+00:00",
+  "resultado": {
+    "evidencias": [
+      {
+        "bucket": "ccf-evidence-bucket",
+        "key": "evidencia-c1-real.jpg",
+        "cloud_provider": "aws",
+        "hashes": {
+          "sha256": "1b33f05aac9b7727df59bc1d3774c8d5b2fd17904535da342eec90d8cea8c0f3",
+          "md5": "b06e103aa1c41c76cbf35359a120eb16"
+        },
+        "size_bytes": 1412,
+        "collected_at": "2026-07-22T17:11:24.492505+00:00"
+      },
+      {
+        "bucket": "ccf-evidence-bucket-gcp",
+        "blob_name": "evidencia-teste-integracao.txt",
+        "cloud_provider": "gcp",
+        "hashes": {
+          "sha256": "8e4c74fe4b8b009c18e7a0d93573c189ed63a7d580ffb115ebc75b863d50a8f0",
+          "md5": "cbebd43a8b8e0d8685a5998bd564ee93"
+        },
+        "size_bytes": 45,
+        "collected_at": "2026-07-22T17:11:24.497784+00:00"
+      },
+      {
+        "container": "ccf-evidence-container",
+        "blob_name": "evidencia-teste-integracao.txt",
+        "cloud_provider": "azure",
+        "hashes": {
+          "sha256": "0222f7eea16788c0743ba2f7f4a0fa9950e4b09f19d6d1babe256f8b93bd3cba",
+          "md5": "3606c9ff2d510bde7200cf528ab3414c"
+        },
+        "size_bytes": 47,
+        "collected_at": "2026-07-22T17:11:24.508461+00:00"
+      }
+    ],
+    "registros_custodia": [
+      {
+        "evidence_id": "evid-c3-aws",
+        "status": "success",
+        "chaincode_status": 200,
+        "hash": "1b33f05aac9b7727df59bc1d3774c8d5b2fd17904535da342eec90d8cea8c0f3"
+      },
+      {
+        "evidence_id": "evid-c3-gcp",
+        "status": "success",
+        "chaincode_status": 200,
+        "hash": "8e4c74fe4b8b009c18e7a0d93573c189ed63a7d580ffb115ebc75b863d50a8f0"
+      },
+      {
+        "evidence_id": "evid-c3-azure",
+        "status": "success",
+        "chaincode_status": 200,
+        "hash": "0222f7eea16788c0743ba2f7f4a0fa9950e4b09f19d6d1babe256f8b93bd3cba"
+      }
+    ],
+    "correlacao": {
+      "total_csps_envolvidos": 3,
+      "providers_presentes": [
+        "aws",
+        "azure",
+        "gcp"
+      ]
+    },
+    "erros_por_provider": {},
+    "status_pipeline": "SUCESSO_END_TO_END",
+    "verificacao_integridade": {
+      "aws": {
+        "hash": "1b33f05aac9b7727df59bc1d3774c8d5b2fd17904535da342eec90d8cea8c0f3",
+        "integridade_valida": true
+      },
+      "gcp": {
+        "hash": "8e4c74fe4b8b009c18e7a0d93573c189ed63a7d580ffb115ebc75b863d50a8f0",
+        "integridade_valida": true
+      },
+      "azure": {
+        "hash": "0222f7eea16788c0743ba2f7f4a0fa9950e4b09f19d6d1babe256f8b93bd3cba",
+        "integridade_valida": true
+      }
+    }
+  },
+  "achado_correcao": "Bug de inconsistencia de chave (provider vs cloud_provider) identificado e corrigido durante a execucao real - nao detectado pelos testes unitarios com mocks, pois os mocks reproduziam a inconsistencia em vez do formato real dos coletores."
+}
