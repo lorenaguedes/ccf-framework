@@ -1,0 +1,23 @@
+{
+  "cenario": "C1",
+  "executado_em": "2026-07-22T16:44:12.320168+00:00",
+  "resultado": {
+    "coleta": {
+      "bucket": "ccf-evidence-bucket",
+      "key": "evidencia-c1-real.jpg",
+      "cloud_provider": "aws",
+      "hashes": {
+        "sha256": "1b33f05aac9b7727df59bc1d3774c8d5b2fd17904535da342eec90d8cea8c0f3",
+        "md5": "b06e103aa1c41c76cbf35359a120eb16"
+      },
+      "size_bytes": 1412,
+      "collected_at": "2026-07-22T16:44:04.700363+00:00"
+    },
+    "classificacao": {
+      "probabilidade_nsfw": 0.08173290640115738,
+      "flag": "SFW"
+    },
+    "registro_custodia": null,
+    "status_pipeline": "SUCESSO"
+  }
+}

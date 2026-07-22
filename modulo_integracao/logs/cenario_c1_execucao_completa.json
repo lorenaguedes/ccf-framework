@@ -1,0 +1,36 @@
+{
+  "cenario": "C1",
+  "descricao": "Distribuicao de CSAM em Storage S3 (Tabela 16, PGT)",
+  "executado_em": "2026-07-22T16:49:39+00:00",
+  "componentes_reais_utilizados": [
+    "LocalStack (AWS S3 emulado)",
+    "OpenNSFW2 (classificacao real)",
+    "Hyperledger Fabric (rede real, canal ccfchannel)",
+    "Chaincode custody v1.0"
+  ],
+  "resultado": {
+    "coleta": {
+      "bucket": "ccf-evidence-bucket",
+      "key": "evidencia-c1-real.jpg",
+      "hash_sha256": "1b33f05aac9b7727df59bc1d3774c8d5b2fd17904535da342eec90d8cea8c0f3",
+      "size_bytes": 1412
+    },
+    "classificacao": {
+      "probabilidade_nsfw": 0.08173290640115738,
+      "flag": "SFW"
+    },
+    "registro_custodia": {
+      "evidence_id": "evid-c1-real-001",
+      "status": "success",
+      "chaincode_status": 200
+    },
+    "verificacao_integridade": {
+      "hash_original": "1b33f05aac9b7727df59bc1d3774c8d5b2fd17904535da342eec90d8cea8c0f3",
+      "hash_recalculado": "1b33f05aac9b7727df59bc1d3774c8d5b2fd17904535da342eec90d8cea8c0f3",
+      "integridade_valida": true
+    },
+    "status_pipeline": "SUCESSO_END_TO_END"
+  },
+  "criterio_sucesso_tabela16": "Precision >= 0.90 na classificacao; todos os eventos no ledger; laudo gerado com artefatos XAI",
+  "observacao": "Classificacao com imagem sintetica neutra (SFW) - validacao de branch NSFW documentada separadamente com classificador forcado, dado que reproducao de conteudo explicito real seria eticamente inadequada."
+}
