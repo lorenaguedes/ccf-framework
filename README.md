@@ -166,7 +166,3 @@ o ECA (art. 241-B §2º) e a LGPD.
 ## Licença
 
 MIT
-
-```
-
-Me avisa quando terminar.
