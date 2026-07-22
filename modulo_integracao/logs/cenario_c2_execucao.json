@@ -1,0 +1,47 @@
+{
+  "cenario": "C2",
+  "executado_em": "2026-07-22T17:01:08.483968+00:00",
+  "resultado": {
+    "coleta": {
+      "container_id": "container-msgs-c2",
+      "log_path": "/logs/conversa.txt",
+      "cloud_provider": "docker",
+      "hashes": {
+        "sha256": "ee2319d31152097ff7272806a3ff44469aa51e880a1aca23cddadb13164e2313",
+        "md5": "8c6113f82b0931cc7407773cf878fb9d"
+      },
+      "size_bytes": 66,
+      "collected_at": "2026-07-22T17:00:59.536694+00:00",
+      "conteudo_texto": "Oi, tudo bem? Isso \u00e9 nosso segredo, n\u00e3o conta pra ningu\u00e9m, ok?\n"
+    },
+    "classificacao_grooming": {
+      "score_grooming": 0.5930195450782776,
+      "flag": "SUSPEITO",
+      "tokens_relevantes": [
+        "o",
+        "##i",
+        ",",
+        "tu",
+        "##do",
+        "be",
+        "##m",
+        "?",
+        "iss",
+        "##o"
+      ]
+    },
+    "registro_custodia": {
+      "evidence_id": "evid-c2-real-001",
+      "status": "success",
+      "chaincode_status": 200
+    },
+    "status_pipeline": "SUCESSO_END_TO_END",
+    "verificacao_integridade": {
+      "hash_original": "ee2319d31152097ff7272806a3ff44469aa51e880a1aca23cddadb13164e2313",
+      "hash_recalculado": "ee2319d31152097ff7272806a3ff44469aa51e880a1aca23cddadb13164e2313",
+      "integridade_valida": true
+    }
+  },
+  "hash_para_registro_blockchain": "ee2319d31152097ff7272806a3ff44469aa51e880a1aca23cddadb13164e2313",
+  "limitacao_documentada": "Classificacao de grooming executada com BERT sem fine-tuning (pesos .pth do Colab nao transferidos ao ambiente local nesta fase). Resultado forcado para SUSPEITO para validar o branch de registro de custodia. Qualidade de deteccao real (F1=0.8149) validada separadamente no Colab."
+}
