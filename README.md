@@ -21,6 +21,7 @@ Autora: Lorena Guedes.
 
 ## Arquitetura
 
+```
 ccf-framework/
 ├── docs/
 │   ├── ADR/                  # 8 Architecture Decision Records
@@ -43,6 +44,7 @@ ccf-framework/
 │   └── logs/                    # Logs de execução e laudos gerados
 ├── docker-compose.yml         # Emuladores multi-cloud (LocalStack, Azurite, fake-gcs-server)
 └── pyproject.toml
+```
 
 ## Pré-requisitos
 
