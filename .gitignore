@@ -21,3 +21,6 @@ Thumbs.db
 *.pem
 *.key
 credentials.json
+modulo_ia/tests/imagens_pessoais/
+modulo_ia/models/
+.coverage
