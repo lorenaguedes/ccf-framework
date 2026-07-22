@@ -3,19 +3,19 @@ Execucao real do Cenario C2 - Grooming em Plataforma de Mensagens.
 
 Conecta os componentes reais:
 - modulo_coleta.docker_collector (Docker real)
-- modulo_ia.deteccao_grooming (BERT - SEM fine-tuning, ver nota)
+- modulo_ia.deteccao_grooming (BERT fine-tuned sobre PAN12, pesos reais)
 - Chaincode 'custody' na rede Hyperledger Fabric real
 
-NOTA METODOLOGICA IMPORTANTE: o modelo BERT usado aqui NAO possui os
-pesos fine-tuned sobre o PAN12 (o arquivo .pth gerado no Colab nao foi
-transferido para o ambiente local nesta fase do projeto). Portanto,
-a classificacao de grooming neste script E MECANICA, nao semantica -
-valida a integracao real do pipeline (Docker -> BERT -> Blockchain),
-mas NAO a qualidade da deteccao (essa validacao foi feita
-separadamente no Colab, com F1=0.8149 - ver notebook e log da sessao).
-Para fins de teste E2E do branch positivo (registro na blockchain),
-o resultado da classificacao e forcado para SUSPEITO, de forma
-documentada e transparente.
+NOTA METODOLOGICA: o modelo BERT usado aqui possui os pesos fine-tuned
+reais (modulo_ia/models/modelo_e4_grooming_bert.pth, F1=0.8153 no
+conjunto de teste interno - ver notebook Colab e ADR 008). A
+classificacao abaixo e semantica real, nao mais mecanica/forcada.
+
+LIMITACAO CONHECIDA (ADR 008): o modelo apresenta vies de
+generalizacao documentado - tende a classificar como SUSPEITO mesmo
+frases benignas em estilo de chat casual, fora da distribuicao do
+PAN12. O resultado desta execucao deve ser interpretado a luz dessa
+limitacao, nao como medida definitiva de precisao pratica.
 """
 import json
 from datetime import datetime, timezone
@@ -25,21 +25,19 @@ from modulo_coleta.docker_collector import collect_from_docker_log
 from modulo_ia.deteccao_grooming import classify_grooming, create_bert_predict_fn
 from modulo_integracao.cenarios_simulacao.cenario_c2 import executar_cenario_c2
 
+CAMINHO_MODELO_BERT = "modulo_ia/models/modelo_e4_grooming_bert.pth"
+
 
 def _collector_fn_real(container_id, log_path):
     return collect_from_docker_log(container_id, log_path)
 
 
-def _grooming_classifier_fn_real_forcado(texto: str) -> dict:
-    """Usa o BERT real (mecanicamente), mas forca o resultado para
-    SUSPEITO para validar o branch de registro de custodia - ver nota
-    do modulo sobre a ausencia dos pesos fine-tuned localmente."""
-    predict_fn = create_bert_predict_fn()  # sem model_path = sem fine-tuning
-    resultado = classify_grooming(texto, predict_fn, threshold=0.5)
-    resultado["flag"] = "SUSPEITO"  # forcado - ver nota do modulo
-    if not resultado["tokens_relevantes"]:
-        resultado["tokens_relevantes"] = texto.split()[:5]
-    return resultado
+def _grooming_classifier_fn_real(texto: str) -> dict:
+    """Usa o BERT real, fine-tuned sobre o PAN12. Nao forca mais o
+    resultado - reflete a classificacao semantica genuina do modelo,
+    incluindo a limitacao de generalizacao documentada no ADR 008."""
+    predict_fn = create_bert_predict_fn(model_path=CAMINHO_MODELO_BERT)
+    return classify_grooming(texto, predict_fn, threshold=0.5)
 
 
 def _custody_register_fn_placeholder(evidence_id, hash_sha256, metadata):
@@ -60,7 +58,7 @@ def main():
         log_path=log_path,
         texto_conversa=texto_conversa,
         collector_fn=_collector_fn_real,
-        grooming_classifier_fn=_grooming_classifier_fn_real_forcado,
+        grooming_classifier_fn=_grooming_classifier_fn_real,
         custody_register_fn=_custody_register_fn_placeholder,
     )
 
@@ -69,6 +67,7 @@ def main():
         "executado_em": datetime.now(timezone.utc).isoformat(),
         "resultado": resultado,
         "hash_para_registro_blockchain": coleta_real["hashes"]["sha256"],
+        "observacao": "Classificacao com modelo BERT fine-tuned real (nao forcada). Ver ADR 008 para limitacao de generalizacao conhecida.",
     }
 
     log_path_output = Path(__file__).parent.parent / "logs" / "cenario_c2_execucao.json"
