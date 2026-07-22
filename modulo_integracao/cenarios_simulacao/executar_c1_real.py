@@ -53,21 +53,6 @@ def _custody_register_fn_real(evidence_id: str, hash_sha256: str, metadata: dict
 
 
 def main():
-    # bucket = "ccf-evidence-bucket"
-    # key = "evidencia-c1-real.jpg"
-
-    # client = get_s3_client()
-    # conteudo = client.get_object(Bucket=bucket, Key=key)["Body"].read()
-
-    # resultado = executar_cenario_c1(
-    #     bucket=bucket,
-    #     key=key,
-    #     conteudo=conteudo,
-    #     collector_fn=collect_from_s3,
-    #     classifier_fn=_classifier_fn_real,
-    #     custody_register_fn=_custody_register_fn_real,
-    # )
-
     bucket = "ccf-evidence-bucket"
     key = "evidencia-c1-real.jpg"
 
@@ -104,7 +89,6 @@ def main():
 
     print(json.dumps(log_entry, indent=2, default=str))
     print(f"\nLog salvo em: {log_path}")
-
 
 if __name__ == "__main__":
     main()
