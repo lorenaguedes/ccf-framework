@@ -87,3 +87,23 @@ def test_montar_conteudo_laudo_requires_valid_cenario():
             historico_blockchain=None,
             cenario="C99",
         )
+
+def test_montar_xai_texto_traz_metodo_escore_limiar_e_trechos():
+    """Conversa sinalizada gera artefato com os trechos que embasaram a
+    decisao, o escore e o limiar (secao 4.4.6 do PGT)."""
+    from modulo_integracao.laudo_pericial import montar_xai_texto
+
+    artefato = montar_xai_texto(
+        {"score_grooming": 0.62, "flag": "SUSPEITO", "trechos_relevantes": ["m1", "m2"]},
+        limiar=0.4,
+    )
+    assert artefato["metodo"].startswith("Oclusao")
+    assert artefato["escore"] == 0.62 and artefato["limiar"] == 0.4
+    assert artefato["trechos_relevantes"] == ["m1", "m2"]
+
+
+def test_montar_xai_texto_sem_sinalizacao_retorna_none():
+    """Conversa nao sinalizada nao tem o que explicar."""
+    from modulo_integracao.laudo_pericial import montar_xai_texto
+
+    assert montar_xai_texto({"score_grooming": 0.1, "flag": "NORMAL", "trechos_relevantes": []}) is None

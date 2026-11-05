@@ -91,6 +91,10 @@ def main():
     print(f"\nLog salvo em: {log_path_output}")
     print(f"\nHash para registro manual na blockchain: {coleta_real['hashes']['sha256']}")
 
+    from modulo_integracao.cenarios_simulacao.gerar_laudo_c2 import gerar_laudo_c2
+    gerar_laudo_c2()
+    print("Laudo salvo em: modulo_integracao/logs/laudo_c2.pdf")
+
 
 if __name__ == "__main__":
     main()

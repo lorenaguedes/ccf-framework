@@ -76,6 +76,37 @@ def montar_conteudo_laudo(
         "historico_blockchain": historico_blockchain_final,
     }
 
+
+def montar_xai_texto(classificacao: dict, limiar: float | None = None) -> dict | None:
+    """Monta o artefato de explicabilidade para uma classificacao textual
+    do estagio E4 (secao 4.4.6 do PGT).
+
+    O artefato reune o metodo (oclusao por mensagem), o escore, o limiar
+    usado e os trechos relevantes, isto e, as mensagens da janela cuja
+    remocao mais reduz o escore. Descreve o comportamento do modelo e
+    nao constitui justificativa causal: sujeito a revisao pericial.
+
+    Args:
+        classificacao: resultado de classify_grooming/classificar_conversa
+            (score_grooming, flag, trechos_relevantes).
+        limiar: limiar de decisao aplicado, para constar no laudo.
+
+    Returns:
+        Dicionario com o artefato, ou None se a conversa nao foi
+        sinalizada (nao ha o que explicar).
+    """
+    if classificacao.get("flag") != "SUSPEITO":
+        return None
+    return {
+        "metodo": "Oclusao por mensagem (E4)",
+        "escore": classificacao["score_grooming"],
+        "limiar": limiar,
+        "trechos_relevantes": list(classificacao.get("trechos_relevantes", [])),
+        "ressalva": "Explicacao do comportamento do modelo, nao causal; "
+                    "sujeita a revisao pericial humana.",
+    }
+
+
 def gerar_pdf_laudo(conteudo: dict, output_path: str) -> None:  # pragma: no cover
     """Renderiza o conteudo estruturado do laudo em um arquivo PDF,
     seguindo o formato exigido pelo RF12.
