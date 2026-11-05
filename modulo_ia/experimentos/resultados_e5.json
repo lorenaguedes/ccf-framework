@@ -1,0 +1,2402 @@
+[
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 0,
+  "auc": 0.99965,
+  "precisao": 0.6172839506172839,
+  "recall": 1.0,
+  "f1": 0.7633587786259541,
+  "fpr": 0.062
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 1,
+  "auc": 0.9994,
+  "precisao": 0.5747126436781609,
+  "recall": 1.0,
+  "f1": 0.7299270072992701,
+  "fpr": 0.074
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 2,
+  "auc": 0.99995,
+  "precisao": 0.6802721088435374,
+  "recall": 1.0,
+  "f1": 0.8097165991902835,
+  "fpr": 0.047
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 3,
+  "auc": 0.99861,
+  "precisao": 0.5952380952380952,
+  "recall": 1.0,
+  "f1": 0.7462686567164178,
+  "fpr": 0.068
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 4,
+  "auc": 0.99998,
+  "precisao": 0.5882352941176471,
+  "recall": 1.0,
+  "f1": 0.7407407407407407,
+  "fpr": 0.07
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 5,
+  "auc": 0.99888,
+  "precisao": 0.5882352941176471,
+  "recall": 1.0,
+  "f1": 0.7407407407407407,
+  "fpr": 0.07
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 6,
+  "auc": 0.99817,
+  "precisao": 0.6211180124223602,
+  "recall": 1.0,
+  "f1": 0.7662835249042146,
+  "fpr": 0.061
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 7,
+  "auc": 0.99886,
+  "precisao": 0.6097560975609756,
+  "recall": 1.0,
+  "f1": 0.7575757575757575,
+  "fpr": 0.064
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 8,
+  "auc": 0.99925,
+  "precisao": 0.5586592178770949,
+  "recall": 1.0,
+  "f1": 0.7168458781362006,
+  "fpr": 0.079
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 9,
+  "auc": 0.99781,
+  "precisao": 0.5882352941176471,
+  "recall": 1.0,
+  "f1": 0.7407407407407407,
+  "fpr": 0.07
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 10,
+  "auc": 0.99942,
+  "precisao": 0.5681818181818182,
+  "recall": 1.0,
+  "f1": 0.7246376811594203,
+  "fpr": 0.076
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 11,
+  "auc": 0.9997199999999999,
+  "precisao": 0.6060606060606061,
+  "recall": 1.0,
+  "f1": 0.7547169811320755,
+  "fpr": 0.065
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 12,
+  "auc": 0.99885,
+  "precisao": 0.5649717514124294,
+  "recall": 1.0,
+  "f1": 0.7220216606498194,
+  "fpr": 0.077
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 13,
+  "auc": 0.99994,
+  "precisao": 0.6211180124223602,
+  "recall": 1.0,
+  "f1": 0.7662835249042146,
+  "fpr": 0.061
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 14,
+  "auc": 0.99982,
+  "precisao": 0.5649717514124294,
+  "recall": 1.0,
+  "f1": 0.7220216606498194,
+  "fpr": 0.077
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 15,
+  "auc": 0.99919,
+  "precisao": 0.6211180124223602,
+  "recall": 1.0,
+  "f1": 0.7662835249042146,
+  "fpr": 0.061
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 16,
+  "auc": 0.99962,
+  "precisao": 0.6944444444444444,
+  "recall": 1.0,
+  "f1": 0.819672131147541,
+  "fpr": 0.044
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 17,
+  "auc": 0.99875,
+  "precisao": 0.5882352941176471,
+  "recall": 1.0,
+  "f1": 0.7407407407407407,
+  "fpr": 0.07
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 18,
+  "auc": 0.99928,
+  "precisao": 0.5617977528089888,
+  "recall": 1.0,
+  "f1": 0.7194244604316548,
+  "fpr": 0.078
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 19,
+  "auc": 0.99998,
+  "precisao": 0.6060606060606061,
+  "recall": 1.0,
+  "f1": 0.7547169811320755,
+  "fpr": 0.065
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 20,
+  "auc": 1.0,
+  "precisao": 0.5847953216374269,
+  "recall": 1.0,
+  "f1": 0.7380073800738007,
+  "fpr": 0.071
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 21,
+  "auc": 0.99975,
+  "precisao": 0.6097560975609756,
+  "recall": 1.0,
+  "f1": 0.7575757575757575,
+  "fpr": 0.064
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 22,
+  "auc": 0.99987,
+  "precisao": 0.6711409395973155,
+  "recall": 1.0,
+  "f1": 0.8032128514056226,
+  "fpr": 0.049
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 23,
+  "auc": 0.99922,
+  "precisao": 0.6060606060606061,
+  "recall": 1.0,
+  "f1": 0.7547169811320755,
+  "fpr": 0.065
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 24,
+  "auc": 0.9987699999999999,
+  "precisao": 0.5988023952095808,
+  "recall": 1.0,
+  "f1": 0.7490636704119851,
+  "fpr": 0.067
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 25,
+  "auc": 0.9973299999999999,
+  "precisao": 0.5494505494505495,
+  "recall": 1.0,
+  "f1": 0.7092198581560284,
+  "fpr": 0.082
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 26,
+  "auc": 0.99934,
+  "precisao": 0.591715976331361,
+  "recall": 1.0,
+  "f1": 0.7434944237918216,
+  "fpr": 0.069
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 27,
+  "auc": 0.9991,
+  "precisao": 0.6369426751592356,
+  "recall": 1.0,
+  "f1": 0.7782101167315175,
+  "fpr": 0.057
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 28,
+  "auc": 0.9997,
+  "precisao": 0.6172839506172839,
+  "recall": 1.0,
+  "f1": 0.7633587786259541,
+  "fpr": 0.062
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "auto",
+  "semente": 29,
+  "auc": 0.9991099999999999,
+  "precisao": 0.5617977528089888,
+  "recall": 1.0,
+  "f1": 0.7194244604316548,
+  "fpr": 0.078
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 0,
+  "auc": 0.99965,
+  "precisao": 0.9090909090909091,
+  "recall": 1.0,
+  "f1": 0.9523809523809523,
+  "fpr": 0.01
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 1,
+  "auc": 0.9994,
+  "precisao": 0.8547008547008547,
+  "recall": 1.0,
+  "f1": 0.9216589861751151,
+  "fpr": 0.017
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 2,
+  "auc": 0.99995,
+  "precisao": 0.9259259259259259,
+  "recall": 1.0,
+  "f1": 0.9615384615384615,
+  "fpr": 0.008
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 3,
+  "auc": 0.99861,
+  "precisao": 0.8695652173913043,
+  "recall": 1.0,
+  "f1": 0.9302325581395349,
+  "fpr": 0.015
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 4,
+  "auc": 0.99998,
+  "precisao": 0.9174311926605505,
+  "recall": 1.0,
+  "f1": 0.9569377990430622,
+  "fpr": 0.009
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 5,
+  "auc": 0.99888,
+  "precisao": 0.8771929824561403,
+  "recall": 1.0,
+  "f1": 0.9345794392523363,
+  "fpr": 0.014
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 6,
+  "auc": 0.99817,
+  "precisao": 0.9345794392523364,
+  "recall": 1.0,
+  "f1": 0.966183574879227,
+  "fpr": 0.007
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 7,
+  "auc": 0.99886,
+  "precisao": 0.9009009009009009,
+  "recall": 1.0,
+  "f1": 0.947867298578199,
+  "fpr": 0.011
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 8,
+  "auc": 0.99925,
+  "precisao": 0.8771929824561403,
+  "recall": 1.0,
+  "f1": 0.9345794392523363,
+  "fpr": 0.014
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 9,
+  "auc": 0.99781,
+  "precisao": 0.8928571428571429,
+  "recall": 1.0,
+  "f1": 0.9433962264150945,
+  "fpr": 0.012
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 10,
+  "auc": 0.99942,
+  "precisao": 0.97,
+  "recall": 0.97,
+  "f1": 0.97,
+  "fpr": 0.003
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 11,
+  "auc": 0.9997199999999999,
+  "precisao": 0.9259259259259259,
+  "recall": 1.0,
+  "f1": 0.9615384615384615,
+  "fpr": 0.008
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 12,
+  "auc": 0.99885,
+  "precisao": 0.8264462809917356,
+  "recall": 1.0,
+  "f1": 0.904977375565611,
+  "fpr": 0.021
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 13,
+  "auc": 0.99994,
+  "precisao": 0.9523809523809523,
+  "recall": 1.0,
+  "f1": 0.975609756097561,
+  "fpr": 0.005
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 14,
+  "auc": 0.99982,
+  "precisao": 0.9615384615384616,
+  "recall": 1.0,
+  "f1": 0.9803921568627451,
+  "fpr": 0.004
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 15,
+  "auc": 0.99919,
+  "precisao": 0.9433962264150944,
+  "recall": 1.0,
+  "f1": 0.970873786407767,
+  "fpr": 0.006
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 16,
+  "auc": 0.99962,
+  "precisao": 0.9345794392523364,
+  "recall": 1.0,
+  "f1": 0.966183574879227,
+  "fpr": 0.007
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 17,
+  "auc": 0.99875,
+  "precisao": 0.941747572815534,
+  "recall": 0.97,
+  "f1": 0.9556650246305418,
+  "fpr": 0.006
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 18,
+  "auc": 0.99928,
+  "precisao": 0.8403361344537815,
+  "recall": 1.0,
+  "f1": 0.91324200913242,
+  "fpr": 0.019
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 19,
+  "auc": 0.99998,
+  "precisao": 0.8928571428571429,
+  "recall": 1.0,
+  "f1": 0.9433962264150945,
+  "fpr": 0.012
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 20,
+  "auc": 1.0,
+  "precisao": 0.8333333333333334,
+  "recall": 1.0,
+  "f1": 0.9090909090909091,
+  "fpr": 0.02
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 21,
+  "auc": 0.99975,
+  "precisao": 0.8928571428571429,
+  "recall": 1.0,
+  "f1": 0.9433962264150945,
+  "fpr": 0.012
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 22,
+  "auc": 0.99987,
+  "precisao": 0.8928571428571429,
+  "recall": 1.0,
+  "f1": 0.9433962264150945,
+  "fpr": 0.012
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 23,
+  "auc": 0.99922,
+  "precisao": 0.9259259259259259,
+  "recall": 1.0,
+  "f1": 0.9615384615384615,
+  "fpr": 0.008
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 24,
+  "auc": 0.9987699999999999,
+  "precisao": 0.8928571428571429,
+  "recall": 1.0,
+  "f1": 0.9433962264150945,
+  "fpr": 0.012
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 25,
+  "auc": 0.9973299999999999,
+  "precisao": 0.8620689655172413,
+  "recall": 1.0,
+  "f1": 0.9259259259259259,
+  "fpr": 0.016
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 26,
+  "auc": 0.99934,
+  "precisao": 0.9174311926605505,
+  "recall": 1.0,
+  "f1": 0.9569377990430622,
+  "fpr": 0.009
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 27,
+  "auc": 0.9991,
+  "precisao": 0.8928571428571429,
+  "recall": 1.0,
+  "f1": 0.9433962264150945,
+  "fpr": 0.012
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 28,
+  "auc": 0.9997,
+  "precisao": 0.9900990099009901,
+  "recall": 1.0,
+  "f1": 0.9950248756218906,
+  "fpr": 0.001
+ },
+ {
+  "severidade": 1.0,
+  "contamination": "0.1",
+  "semente": 29,
+  "auc": 0.9991099999999999,
+  "precisao": 0.8333333333333334,
+  "recall": 1.0,
+  "f1": 0.9090909090909091,
+  "fpr": 0.02
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 0,
+  "auc": 0.9999,
+  "precisao": 0.6211180124223602,
+  "recall": 1.0,
+  "f1": 0.7662835249042146,
+  "fpr": 0.061
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 1,
+  "auc": 0.99885,
+  "precisao": 0.5434782608695652,
+  "recall": 1.0,
+  "f1": 0.704225352112676,
+  "fpr": 0.084
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 2,
+  "auc": 0.99988,
+  "precisao": 0.6493506493506493,
+  "recall": 1.0,
+  "f1": 0.7874015748031497,
+  "fpr": 0.054
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 3,
+  "auc": 0.9979399999999999,
+  "precisao": 0.5747126436781609,
+  "recall": 1.0,
+  "f1": 0.7299270072992701,
+  "fpr": 0.074
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 4,
+  "auc": 0.99948,
+  "precisao": 0.5714285714285714,
+  "recall": 1.0,
+  "f1": 0.7272727272727273,
+  "fpr": 0.075
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 5,
+  "auc": 0.9986499999999999,
+  "precisao": 0.5780346820809249,
+  "recall": 1.0,
+  "f1": 0.7326007326007327,
+  "fpr": 0.073
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 6,
+  "auc": 0.99796,
+  "precisao": 0.6060606060606061,
+  "recall": 1.0,
+  "f1": 0.7547169811320755,
+  "fpr": 0.065
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 7,
+  "auc": 0.99882,
+  "precisao": 0.5847953216374269,
+  "recall": 1.0,
+  "f1": 0.7380073800738007,
+  "fpr": 0.071
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 8,
+  "auc": 0.99901,
+  "precisao": 0.546448087431694,
+  "recall": 1.0,
+  "f1": 0.7067137809187279,
+  "fpr": 0.083
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 9,
+  "auc": 0.99739,
+  "precisao": 0.5649717514124294,
+  "recall": 1.0,
+  "f1": 0.7220216606498194,
+  "fpr": 0.077
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 10,
+  "auc": 0.99916,
+  "precisao": 0.5524861878453039,
+  "recall": 1.0,
+  "f1": 0.7117437722419929,
+  "fpr": 0.081
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 11,
+  "auc": 0.99969,
+  "precisao": 0.6410256410256411,
+  "recall": 1.0,
+  "f1": 0.7812500000000001,
+  "fpr": 0.056
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 12,
+  "auc": 0.99765,
+  "precisao": 0.5494505494505495,
+  "recall": 1.0,
+  "f1": 0.7092198581560284,
+  "fpr": 0.082
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 13,
+  "auc": 0.99991,
+  "precisao": 0.6289308176100629,
+  "recall": 1.0,
+  "f1": 0.7722007722007722,
+  "fpr": 0.059
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 14,
+  "auc": 0.99956,
+  "precisao": 0.5617977528089888,
+  "recall": 1.0,
+  "f1": 0.7194244604316548,
+  "fpr": 0.078
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 15,
+  "auc": 0.99916,
+  "precisao": 0.6369426751592356,
+  "recall": 1.0,
+  "f1": 0.7782101167315175,
+  "fpr": 0.057
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 16,
+  "auc": 0.99958,
+  "precisao": 0.6410256410256411,
+  "recall": 1.0,
+  "f1": 0.7812500000000001,
+  "fpr": 0.056
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 17,
+  "auc": 0.99803,
+  "precisao": 0.5714285714285714,
+  "recall": 1.0,
+  "f1": 0.7272727272727273,
+  "fpr": 0.075
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 18,
+  "auc": 0.99931,
+  "precisao": 0.5813953488372093,
+  "recall": 1.0,
+  "f1": 0.7352941176470588,
+  "fpr": 0.072
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 19,
+  "auc": 0.99921,
+  "precisao": 0.5813953488372093,
+  "recall": 1.0,
+  "f1": 0.7352941176470588,
+  "fpr": 0.072
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 20,
+  "auc": 1.0,
+  "precisao": 0.5747126436781609,
+  "recall": 1.0,
+  "f1": 0.7299270072992701,
+  "fpr": 0.074
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 21,
+  "auc": 0.99962,
+  "precisao": 0.6097560975609756,
+  "recall": 1.0,
+  "f1": 0.7575757575757575,
+  "fpr": 0.064
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 22,
+  "auc": 0.99941,
+  "precisao": 0.6711409395973155,
+  "recall": 1.0,
+  "f1": 0.8032128514056226,
+  "fpr": 0.049
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 23,
+  "auc": 0.99915,
+  "precisao": 0.6097560975609756,
+  "recall": 1.0,
+  "f1": 0.7575757575757575,
+  "fpr": 0.064
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 24,
+  "auc": 0.99782,
+  "precisao": 0.5780346820809249,
+  "recall": 1.0,
+  "f1": 0.7326007326007327,
+  "fpr": 0.073
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 25,
+  "auc": 0.99712,
+  "precisao": 0.5235602094240838,
+  "recall": 1.0,
+  "f1": 0.6872852233676976,
+  "fpr": 0.091
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 26,
+  "auc": 0.99867,
+  "precisao": 0.5847953216374269,
+  "recall": 1.0,
+  "f1": 0.7380073800738007,
+  "fpr": 0.071
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 27,
+  "auc": 0.99852,
+  "precisao": 0.6097560975609756,
+  "recall": 1.0,
+  "f1": 0.7575757575757575,
+  "fpr": 0.064
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 28,
+  "auc": 0.99969,
+  "precisao": 0.6097560975609756,
+  "recall": 1.0,
+  "f1": 0.7575757575757575,
+  "fpr": 0.064
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "auto",
+  "semente": 29,
+  "auc": 0.9988,
+  "precisao": 0.5882352941176471,
+  "recall": 1.0,
+  "f1": 0.7407407407407407,
+  "fpr": 0.07
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 0,
+  "auc": 0.9999,
+  "precisao": 0.8620689655172413,
+  "recall": 1.0,
+  "f1": 0.9259259259259259,
+  "fpr": 0.016
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 1,
+  "auc": 0.99885,
+  "precisao": 0.847457627118644,
+  "recall": 1.0,
+  "f1": 0.9174311926605504,
+  "fpr": 0.018
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 2,
+  "auc": 0.99988,
+  "precisao": 0.9345794392523364,
+  "recall": 1.0,
+  "f1": 0.966183574879227,
+  "fpr": 0.007
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 3,
+  "auc": 0.9979399999999999,
+  "precisao": 0.8695652173913043,
+  "recall": 1.0,
+  "f1": 0.9302325581395349,
+  "fpr": 0.015
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 4,
+  "auc": 0.99948,
+  "precisao": 0.9174311926605505,
+  "recall": 1.0,
+  "f1": 0.9569377990430622,
+  "fpr": 0.009
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 5,
+  "auc": 0.9986499999999999,
+  "precisao": 0.8608695652173913,
+  "recall": 0.99,
+  "f1": 0.9209302325581394,
+  "fpr": 0.016
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 6,
+  "auc": 0.99796,
+  "precisao": 0.9345794392523364,
+  "recall": 1.0,
+  "f1": 0.966183574879227,
+  "fpr": 0.007
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 7,
+  "auc": 0.99882,
+  "precisao": 0.9259259259259259,
+  "recall": 1.0,
+  "f1": 0.9615384615384615,
+  "fpr": 0.008
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 8,
+  "auc": 0.99901,
+  "precisao": 0.8771929824561403,
+  "recall": 1.0,
+  "f1": 0.9345794392523363,
+  "fpr": 0.014
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 9,
+  "auc": 0.99739,
+  "precisao": 0.8771929824561403,
+  "recall": 1.0,
+  "f1": 0.9345794392523363,
+  "fpr": 0.014
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 10,
+  "auc": 0.99916,
+  "precisao": 0.9320388349514563,
+  "recall": 0.96,
+  "f1": 0.9458128078817734,
+  "fpr": 0.007
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 11,
+  "auc": 0.99969,
+  "precisao": 0.9433962264150944,
+  "recall": 1.0,
+  "f1": 0.970873786407767,
+  "fpr": 0.006
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 12,
+  "auc": 0.99765,
+  "precisao": 0.8130081300813008,
+  "recall": 1.0,
+  "f1": 0.8968609865470852,
+  "fpr": 0.023
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 13,
+  "auc": 0.99991,
+  "precisao": 0.9090909090909091,
+  "recall": 1.0,
+  "f1": 0.9523809523809523,
+  "fpr": 0.01
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 14,
+  "auc": 0.99956,
+  "precisao": 0.9523809523809523,
+  "recall": 1.0,
+  "f1": 0.975609756097561,
+  "fpr": 0.005
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 15,
+  "auc": 0.99916,
+  "precisao": 0.9433962264150944,
+  "recall": 1.0,
+  "f1": 0.970873786407767,
+  "fpr": 0.006
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 16,
+  "auc": 0.99958,
+  "precisao": 0.9433962264150944,
+  "recall": 1.0,
+  "f1": 0.970873786407767,
+  "fpr": 0.006
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 17,
+  "auc": 0.99803,
+  "precisao": 0.9405940594059405,
+  "recall": 0.95,
+  "f1": 0.9452736318407959,
+  "fpr": 0.006
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 18,
+  "auc": 0.99931,
+  "precisao": 0.8620689655172413,
+  "recall": 1.0,
+  "f1": 0.9259259259259259,
+  "fpr": 0.016
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 19,
+  "auc": 0.99921,
+  "precisao": 0.8771929824561403,
+  "recall": 1.0,
+  "f1": 0.9345794392523363,
+  "fpr": 0.014
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 20,
+  "auc": 1.0,
+  "precisao": 0.7936507936507936,
+  "recall": 1.0,
+  "f1": 0.8849557522123894,
+  "fpr": 0.026
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 21,
+  "auc": 0.99962,
+  "precisao": 0.9009009009009009,
+  "recall": 1.0,
+  "f1": 0.947867298578199,
+  "fpr": 0.011
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 22,
+  "auc": 0.99941,
+  "precisao": 0.9174311926605505,
+  "recall": 1.0,
+  "f1": 0.9569377990430622,
+  "fpr": 0.009
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 23,
+  "auc": 0.99915,
+  "precisao": 0.9174311926605505,
+  "recall": 1.0,
+  "f1": 0.9569377990430622,
+  "fpr": 0.009
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 24,
+  "auc": 0.99782,
+  "precisao": 0.9009009009009009,
+  "recall": 1.0,
+  "f1": 0.947867298578199,
+  "fpr": 0.011
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 25,
+  "auc": 0.99712,
+  "precisao": 0.8771929824561403,
+  "recall": 1.0,
+  "f1": 0.9345794392523363,
+  "fpr": 0.014
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 26,
+  "auc": 0.99867,
+  "precisao": 0.9009009009009009,
+  "recall": 1.0,
+  "f1": 0.947867298578199,
+  "fpr": 0.011
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 27,
+  "auc": 0.99852,
+  "precisao": 0.9174311926605505,
+  "recall": 1.0,
+  "f1": 0.9569377990430622,
+  "fpr": 0.009
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 28,
+  "auc": 0.99969,
+  "precisao": 0.9615384615384616,
+  "recall": 1.0,
+  "f1": 0.9803921568627451,
+  "fpr": 0.004
+ },
+ {
+  "severidade": 0.5,
+  "contamination": "0.1",
+  "semente": 29,
+  "auc": 0.9988,
+  "precisao": 0.819672131147541,
+  "recall": 1.0,
+  "f1": 0.9009009009009009,
+  "fpr": 0.022
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 0,
+  "auc": 0.99812,
+  "precisao": 0.5681818181818182,
+  "recall": 1.0,
+  "f1": 0.7246376811594203,
+  "fpr": 0.076
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 1,
+  "auc": 0.98946,
+  "precisao": 0.5154639175257731,
+  "recall": 1.0,
+  "f1": 0.6802721088435374,
+  "fpr": 0.094
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 2,
+  "auc": 0.99915,
+  "precisao": 0.5952380952380952,
+  "recall": 1.0,
+  "f1": 0.7462686567164178,
+  "fpr": 0.068
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 3,
+  "auc": 0.99637,
+  "precisao": 0.5405405405405406,
+  "recall": 1.0,
+  "f1": 0.7017543859649124,
+  "fpr": 0.085
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 4,
+  "auc": 0.99771,
+  "precisao": 0.5494505494505495,
+  "recall": 1.0,
+  "f1": 0.7092198581560284,
+  "fpr": 0.082
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 5,
+  "auc": 0.99631,
+  "precisao": 0.5494505494505495,
+  "recall": 1.0,
+  "f1": 0.7092198581560284,
+  "fpr": 0.082
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 6,
+  "auc": 0.99766,
+  "precisao": 0.5813953488372093,
+  "recall": 1.0,
+  "f1": 0.7352941176470588,
+  "fpr": 0.072
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 7,
+  "auc": 0.9966999999999999,
+  "precisao": 0.5555555555555556,
+  "recall": 1.0,
+  "f1": 0.7142857142857143,
+  "fpr": 0.08
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 8,
+  "auc": 0.99707,
+  "precisao": 0.5181347150259067,
+  "recall": 1.0,
+  "f1": 0.68259385665529,
+  "fpr": 0.093
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 9,
+  "auc": 0.99471,
+  "precisao": 0.5208333333333334,
+  "recall": 1.0,
+  "f1": 0.684931506849315,
+  "fpr": 0.092
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 10,
+  "auc": 0.99948,
+  "precisao": 0.49019607843137253,
+  "recall": 1.0,
+  "f1": 0.6578947368421052,
+  "fpr": 0.104
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 11,
+  "auc": 0.99753,
+  "precisao": 0.5847953216374269,
+  "recall": 1.0,
+  "f1": 0.7380073800738007,
+  "fpr": 0.071
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 12,
+  "auc": 0.99397,
+  "precisao": 0.5181347150259067,
+  "recall": 1.0,
+  "f1": 0.68259385665529,
+  "fpr": 0.093
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 13,
+  "auc": 0.9989899999999999,
+  "precisao": 0.6369426751592356,
+  "recall": 1.0,
+  "f1": 0.7782101167315175,
+  "fpr": 0.057
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 14,
+  "auc": 0.99747,
+  "precisao": 0.5376344086021505,
+  "recall": 1.0,
+  "f1": 0.6993006993006993,
+  "fpr": 0.086
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 15,
+  "auc": 0.9978199999999999,
+  "precisao": 0.5405405405405406,
+  "recall": 1.0,
+  "f1": 0.7017543859649124,
+  "fpr": 0.085
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 16,
+  "auc": 0.99727,
+  "precisao": 0.5681818181818182,
+  "recall": 1.0,
+  "f1": 0.7246376811594203,
+  "fpr": 0.076
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 17,
+  "auc": 0.99624,
+  "precisao": 0.5181347150259067,
+  "recall": 1.0,
+  "f1": 0.68259385665529,
+  "fpr": 0.093
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 18,
+  "auc": 0.99708,
+  "precisao": 0.5076142131979695,
+  "recall": 1.0,
+  "f1": 0.6734006734006733,
+  "fpr": 0.097
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 19,
+  "auc": 0.997,
+  "precisao": 0.5747126436781609,
+  "recall": 1.0,
+  "f1": 0.7299270072992701,
+  "fpr": 0.074
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 20,
+  "auc": 0.99948,
+  "precisao": 0.5376344086021505,
+  "recall": 1.0,
+  "f1": 0.6993006993006993,
+  "fpr": 0.086
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 21,
+  "auc": 0.99802,
+  "precisao": 0.5681818181818182,
+  "recall": 1.0,
+  "f1": 0.7246376811594203,
+  "fpr": 0.076
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 22,
+  "auc": 0.99683,
+  "precisao": 0.5586592178770949,
+  "recall": 1.0,
+  "f1": 0.7168458781362006,
+  "fpr": 0.079
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 23,
+  "auc": 0.99863,
+  "precisao": 0.591715976331361,
+  "recall": 1.0,
+  "f1": 0.7434944237918216,
+  "fpr": 0.069
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 24,
+  "auc": 0.99693,
+  "precisao": 0.5494505494505495,
+  "recall": 1.0,
+  "f1": 0.7092198581560284,
+  "fpr": 0.082
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 25,
+  "auc": 0.9961099999999999,
+  "precisao": 0.5319148936170213,
+  "recall": 1.0,
+  "f1": 0.6944444444444444,
+  "fpr": 0.088
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 26,
+  "auc": 0.99676,
+  "precisao": 0.5181347150259067,
+  "recall": 1.0,
+  "f1": 0.68259385665529,
+  "fpr": 0.093
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 27,
+  "auc": 0.99683,
+  "precisao": 0.5747126436781609,
+  "recall": 1.0,
+  "f1": 0.7299270072992701,
+  "fpr": 0.074
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 28,
+  "auc": 0.9991,
+  "precisao": 0.5617977528089888,
+  "recall": 1.0,
+  "f1": 0.7194244604316548,
+  "fpr": 0.078
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "auto",
+  "semente": 29,
+  "auc": 0.99743,
+  "precisao": 0.5376344086021505,
+  "recall": 1.0,
+  "f1": 0.6993006993006993,
+  "fpr": 0.086
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 0,
+  "auc": 0.99812,
+  "precisao": 0.9074074074074074,
+  "recall": 0.98,
+  "f1": 0.9423076923076924,
+  "fpr": 0.01
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 1,
+  "auc": 0.98946,
+  "precisao": 0.7642276422764228,
+  "recall": 0.94,
+  "f1": 0.8430493273542602,
+  "fpr": 0.029
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 2,
+  "auc": 0.99915,
+  "precisao": 0.9345794392523364,
+  "recall": 1.0,
+  "f1": 0.966183574879227,
+  "fpr": 0.007
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 3,
+  "auc": 0.99637,
+  "precisao": 0.8839285714285714,
+  "recall": 0.99,
+  "f1": 0.9339622641509434,
+  "fpr": 0.013
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 4,
+  "auc": 0.99771,
+  "precisao": 0.875,
+  "recall": 0.98,
+  "f1": 0.9245283018867924,
+  "fpr": 0.014
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 5,
+  "auc": 0.99631,
+  "precisao": 0.8264462809917356,
+  "recall": 1.0,
+  "f1": 0.904977375565611,
+  "fpr": 0.021
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 6,
+  "auc": 0.99766,
+  "precisao": 0.9259259259259259,
+  "recall": 1.0,
+  "f1": 0.9615384615384615,
+  "fpr": 0.008
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 7,
+  "auc": 0.9966999999999999,
+  "precisao": 0.9320388349514563,
+  "recall": 0.96,
+  "f1": 0.9458128078817734,
+  "fpr": 0.007
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 8,
+  "auc": 0.99707,
+  "precisao": 0.8828828828828829,
+  "recall": 0.98,
+  "f1": 0.9289099526066351,
+  "fpr": 0.013
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 9,
+  "auc": 0.99471,
+  "precisao": 0.8623853211009175,
+  "recall": 0.94,
+  "f1": 0.8995215311004784,
+  "fpr": 0.015
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 10,
+  "auc": 0.99948,
+  "precisao": 0.9696969696969697,
+  "recall": 0.96,
+  "f1": 0.964824120603015,
+  "fpr": 0.003
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 11,
+  "auc": 0.99753,
+  "precisao": 0.8796296296296297,
+  "recall": 0.95,
+  "f1": 0.9134615384615385,
+  "fpr": 0.013
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 12,
+  "auc": 0.99397,
+  "precisao": 0.8083333333333333,
+  "recall": 0.97,
+  "f1": 0.8818181818181818,
+  "fpr": 0.023
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 13,
+  "auc": 0.9989899999999999,
+  "precisao": 0.8918918918918919,
+  "recall": 0.99,
+  "f1": 0.9383886255924171,
+  "fpr": 0.012
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 14,
+  "auc": 0.99747,
+  "precisao": 0.8727272727272727,
+  "recall": 0.96,
+  "f1": 0.9142857142857144,
+  "fpr": 0.014
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 15,
+  "auc": 0.9978199999999999,
+  "precisao": 0.9158878504672897,
+  "recall": 0.98,
+  "f1": 0.9468599033816426,
+  "fpr": 0.009
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 16,
+  "auc": 0.99727,
+  "precisao": 0.8738738738738738,
+  "recall": 0.97,
+  "f1": 0.919431279620853,
+  "fpr": 0.014
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 17,
+  "auc": 0.99624,
+  "precisao": 0.9292929292929293,
+  "recall": 0.92,
+  "f1": 0.9246231155778895,
+  "fpr": 0.007
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 18,
+  "auc": 0.99708,
+  "precisao": 0.8,
+  "recall": 1.0,
+  "f1": 0.888888888888889,
+  "fpr": 0.025
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 19,
+  "auc": 0.997,
+  "precisao": 0.875,
+  "recall": 0.98,
+  "f1": 0.9245283018867924,
+  "fpr": 0.014
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 20,
+  "auc": 0.99948,
+  "precisao": 0.8695652173913043,
+  "recall": 1.0,
+  "f1": 0.9302325581395349,
+  "fpr": 0.015
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 21,
+  "auc": 0.99802,
+  "precisao": 0.8928571428571429,
+  "recall": 1.0,
+  "f1": 0.9433962264150945,
+  "fpr": 0.012
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 22,
+  "auc": 0.99683,
+  "precisao": 0.875,
+  "recall": 0.98,
+  "f1": 0.9245283018867924,
+  "fpr": 0.014
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 23,
+  "auc": 0.99863,
+  "precisao": 0.9339622641509434,
+  "recall": 0.99,
+  "f1": 0.9611650485436893,
+  "fpr": 0.007
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 24,
+  "auc": 0.99693,
+  "precisao": 0.8918918918918919,
+  "recall": 0.99,
+  "f1": 0.9383886255924171,
+  "fpr": 0.012
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 25,
+  "auc": 0.9961099999999999,
+  "precisao": 0.8547008547008547,
+  "recall": 1.0,
+  "f1": 0.9216589861751151,
+  "fpr": 0.017
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 26,
+  "auc": 0.99676,
+  "precisao": 0.8648648648648649,
+  "recall": 0.96,
+  "f1": 0.9099526066350712,
+  "fpr": 0.015
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 27,
+  "auc": 0.99683,
+  "precisao": 0.8928571428571429,
+  "recall": 1.0,
+  "f1": 0.9433962264150945,
+  "fpr": 0.012
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 28,
+  "auc": 0.9991,
+  "precisao": 0.9326923076923077,
+  "recall": 0.97,
+  "f1": 0.9509803921568627,
+  "fpr": 0.007
+ },
+ {
+  "severidade": 0.25,
+  "contamination": "0.1",
+  "semente": 29,
+  "auc": 0.99743,
+  "precisao": 0.847457627118644,
+  "recall": 1.0,
+  "f1": 0.9174311926605504,
+  "fpr": 0.018
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 0,
+  "auc": 0.95429,
+  "precisao": 0.46842105263157896,
+  "recall": 0.89,
+  "f1": 0.6137931034482759,
+  "fpr": 0.101
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 1,
+  "auc": 0.93321,
+  "precisao": 0.39819004524886875,
+  "recall": 0.88,
+  "f1": 0.5482866043613707,
+  "fpr": 0.133
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 2,
+  "auc": 0.97156,
+  "precisao": 0.478494623655914,
+  "recall": 0.89,
+  "f1": 0.6223776223776224,
+  "fpr": 0.097
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 3,
+  "auc": 0.9575100000000001,
+  "precisao": 0.4489795918367347,
+  "recall": 0.88,
+  "f1": 0.5945945945945946,
+  "fpr": 0.108
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 4,
+  "auc": 0.9272300000000001,
+  "precisao": 0.4263959390862944,
+  "recall": 0.84,
+  "f1": 0.5656565656565656,
+  "fpr": 0.113
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 5,
+  "auc": 0.96326,
+  "precisao": 0.4205607476635514,
+  "recall": 0.9,
+  "f1": 0.5732484076433121,
+  "fpr": 0.124
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 6,
+  "auc": 0.96912,
+  "precisao": 0.45098039215686275,
+  "recall": 0.92,
+  "f1": 0.6052631578947368,
+  "fpr": 0.112
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 7,
+  "auc": 0.9433699999999999,
+  "precisao": 0.43137254901960786,
+  "recall": 0.88,
+  "f1": 0.5789473684210527,
+  "fpr": 0.116
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 8,
+  "auc": 0.95264,
+  "precisao": 0.40540540540540543,
+  "recall": 0.9,
+  "f1": 0.5590062111801243,
+  "fpr": 0.132
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 9,
+  "auc": 0.94028,
+  "precisao": 0.39622641509433965,
+  "recall": 0.84,
+  "f1": 0.5384615384615384,
+  "fpr": 0.128
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 10,
+  "auc": 0.95945,
+  "precisao": 0.42081447963800905,
+  "recall": 0.93,
+  "f1": 0.5794392523364487,
+  "fpr": 0.128
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 11,
+  "auc": 0.95621,
+  "precisao": 0.47058823529411764,
+  "recall": 0.88,
+  "f1": 0.6132404181184669,
+  "fpr": 0.099
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 12,
+  "auc": 0.9365799999999999,
+  "precisao": 0.3920704845814978,
+  "recall": 0.89,
+  "f1": 0.5443425076452599,
+  "fpr": 0.138
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 13,
+  "auc": 0.94156,
+  "precisao": 0.5125,
+  "recall": 0.82,
+  "f1": 0.6307692307692307,
+  "fpr": 0.078
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 14,
+  "auc": 0.95046,
+  "precisao": 0.4075829383886256,
+  "recall": 0.86,
+  "f1": 0.5530546623794212,
+  "fpr": 0.125
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 15,
+  "auc": 0.95348,
+  "precisao": 0.441747572815534,
+  "recall": 0.91,
+  "f1": 0.5947712418300654,
+  "fpr": 0.115
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 16,
+  "auc": 0.9535800000000001,
+  "precisao": 0.4860335195530726,
+  "recall": 0.87,
+  "f1": 0.6236559139784946,
+  "fpr": 0.092
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 17,
+  "auc": 0.9277599999999999,
+  "precisao": 0.39906103286384975,
+  "recall": 0.85,
+  "f1": 0.5431309904153354,
+  "fpr": 0.128
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 18,
+  "auc": 0.95143,
+  "precisao": 0.4396135265700483,
+  "recall": 0.91,
+  "f1": 0.5928338762214984,
+  "fpr": 0.116
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 19,
+  "auc": 0.93431,
+  "precisao": 0.43005181347150256,
+  "recall": 0.83,
+  "f1": 0.5665529010238908,
+  "fpr": 0.11
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 20,
+  "auc": 0.96322,
+  "precisao": 0.4117647058823529,
+  "recall": 0.91,
+  "f1": 0.5669781931464174,
+  "fpr": 0.13
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 21,
+  "auc": 0.9614799999999999,
+  "precisao": 0.45145631067961167,
+  "recall": 0.93,
+  "f1": 0.6078431372549019,
+  "fpr": 0.113
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 22,
+  "auc": 0.96045,
+  "precisao": 0.4656084656084656,
+  "recall": 0.88,
+  "f1": 0.6089965397923875,
+  "fpr": 0.101
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 23,
+  "auc": 0.9555699999999999,
+  "precisao": 0.4492753623188406,
+  "recall": 0.93,
+  "f1": 0.6058631921824105,
+  "fpr": 0.114
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 24,
+  "auc": 0.9684499999999999,
+  "precisao": 0.4723618090452261,
+  "recall": 0.94,
+  "f1": 0.62876254180602,
+  "fpr": 0.105
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 25,
+  "auc": 0.96045,
+  "precisao": 0.42152466367713004,
+  "recall": 0.94,
+  "f1": 0.5820433436532507,
+  "fpr": 0.129
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 26,
+  "auc": 0.93634,
+  "precisao": 0.4090909090909091,
+  "recall": 0.9,
+  "f1": 0.5625000000000001,
+  "fpr": 0.13
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 27,
+  "auc": 0.97102,
+  "precisao": 0.5054347826086957,
+  "recall": 0.93,
+  "f1": 0.6549295774647887,
+  "fpr": 0.091
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 28,
+  "auc": 0.94053,
+  "precisao": 0.4264705882352941,
+  "recall": 0.87,
+  "f1": 0.5723684210526316,
+  "fpr": 0.117
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "auto",
+  "semente": 29,
+  "auc": 0.9649500000000001,
+  "precisao": 0.4186046511627907,
+  "recall": 0.9,
+  "f1": 0.5714285714285715,
+  "fpr": 0.125
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 0,
+  "auc": 0.95429,
+  "precisao": 0.6612903225806451,
+  "recall": 0.82,
+  "f1": 0.7321428571428572,
+  "fpr": 0.042
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 1,
+  "auc": 0.93321,
+  "precisao": 0.5555555555555556,
+  "recall": 0.7,
+  "f1": 0.6194690265486726,
+  "fpr": 0.056
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 2,
+  "auc": 0.97156,
+  "precisao": 0.719626168224299,
+  "recall": 0.77,
+  "f1": 0.7439613526570048,
+  "fpr": 0.03
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 3,
+  "auc": 0.9575100000000001,
+  "precisao": 0.6767676767676768,
+  "recall": 0.67,
+  "f1": 0.6733668341708543,
+  "fpr": 0.032
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 4,
+  "auc": 0.9272300000000001,
+  "precisao": 0.6403508771929824,
+  "recall": 0.73,
+  "f1": 0.6822429906542056,
+  "fpr": 0.041
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 5,
+  "auc": 0.96326,
+  "precisao": 0.6147540983606558,
+  "recall": 0.75,
+  "f1": 0.6756756756756758,
+  "fpr": 0.047
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 6,
+  "auc": 0.96912,
+  "precisao": 0.6422764227642277,
+  "recall": 0.79,
+  "f1": 0.7085201793721974,
+  "fpr": 0.044
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 7,
+  "auc": 0.9433699999999999,
+  "precisao": 0.6355140186915887,
+  "recall": 0.68,
+  "f1": 0.6570048309178744,
+  "fpr": 0.039
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 8,
+  "auc": 0.95264,
+  "precisao": 0.6173913043478261,
+  "recall": 0.71,
+  "f1": 0.6604651162790698,
+  "fpr": 0.044
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 9,
+  "auc": 0.94028,
+  "precisao": 0.5609756097560976,
+  "recall": 0.69,
+  "f1": 0.6188340807174888,
+  "fpr": 0.054
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 10,
+  "auc": 0.95945,
+  "precisao": 0.6293103448275862,
+  "recall": 0.73,
+  "f1": 0.6759259259259258,
+  "fpr": 0.043
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 11,
+  "auc": 0.95621,
+  "precisao": 0.672566371681416,
+  "recall": 0.76,
+  "f1": 0.7136150234741785,
+  "fpr": 0.037
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 12,
+  "auc": 0.9365799999999999,
+  "precisao": 0.5263157894736842,
+  "recall": 0.7,
+  "f1": 0.6008583690987124,
+  "fpr": 0.063
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 13,
+  "auc": 0.94156,
+  "precisao": 0.6914893617021277,
+  "recall": 0.65,
+  "f1": 0.6701030927835052,
+  "fpr": 0.029
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 14,
+  "auc": 0.95046,
+  "precisao": 0.6434782608695652,
+  "recall": 0.74,
+  "f1": 0.6883720930232557,
+  "fpr": 0.041
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 15,
+  "auc": 0.95348,
+  "precisao": 0.6194690265486725,
+  "recall": 0.7,
+  "f1": 0.6572769953051644,
+  "fpr": 0.043
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 16,
+  "auc": 0.9535800000000001,
+  "precisao": 0.6595744680851063,
+  "recall": 0.62,
+  "f1": 0.6391752577319586,
+  "fpr": 0.032
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 17,
+  "auc": 0.9277599999999999,
+  "precisao": 0.6046511627906976,
+  "recall": 0.52,
+  "f1": 0.5591397849462365,
+  "fpr": 0.034
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 18,
+  "auc": 0.95143,
+  "precisao": 0.6033057851239669,
+  "recall": 0.73,
+  "f1": 0.6606334841628959,
+  "fpr": 0.048
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 19,
+  "auc": 0.93431,
+  "precisao": 0.631578947368421,
+  "recall": 0.72,
+  "f1": 0.6728971962616822,
+  "fpr": 0.042
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 20,
+  "auc": 0.96322,
+  "precisao": 0.6454545454545455,
+  "recall": 0.71,
+  "f1": 0.6761904761904762,
+  "fpr": 0.039
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 21,
+  "auc": 0.9614799999999999,
+  "precisao": 0.6194690265486725,
+  "recall": 0.7,
+  "f1": 0.6572769953051644,
+  "fpr": 0.043
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 22,
+  "auc": 0.96045,
+  "precisao": 0.6842105263157895,
+  "recall": 0.78,
+  "f1": 0.7289719626168225,
+  "fpr": 0.036
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 23,
+  "auc": 0.9555699999999999,
+  "precisao": 0.6548672566371682,
+  "recall": 0.74,
+  "f1": 0.6948356807511737,
+  "fpr": 0.039
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 24,
+  "auc": 0.9684499999999999,
+  "precisao": 0.6814159292035398,
+  "recall": 0.77,
+  "f1": 0.7230046948356806,
+  "fpr": 0.036
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 25,
+  "auc": 0.96045,
+  "precisao": 0.553030303030303,
+  "recall": 0.73,
+  "f1": 0.6293103448275862,
+  "fpr": 0.059
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 26,
+  "auc": 0.93634,
+  "precisao": 0.5754716981132075,
+  "recall": 0.61,
+  "f1": 0.5922330097087378,
+  "fpr": 0.045
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 27,
+  "auc": 0.97102,
+  "precisao": 0.6936936936936937,
+  "recall": 0.77,
+  "f1": 0.7298578199052133,
+  "fpr": 0.034
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 28,
+  "auc": 0.94053,
+  "precisao": 0.580952380952381,
+  "recall": 0.61,
+  "f1": 0.5951219512195122,
+  "fpr": 0.044
+ },
+ {
+  "severidade": 0.1,
+  "contamination": "0.1",
+  "semente": 29,
+  "auc": 0.9649500000000001,
+  "precisao": 0.6119402985074627,
+  "recall": 0.82,
+  "f1": 0.7008547008547008,
+  "fpr": 0.052
+ }
+]
