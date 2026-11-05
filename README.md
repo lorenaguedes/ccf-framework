@@ -34,7 +34,7 @@ ccf-framework/
 │   ├── triagem.py               # E1 — Triagem contra base de hashes conhecidos
 │   ├── visao_computacional.py   # E2 — Classificação de conteúdo (OpenNSFW2)
 │   ├── estimativa_idade.py      # E3 — Estimativa de idade (MiVOLO)
-│   ├── deteccao_grooming.py     # E4 — Detecção de grooming (BERT, PAN12)
+│   ├── deteccao_grooming.py     # E4 — Detecção de grooming (embeddings, PAN12)
 │   ├── deteccao_anomalias.py    # E5 — Detecção de anomalias (Isolation Forest)
 │   ├── xai.py                   # E6 — Explicabilidade (LIME + score de concordância)
 │   └── models/                  # Pesos de modelos fine-tuned (fora do Git, ver .gitignore)
@@ -126,7 +126,7 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real
 |---|---|---|
 | Coleta Multi-Nuvem (AWS/Azure/GCP/Docker) | 27+ | ~100% |
 | Blockchain (chaincode custody) | 9 | — (Go) |
-| IA Multi-Modal (E1–E6) | 37 | 98% |
+| IA Multi-Modal (E1–E6) | 47 | a medir |
 | Integração (C1/C2/C3 + Laudo Pericial) | 16 | — |
 
 ## Estágios do Pipeline de IA (Tabela 12, PGT)
@@ -136,7 +136,7 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real
 | E1 — Hash Perceptual | PDQ Hash | ✅ | 12 testes, MATCH/NOMATCH funcional |
 | E2 — Visão Computacional | OpenNSFW2 (pré-treinado) | ✅ | Validado com conteúdo neutro e borderline |
 | E3 — Estimativa de Idade | MiVOLO | ✅ | Recall MENOR: 86,51% (zero-shot, supera fine-tuning próprio) |
-| E4 — Detecção de Grooming | BERT (PAN12) | ✅ | F1: 0,8153; limitação de generalização documentada (ADR 008) |
+| E4 — Detecção de Grooming | Embeddings multilíngues + regressão logística (PAN12, rótulos por janela) | ✅ | AUC 0,870 nos negativos duros; triagem sujeita a revisão humana (ADR 008) |
 | E5 — Detecção de Anomalias | Isolation Forest | ✅ | 7 testes, detecção de outliers sintéticos validada |
 | E6 — XAI Transversal | LIME + score de concordância | ✅ | Divergência LIME/SHAP documentada como achado |
 
@@ -149,7 +149,7 @@ Ver `docs/ADR/` para o histórico completo:
 4–5. (reservado)
 6. Compatibilidade setuptools/MiVOLO
 7. Compatibilidade torch/torchvision
-8. Limitação de generalização do modelo BERT de grooming
+8. Limitação de generalização do classificador de grooming (atualizado após redesenho)
 
 ## Validação (Fase 6)
 
