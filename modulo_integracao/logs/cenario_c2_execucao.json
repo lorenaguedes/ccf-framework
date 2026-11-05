@@ -1,47 +1,36 @@
 {
   "cenario": "C2",
-  "executado_em": "2026-07-22T19:48:57.582843+00:00",
+  "executado_em": "2026-11-05T05:49:28.139003+00:00",
   "resultado": {
     "coleta": {
       "container_id": "container-msgs-c2",
       "log_path": "/logs/conversa.txt",
       "cloud_provider": "docker",
       "hashes": {
-        "sha256": "cb70dbf87a9c95c50f7aa9d12d200865340dd94251b8ed00b47373e9da940c81",
-        "md5": "b96df13bb370b39fa0fe2fa2732ee01c"
+        "sha256": "c09be7d9783867e8e832896bfd8e7cb3ccfb3babf2733dbb9eaeabffe55b07ab",
+        "md5": "75d86bf2183229fac5ba1a97c91e4fee"
       },
-      "size_bytes": 47,
-      "collected_at": "2026-07-22T19:48:50.627562+00:00",
-      "conteudo_texto": "this is our secret, dont tell your parents ok?\n"
+      "size_bytes": 190,
+      "collected_at": "2026-11-05T05:49:18.618407+00:00",
+      "conteudo_texto": "hey, i really like talking to you\nyou are so mature for your age\nthis is our secret, dont tell your parents ok?\ndelete our chat after we talk\ni can send you a gift if you keep it between us\n"
     },
     "classificacao_grooming": {
-      "score_grooming": 0.9798870086669922,
+      "score_grooming": 0.8687201035474422,
       "flag": "SUSPEITO",
-      "tokens_relevantes": [
-        "this",
-        "is",
-        "our",
-        "secret",
-        ",",
-        "don",
-        "##t",
-        "tell",
-        "your",
-        "parents"
-      ]
+      "trechos_relevantes": [
+        "you are so mature for your age",
+        "this is our secret, dont tell your parents ok?"
+      ],
+      "n_janelas": 1,
+      "indice_janela_mais_suspeita": 0
     },
     "registro_custodia": {
-      "evidence_id": "evid-c2-real-bert-002",
       "status": "success",
+      "evidence_id": "evid-c2-e4mpnet-001",
       "chaincode_status": 200
     },
-    "status_pipeline": "SUCESSO_END_TO_END_MODELO_REAL",
-    "verificacao_integridade": {
-      "hash_original": "cb70dbf87a9c95c50f7aa9d12d200865340dd94251b8ed00b47373e9da940c81",
-      "hash_recalculado": "cb70dbf87a9c95c50f7aa9d12d200865340dd94251b8ed00b47373e9da940c81",
-      "integridade_valida": true
-    }
+    "status_pipeline": "SUCESSO"
   },
-  "hash_para_registro_blockchain": "cb70dbf87a9c95c50f7aa9d12d200865340dd94251b8ed00b47373e9da940c81",
-  "observacao": "Classificacao com modelo BERT fine-tuned real (nao forcada). Ver ADR 008 para limitacao de generalizacao conhecida."
+  "hash_para_registro_blockchain": "c09be7d9783867e8e832896bfd8e7cb3ccfb3babf2733dbb9eaeabffe55b07ab",
+  "observacao": "Classificacao com o modelo E4 real (embeddings multilingues + regressao logistica; nao forcada). Triagem sujeita a revisao humana; ver ADR 008 e secao 4.4.4.7 do PGT."
 }

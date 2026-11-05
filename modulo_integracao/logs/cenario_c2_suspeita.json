@@ -1,0 +1,35 @@
+{
+  "cenario": "C2",
+  "executado_em": "2026-11-05T05:49:28.139003+00:00",
+  "resultado": {
+    "coleta": {
+      "container_id": "container-msgs-c2",
+      "log_path": "/logs/conversa.txt",
+      "cloud_provider": "docker",
+      "hashes": {
+        "sha256": "c09be7d9783867e8e832896bfd8e7cb3ccfb3babf2733dbb9eaeabffe55b07ab",
+        "md5": "75d86bf2183229fac5ba1a97c91e4fee"
+      },
+      "size_bytes": 190,
+      "collected_at": "2026-11-05T05:49:18.618407+00:00",
+      "conteudo_texto": "hey, i really like talking to you\nyou are so mature for your age\nthis is our secret, dont tell your parents ok?\ndelete our chat after we talk\ni can send you a gift if you keep it between us\n"
+    },
+    "classificacao_grooming": {
+      "score_grooming": 0.8687201035474422,
+      "flag": "SUSPEITO",
+      "trechos_relevantes": [
+        "you are so mature for your age",
+        "this is our secret, dont tell your parents ok?"
+      ],
+      "n_janelas": 1,
+      "indice_janela_mais_suspeita": 0
+    },
+    "registro_custodia": {
+      "status": "pendente_shell",
+      "evidence_id": "/logs/conversa.txt"
+    },
+    "status_pipeline": "SUCESSO"
+  },
+  "hash_para_registro_blockchain": "c09be7d9783867e8e832896bfd8e7cb3ccfb3babf2733dbb9eaeabffe55b07ab",
+  "observacao": "Classificacao com o modelo E4 real (embeddings multilingues + regressao logistica; nao forcada). Triagem sujeita a revisao humana; ver ADR 008 e secao 4.4.4.7 do PGT."
+}
