@@ -1,4 +1,8 @@
-# ADR 008 — Limitacao de generalizacao do modelo BERT de grooming (E4)
+# ADR 008 — Limitacao de generalizacao do classificador de grooming (E4)
+
+Status: **atualizado** (ver secao "Atualizacao" ao final). O texto abaixo
+registra o diagnostico original sobre o primeiro modelo (BERT com rotulos
+por autor); a decisao de projeto vigente esta na atualizacao.
 
 ## Contexto
 Apos fine-tuning do BERT sobre o PAN12 (F1=0.8153 no conjunto de teste
@@ -35,3 +39,42 @@ de validacao adicional antes de qualquer uso alem do laboratorio.
 - Negativo: a confiabilidade pratica do Estagio E4 fica mais limitada
   do que a metrica de teste isolada sugere - deve ser mencionado como
   limitacao relevante do estudo.
+
+
+## Atualizacao — redesenho do estagio E4 (secao 4.4.4 do PGT)
+
+**Causa confirmada.** O corpus de treinamento do PAN12 rotula apenas o
+autor (predador ou nao). Janelas triviais de predadores (jogos, escola)
+contavam como aliciamento, e o modelo aprendeu o estilo ("fazer
+perguntas ao interlocutor"). Teste de pares mínimos: afirmacoes
+inocentes p = 0,06 contra perguntas inocentes p = 0,99, apesar de AUC
+de 0,94 no proprio corpus.
+
+**Decisao.**
+1. Usar o corpus de teste do PAN12, que traz o *ground truth* do
+   Problema 2 (linhas predatorias), para rotular **por janela** de 5
+   mensagens, e criar **negativos duros** (mesmo predador, mesma
+   conversa, janela sem linha anotada).
+2. Dividir treino/validacao/teste **por grupo** (predador e conversa),
+   com tres sementes.
+3. Substituir o BERT ajustado por **embeddings multilingues congelados**
+   (paraphrase-multilingual-mpnet-base-v2) + regressao logistica: AUC
+   indistinguivel do BERT nos negativos duros (0,870 contra 0,886),
+   treino em segundos e aplicacao a textos em portugues.
+4. Descartar a fusao com TF-IDF (reduziu o recall em portugues).
+5. Gravar os parametros do modelo em JSON
+   (`modulo_ia/models/modelo_e4_embeddings.json`), com limiares da
+   validacao; o limiar padrao do codigo e 0,40.
+
+**Resultados (media de 3 sementes).** AUC em negativos duros 0,870;
+recall 0,844 e FPR 0,287 no limiar de F1 maximo; no conjunto bilingue
+(90 janelas), acuracia 0,859, recall de aliciamento 0,726 e 26% dos
+negativos dificeis sinalizados. Precisao estimada de 2,9% com
+prevalencia de 1%.
+
+**Consequencias.** O estagio e uma *triagem sujeita a revisao humana*,
+nunca evidencia isolada. Persistem: corpus em ingles com voluntarios
+adultos; conjunto bilingue pequeno e escrito pela autora (e usado na
+escolha do modelo); anotacao do PAN12 parcial; limiar especifico da
+particao. O F1 de 0,8153 do primeiro modelo **nao** deve ser citado
+como desempenho do estagio.

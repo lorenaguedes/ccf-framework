@@ -3,41 +3,54 @@ Execucao real do Cenario C2 - Grooming em Plataforma de Mensagens.
 
 Conecta os componentes reais:
 - modulo_coleta.docker_collector (Docker real)
-- modulo_ia.deteccao_grooming (BERT fine-tuned sobre PAN12, pesos reais)
+- modulo_ia.deteccao_grooming (embeddings multilingues + regressao
+  logistica, treinados sobre o PAN12 com rotulos por janela)
 - Chaincode 'custody' na rede Hyperledger Fabric real
 
-NOTA METODOLOGICA: o modelo BERT usado aqui possui os pesos fine-tuned
-reais (modulo_ia/models/modelo_e4_grooming_bert.pth, F1=0.8153 no
-conjunto de teste interno - ver notebook Colab e ADR 008). A
-classificacao abaixo e semantica real, nao mais mecanica/forcada.
+NOTA METODOLOGICA: o classificador usado aqui e o modelo final do
+estagio E4 (modulo_ia/models/modelo_e4_embeddings.json, exportado do
+notebook E4; secao 4.4.4 do PGT). A classificacao e semantica real,
+nao mecanica/forcada. O limiar de decisao e o gravado no proprio
+arquivo do modelo (calibrado na validacao).
 
-LIMITACAO CONHECIDA (ADR 008): o modelo apresenta vies de
-generalizacao documentado - tende a classificar como SUSPEITO mesmo
-frases benignas em estilo de chat casual, fora da distribuicao do
-PAN12. O resultado desta execucao deve ser interpretado a luz dessa
-limitacao, nao como medida definitiva de precisao pratica.
+LIMITACAO CONHECIDA (secao 4.4.4.7 e ADR 008): o estagio e uma triagem
+sujeita a revisao humana. A precisao em prevalencias realistas e baixa
+e adultos em interacao segura com criancas podem ser sinalizados. O
+resultado desta execucao nao e medida de precisao pratica.
 """
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 
 from modulo_coleta.docker_collector import collect_from_docker_log
-from modulo_ia.deteccao_grooming import classify_grooming, create_bert_predict_fn
+from modulo_ia.deteccao_grooming import (
+    carregar_config,
+    classificar_conversa,
+    create_embedding_predict_fn,
+)
 from modulo_integracao.cenarios_simulacao.cenario_c2 import executar_cenario_c2
 
-CAMINHO_MODELO_BERT = "modulo_ia/models/modelo_e4_grooming_bert.pth"
+CAMINHO_MODELO_E4 = "modulo_ia/models/modelo_e4_embeddings.json"
 
 
 def _collector_fn_real(container_id, log_path):
     return collect_from_docker_log(container_id, log_path)
 
 
+_PREDICT_FN = None
+
+
 def _grooming_classifier_fn_real(texto: str) -> dict:
-    """Usa o BERT real, fine-tuned sobre o PAN12. Nao forca mais o
-    resultado - reflete a classificacao semantica genuina do modelo,
-    incluindo a limitacao de generalizacao documentada no ADR 008."""
-    predict_fn = create_bert_predict_fn(model_path=CAMINHO_MODELO_BERT)
-    return classify_grooming(texto, predict_fn, threshold=0.5)
+    """Usa o modelo real do E4 (embeddings multilingues + regressao
+    logistica). O texto da conversa e dividido em linhas (mensagens) e
+    classificado por janelas de 5 mensagens; o resultado e o da janela
+    mais suspeita. Nao forca o resultado: reflete a classificacao do
+    modelo, incluindo as limitacoes documentadas."""
+    global _PREDICT_FN
+    if _PREDICT_FN is None:  # carrega o codificador uma unica vez
+        _PREDICT_FN = create_embedding_predict_fn(CAMINHO_MODELO_E4)
+    limiar = carregar_config(CAMINHO_MODELO_E4)["limiar_f1max"]
+    return classificar_conversa(texto.splitlines(), _PREDICT_FN, threshold=limiar)
 
 
 def _custody_register_fn_placeholder(evidence_id, hash_sha256, metadata):
@@ -67,7 +80,7 @@ def main():
         "executado_em": datetime.now(timezone.utc).isoformat(),
         "resultado": resultado,
         "hash_para_registro_blockchain": coleta_real["hashes"]["sha256"],
-        "observacao": "Classificacao com modelo BERT fine-tuned real (nao forcada). Ver ADR 008 para limitacao de generalizacao conhecida.",
+        "observacao": "Classificacao com o modelo E4 real (embeddings multilingues + regressao logistica; nao forcada). Triagem sujeita a revisao humana; ver ADR 008 e secao 4.4.4.7 do PGT.",
     }
 
     log_path_output = Path(__file__).parent.parent / "logs" / "cenario_c2_execucao.json"

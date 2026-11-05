@@ -27,13 +27,13 @@ def _grooming_classifier_fn_suspeito(texto):
     return {
         "score_grooming": 0.91,
         "flag": "SUSPEITO",
-        "tokens_relevantes": ["segredo", "nao conta pra ninguem"],
+        "trechos_relevantes": ["segredo", "nao conta pra ninguem"],
     }
 
 
 def _grooming_classifier_fn_normal(texto):
     """Simula conversa normal, sem grooming."""
-    return {"score_grooming": 0.05, "flag": "NORMAL", "tokens_relevantes": []}
+    return {"score_grooming": 0.05, "flag": "NORMAL", "trechos_relevantes": []}
 
 
 def _custody_register_fn_sucesso(evidence_id, hash_sha256, metadata):
@@ -71,7 +71,7 @@ def test_executar_cenario_c2_suspicious_conversation_triggers_custody():
 
     assert resultado["classificacao_grooming"]["flag"] == "SUSPEITO"
     assert resultado["registro_custodia"] is not None
-    assert len(resultado["classificacao_grooming"]["tokens_relevantes"]) > 0
+    assert len(resultado["classificacao_grooming"]["trechos_relevantes"]) > 0
     assert resultado["status_pipeline"] == "SUCESSO"
 
 
