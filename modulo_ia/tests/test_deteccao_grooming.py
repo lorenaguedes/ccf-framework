@@ -10,6 +10,7 @@ sem o codificador real (pesado, requer download de pesos).
 """
 import json
 import math
+from pathlib import Path
 
 import pytest
 
@@ -197,3 +198,17 @@ def test_carregar_config_valida_campos_obrigatorios(tmp_path):
     incompleto.write_text(json.dumps({"encoder": "fake"}), encoding="utf-8")
     with pytest.raises(ValueError):
         carregar_config(str(incompleto))
+
+
+_MODELO_REAL = Path(__file__).resolve().parents[1] / "models" / "modelo_e4_embeddings.json"
+
+
+@pytest.mark.skipif(not _MODELO_REAL.exists(), reason="modelo exportado do notebook ausente")
+def test_modelo_real_exportado_e_consistente():
+    """O JSON versionado do modelo final deve ser carregavel, com
+    coeficientes de dimensao igual a do codificador (768, mpnet) e
+    limiares validos, com o de recall >= 90% abaixo do de F1 maximo."""
+    config = carregar_config(str(_MODELO_REAL))
+    assert len(config["coef"]) == 768
+    assert "mpnet" in config["encoder"]
+    assert 0.0 < config["limiar_rec90"] < config["limiar_f1max"] < 1.0

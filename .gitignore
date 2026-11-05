@@ -22,6 +22,7 @@ Thumbs.db
 *.key
 credentials.json
 modulo_ia/tests/imagens_pessoais/
-modulo_ia/models/
+modulo_ia/models/*
+!modulo_ia/models/modelo_e4_embeddings.json
 .coverage
 modulo_ia/tests/imagens_borderline/
