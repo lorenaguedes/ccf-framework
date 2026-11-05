@@ -126,7 +126,7 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real
 |---|---|---|
 | Coleta Multi-Nuvem (AWS/Azure/GCP/Docker) | 27+ | ~100% |
 | Blockchain (chaincode custody) | 9 | — (Go) |
-| IA Multi-Modal (E1–E6) | 47 | a medir |
+| IA Multi-Modal (E1–E6) | 54 | 97% (`modulo_ia`; E4: 96%) |
 | Integração (C1/C2/C3 + Laudo Pericial) | 16 | — |
 
 ## Estágios do Pipeline de IA (Tabela 12, PGT)
