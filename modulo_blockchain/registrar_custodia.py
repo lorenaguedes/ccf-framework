@@ -73,9 +73,31 @@ def _comando_query(funcao: str, args: list) -> list:
     ]
 
 
+_ESCAPE_OCTAL = re.compile(r"(?:\\[0-3][0-7]{2})+")
+
+
+def _decodificar_octal(texto: str) -> str:
+    """Converte escapes octais UTF-8 do peer CLI (ex.: 'n\\303\\243o') em texto.
+
+    O peer exibe a mensagem do chaincode com bytes nao ASCII escapados;
+    sem a decodificacao, 'nao encontrada' com acento nao e reconhecido.
+    """
+    def _sub(m: re.Match) -> str:
+        octetos = bytes(int(o, 8) for o in m.group(0).split("\\")[1:])
+        return octetos.decode("utf-8", errors="replace")
+
+    return _ESCAPE_OCTAL.sub(_sub, texto)
+
+
+def _nao_encontrada(stderr: str) -> bool:
+    """Indica se o erro do peer significa 'evidencia ainda nao registrada'."""
+    texto = _decodificar_octal(stderr).lower()
+    return "não encontrada" in texto or "nao encontrada" in texto
+
+
 def _mensagem_falha(prefixo: str, stderr: str) -> str:
     """Acrescenta orientacao quando a causa e a rede Fabric fora do ar."""
-    detalhe = stderr.strip()
+    detalhe = _decodificar_octal(stderr).strip()
     if "connection refused" in detalhe or "failed to connect" in detalhe:
         return (f"{prefixo}: rede Hyperledger Fabric inacessivel (peer em localhost:7051). "
                 "Inicie os containers da rede (docker start dos containers peer/orderer/CA) "
@@ -105,7 +127,7 @@ def consultar_evidencia(
     r = runner(_comando_query("ConsultarEvidencia", [evidence_id]),
                env=_ambiente(rede_dir), capture_output=True, text=True)
     if r.returncode != 0:
-        if "não encontrada" in r.stderr or "nao encontrada" in r.stderr:
+        if _nao_encontrada(r.stderr):
             return None
         raise RuntimeError(_mensagem_falha("Falha na consulta ao ledger", r.stderr))
     return json.loads(r.stdout)

@@ -76,6 +76,30 @@ def test_registro_e_idempotente_quando_o_hash_confere():
     assert all(c[2] == "query" for c in runner.chamadas)
 
 
+def test_registra_quando_peer_devolve_erro_com_acentos_em_octal():
+    """Saida real do peer CLI: 'evid\\303\\252ncia ... n\\303\\243o encontrada'.
+    Regressao: o cliente tratava essa resposta como falha em vez de
+    'ainda nao registrada' (observado em C1 forcado e C3, 08/11/2026)."""
+    class PeerReal(LedgerFalso):
+        def __call__(self, cmd, **kw):
+            r = super().__call__(cmd, **kw)
+            if r.returncode != 0 and "encontrada" in r.stderr:
+                r.stderr = ("Error: endorsement failure during query. response: status:500 "
+                            "message:\"evid\\303\\252ncia com ID 'evid-1' n\\303\\243o encontrada\"")
+            return r
+
+    runner = PeerReal()
+    resultado = _registrar(runner)
+    assert resultado["status"] == "success"
+    assert resultado["acao"] == "registrada"
+
+
+def test_decodifica_octal_utf8():
+    from modulo_blockchain.registrar_custodia import _decodificar_octal
+    assert _decodificar_octal("n\\303\\243o evid\\303\\252ncia") == "não evidência"
+    assert _decodificar_octal("sem escapes") == "sem escapes"
+
+
 def test_id_existente_com_hash_diferente_e_falha():
     runner = LedgerFalso({"evid-1": {"hash_sha256": "b" * 64}})
     resultado = _registrar(runner)
