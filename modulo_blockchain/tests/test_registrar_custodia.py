@@ -99,3 +99,12 @@ def test_verificar_integridade_detecta_hash_alterado():
     runner = LedgerFalso({"evid-1": {"hash_sha256": HASH}})
     assert verificar_integridade("evid-1", HASH, runner=runner)["integridade_valida"] is True
     assert verificar_integridade("evid-1", "c" * 64, runner=runner)["integridade_valida"] is False
+
+
+def test_rede_fora_do_ar_gera_mensagem_orientativa():
+    """Peer inacessivel deve gerar erro que orienta a subir a rede, e nao
+    um erro opaco do peer CLI."""
+    def runner(cmd, **kw):
+        return SimpleNamespace(returncode=1, stdout="", stderr="dial tcp 127.0.0.1:7051: connect: connection refused")
+    with pytest.raises(RuntimeError, match="rede Hyperledger Fabric inacessivel"):
+        _registrar(runner)

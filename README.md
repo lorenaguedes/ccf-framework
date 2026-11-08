@@ -133,7 +133,7 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real
 | Módulo | Testes | Cobertura |
 |---|---|---|
 | Coleta Multi-Nuvem (AWS/Azure/GCP/Docker) | 27+ | ~100% |
-| Blockchain (chaincode custody) | 9 (Go) + 7 (cliente Python) | — |
+| Blockchain (chaincode custody) | 9 (Go) + 8 (cliente Python) | — |
 | IA Multi-Modal (E1–E6) | 54 | 97% (`modulo_ia`; E4: 96%) |
 | Integração (C1/C2/C3 + Laudo Pericial) | 24 | — |
 

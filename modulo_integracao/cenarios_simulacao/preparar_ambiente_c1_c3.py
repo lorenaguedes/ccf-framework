@@ -14,6 +14,7 @@ Evidencias criadas (idempotente):
 - Azure   ccf-evidence-container/evidencia-teste-integracao.txt.
 """
 import io
+import time
 
 import requests
 from azure.storage.blob import BlobServiceClient
@@ -40,8 +41,26 @@ def imagem_neutra() -> bytes:
     return buf.getvalue()
 
 
+def aguardar_localstack(s3, tentativas: int = 30, intervalo: float = 3.0) -> None:
+    """Espera o LocalStack aceitar conexoes (a inicializacao leva de 20 a
+    60 s apos 'docker compose up -d'); evita falhar por 'connection reset'."""
+    for i in range(tentativas):
+        try:
+            s3.list_buckets()
+            return
+        except Exception as e:  # emulador ainda iniciando
+            if i == tentativas - 1:
+                raise RuntimeError(
+                    "LocalStack nao respondeu em localhost:4566. Verifique 'docker compose ps' "
+                    "e o LOCALSTACK_AUTH_TOKEN no .env."
+                ) from e
+            print(f"Aguardando o LocalStack... ({i + 1}/{tentativas})")
+            time.sleep(intervalo)
+
+
 def main():
     s3 = get_s3_client()
+    aguardar_localstack(s3)
     if BUCKET_S3 not in [b["Name"] for b in s3.list_buckets()["Buckets"]]:
         s3.create_bucket(Bucket=BUCKET_S3)
     s3.put_object(Bucket=BUCKET_S3, Key=KEY_S3, Body=imagem_neutra())

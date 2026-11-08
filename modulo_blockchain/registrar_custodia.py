@@ -73,6 +73,16 @@ def _comando_query(funcao: str, args: list) -> list:
     ]
 
 
+def _mensagem_falha(prefixo: str, stderr: str) -> str:
+    """Acrescenta orientacao quando a causa e a rede Fabric fora do ar."""
+    detalhe = stderr.strip()
+    if "connection refused" in detalhe or "failed to connect" in detalhe:
+        return (f"{prefixo}: rede Hyperledger Fabric inacessivel (peer em localhost:7051). "
+                "Inicie os containers da rede (docker start dos containers peer/orderer/CA) "
+                f"ou suba a rede com ./network.sh up. Detalhe: {detalhe}")
+    return f"{prefixo}: {detalhe}"
+
+
 def _validar_hash(hash_sha256: str) -> None:
     if not isinstance(hash_sha256, str) or not _RE_SHA256.match(hash_sha256):
         raise ValueError(
@@ -97,7 +107,7 @@ def consultar_evidencia(
     if r.returncode != 0:
         if "não encontrada" in r.stderr or "nao encontrada" in r.stderr:
             return None
-        raise RuntimeError(f"Falha na consulta ao ledger: {r.stderr.strip()}")
+        raise RuntimeError(_mensagem_falha("Falha na consulta ao ledger", r.stderr))
     return json.loads(r.stdout)
 
 
@@ -113,7 +123,7 @@ def verificar_integridade(
     r = runner(_comando_query("VerificarIntegridade", [evidence_id, hash_recalculado]),
                env=_ambiente(rede_dir), capture_output=True, text=True)
     if r.returncode != 0:
-        raise RuntimeError(f"Falha na verificacao de integridade: {r.stderr.strip()}")
+        raise RuntimeError(_mensagem_falha("Falha na verificacao de integridade", r.stderr))
     return json.loads(r.stdout)
 
 
