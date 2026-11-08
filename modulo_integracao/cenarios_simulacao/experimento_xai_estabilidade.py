@@ -86,7 +86,7 @@ def imagens_sinteticas() -> list:
     return [("solida_c1", solida), ("formas", formas), ("degrade_quente_ruido", quente)]
 
 
-def main(caminhos, amostras, pares, sinteticas=False):  # pragma: no cover - depende do modelo real
+def main(caminhos, amostras, pares, sinteticas=False, configuracoes=None):  # pragma: no cover - depende do modelo real
     from PIL import Image
 
     from modulo_ia.visao_computacional import create_opennsfw2_batch_fn, create_opennsfw2_predict_fn
@@ -100,7 +100,7 @@ def main(caminhos, amostras, pares, sinteticas=False):  # pragma: no cover - dep
         img = bruta.convert("RGB").resize((128, 128))
         escore = float(predict_fn(img))
         linhas = []
-        for rotulo, nseg, espaco in CONFIGURACOES:
+        for rotulo, nseg, espaco in [c for c in CONFIGURACOES if not configuracoes or c[0] in configuracoes]:
             pl = criar_predict_lote(predict_fn, espaco, lote_fn)
             for n in amostras:
                 r = medir_estabilidade(np.array(img), pl, n, pares, n_segmentos=nseg)
@@ -118,7 +118,9 @@ if __name__ == "__main__":  # pragma: no cover
     p.add_argument("--sinteticas", action="store_true", help="inclui 3 imagens sinteticas legais")
     p.add_argument("--amostras", type=int, nargs="+", default=[500, 1000])
     p.add_argument("--pares", type=int, default=3)
+    p.add_argument("--configuracoes", nargs="+", choices=[c[0] for c in CONFIGURACOES],
+                   help="restringe a grade (padrao: todas)")
     a = p.parse_args()
     if not a.imagens and not a.sinteticas:
         p.error("informe imagens ou --sinteticas")
-    main(a.imagens, a.amostras, a.pares, a.sinteticas)
+    main(a.imagens, a.amostras, a.pares, a.sinteticas, a.configuracoes)
