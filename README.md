@@ -135,7 +135,7 @@ poetry run python -m modulo_integracao.cenarios_simulacao.preparar_ambiente_c1_c
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c1_real
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c1_real --validar-ramo-nsfw   # classificador forçado, declarado no laudo
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c2_real
-poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real
+poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real   # gera 3 laudos por provedor + laudo_c3_consolidado.pdf
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_adulteracao_real   # teste negativo: a adulteracao de 1 byte e detectada
 ```
 
@@ -146,7 +146,7 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_adulteracao_r
 | Coleta Multi-Nuvem (AWS/Azure/GCP/Docker) | 27+ | ~100% |
 | Blockchain (chaincode custody) | 19 (Go) + 13 (cliente Python) | — |
 | IA Multi-Modal (E1–E6) | 54 | 97% (`modulo_ia`; E4: 96%) |
-| Integração (C1/C2/C3 + Laudo Pericial + adulteração) | 32 | — |
+| Integração (C1/C2/C3 + Laudo Pericial + adulteração) | 35 | — |
 
 ## Estágios do Pipeline de IA (Tabela 12, PGT)
 

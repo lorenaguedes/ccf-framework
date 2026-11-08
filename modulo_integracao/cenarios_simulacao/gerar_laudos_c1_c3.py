@@ -16,7 +16,12 @@ Regras de fidelidade do laudo (secao 4.4.6 do PGT):
 import json
 from pathlib import Path
 
-from modulo_integracao.laudo_pericial import gerar_pdf_laudo, montar_conteudo_laudo
+from modulo_integracao.laudo_pericial import (
+    gerar_pdf_laudo,
+    gerar_pdf_laudo_consolidado,
+    montar_conteudo_laudo,
+    montar_conteudo_laudo_consolidado,
+)
 
 LOGS = Path(__file__).parent.parent / "logs"
 
@@ -72,6 +77,28 @@ def conteudos_laudo_c3(caminho_log: Path = LOGS / "cenario_c3_execucao.json") ->
     return conteudos
 
 
+def conteudo_laudo_consolidado_c3(caminho_log: Path = LOGS / "cenario_c3_execucao.json") -> dict:
+    """Laudo unico do C3, correlacionando as evidencias dos tres provedores
+    (criterio de sucesso da Tabela 16 do PGT)."""
+    resultado = _ler(caminho_log)
+    registros = {r["hash"]: r for r in resultado["registros_custodia"]}
+    verificacoes = {v["cloud_provider"]: v for v in resultado.get("verificacoes_integridade", [])}
+    historicos = {
+        ev["cloud_provider"]: _custodia_com_verificacao(
+            registros.get(ev["hashes"]["sha256"]), verificacoes.get(ev["cloud_provider"]))
+        for ev in resultado["evidencias"]
+    }
+    return montar_conteudo_laudo_consolidado(
+        resultado["evidencias"], resultado["correlacao"], historicos, cenario="C3")
+
+
+def gerar_laudo_consolidado_c3(caminho_log: Path = LOGS / "cenario_c3_execucao.json",
+                               saida: Path = LOGS / "laudo_c3_consolidado.pdf") -> dict:
+    conteudo = conteudo_laudo_consolidado_c3(caminho_log)
+    gerar_pdf_laudo_consolidado(conteudo, str(saida))
+    return conteudo
+
+
 def gerar_laudo_c1(caminho_log: Path = LOGS / "cenario_c1_execucao.json",
                    saida: Path = LOGS / "laudo_c1.pdf") -> dict:
     conteudo = conteudo_laudo_c1(caminho_log)
@@ -97,3 +124,5 @@ if __name__ == "__main__":
     if (LOGS / "cenario_c3_execucao.json").exists():
         for s in gerar_laudos_c3():
             print(f"Laudo salvo em: {s}")
+        gerar_laudo_consolidado_c3()
+        print("Laudo salvo em: modulo_integracao/logs/laudo_c3_consolidado.pdf")

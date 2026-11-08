@@ -123,6 +123,129 @@ def montar_xai_texto(classificacao: dict, limiar: float | None = None) -> dict |
     }
 
 
+def montar_conteudo_laudo_consolidado(
+    evidencias: list,
+    correlacao: dict,
+    historicos: dict,
+    cenario: str = "C3",
+) -> dict:
+    """Monta o laudo CONSOLIDADO de uma operacao multi-nuvem: uma unica
+    peca que correlaciona as evidencias de todos os provedores (criterio
+    de sucesso do Cenario C3, Tabela 16 do PGT).
+
+    A correlacao e por provedor (quantos CSPs e quais), conforme
+    produzida pelo orquestrador; nao ha correlacao por conteudo.
+
+    Args:
+        evidencias: evidencias coletadas (hashes, cloud_provider,
+            collected_at, bucket/container, key/blob_name).
+        correlacao: dict com total_csps_envolvidos e providers_presentes.
+        historicos: {provedor: registro de custodia (com verificacao) ou
+            None}, para cada evidencia.
+        cenario: C1, C2 ou C3.
+
+    Raises:
+        ValueError: cenario invalido ou lista de evidencias vazia.
+    """
+    if cenario not in CENARIOS_VALIDOS:
+        raise ValueError(f"Cenario invalido: '{cenario}'. Deve ser um de {CENARIOS_VALIDOS}.")
+    if not evidencias:
+        raise ValueError("O laudo consolidado exige ao menos uma evidencia.")
+
+    itens = []
+    for ev in evidencias:
+        provedor = ev["cloud_provider"]
+        historico = historicos.get(provedor)
+        itens.append({
+            "cloud_provider": provedor,
+            "origem": ev.get("bucket") or ev.get("container"),
+            "identificador": ev.get("key") or ev.get("blob_name"),
+            "hash": ev["hashes"],
+            "coletado_em": ev["collected_at"],
+            "historico_blockchain": historico if historico is not None
+            else "Evidencia nao registrada na cadeia de custodia neste laudo",
+        })
+    return {
+        "cenario": cenario,
+        "gerado_em": datetime.now(timezone.utc).isoformat(),
+        "correlacao": correlacao,
+        "evidencias": itens,
+        "classificacao_ia": "Nao aplicavel - classificacao por IA nao executada neste cenario",
+    }
+
+
+def gerar_pdf_laudo_consolidado(conteudo: dict, output_path: str) -> None:  # pragma: no cover
+    """Renderiza o laudo consolidado (varias evidencias) em PDF.
+
+    Excluida da cobertura automatizada, como gerar_pdf_laudo: a
+    renderizacao e validada por inspecao do PDF gerado.
+    """
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import letter
+    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+    from reportlab.lib.units import cm
+    from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+
+    doc = SimpleDocTemplate(output_path, pagesize=letter, topMargin=2*cm, bottomMargin=2*cm,
+                            leftMargin=1.8*cm, rightMargin=1.8*cm)
+    styles = getSampleStyleSheet()
+    titulo = ParagraphStyle("TituloLaudoC", parent=styles["Title"], fontSize=16, spaceAfter=12)
+    secao = ParagraphStyle("SecaoLaudoC", parent=styles["Heading2"], fontSize=12,
+                           spaceBefore=16, spaceAfter=6)
+    celula = ParagraphStyle("CelulaLaudoC", parent=styles["Normal"], fontSize=8, leading=10)
+    hash_estilo = ParagraphStyle("HashLaudoC", parent=celula, fontName="Courier", fontSize=6.5, leading=8)
+
+    story = [
+        Paragraph("Laudo Pericial Consolidado - Framework CCF", titulo),
+        Paragraph(f"Cenario de Investigacao: {conteudo['cenario']} | Gerado em: {conteudo['gerado_em']}",
+                  styles["Normal"]),
+        Spacer(1, 12),
+        Paragraph("1. Correlacao de Evidencias entre Provedores", secao),
+    ]
+    corr = conteudo["correlacao"]
+    story.append(Paragraph(
+        f"<b>Provedores envolvidos:</b> {corr['total_csps_envolvidos']} "
+        f"({', '.join(corr['providers_presentes'])}). A correlacao e feita por provedor de origem; "
+        "nao ha correlacao por conteudo.", styles["Normal"]))
+
+    story.append(Paragraph("2. Evidencias, Metadados e Hashes de Integridade", secao))
+    linhas = [["Provedor", "Origem / identificador", "Coletado em", "SHA-256"]]
+    for ev in conteudo["evidencias"]:
+        linhas.append([
+            Paragraph(ev["cloud_provider"], celula),
+            Paragraph(f"{ev['origem']}<br/>{ev['identificador']}", celula),
+            Paragraph(ev["coletado_em"], celula),
+            Paragraph(ev["hash"]["sha256"], hash_estilo),
+        ])
+    tabela = Table(linhas, colWidths=[1.8*cm, 4.8*cm, 3.4*cm, 7.6*cm], repeatRows=1)
+    tabela.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#2c3e50")),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+        ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
+        ("FONTSIZE", (0, 0), (-1, 0), 8),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+    ]))
+    story.append(tabela)
+
+    story.append(Paragraph("3. Classificacao por Inteligencia Artificial", secao))
+    story.append(Paragraph(conteudo["classificacao_ia"], styles["Normal"]))
+
+    story.append(Paragraph("4. Historico de Cadeia de Custodia (Blockchain)", secao))
+    for ev in conteudo["evidencias"]:
+        h = ev["historico_blockchain"]
+        if isinstance(h, dict):
+            ver = h.get("verificacao_integridade") or {}
+            texto = (f"<b>{ev['cloud_provider']}</b>: registrada no ledger "
+                     f"(ID {h.get('evidence_id')}; status {h.get('status')}; acao {h.get('acao')}). "
+                     f"Integridade na recoleta: {ver.get('integridade_valida', 'nao verificada')}.")
+        else:
+            texto = f"<b>{ev['cloud_provider']}</b>: {h}"
+        story.append(Paragraph(texto, styles["Normal"]))
+        story.append(Spacer(1, 4))
+
+    doc.build(story)
+
+
 def gerar_pdf_laudo(conteudo: dict, output_path: str) -> None:  # pragma: no cover
     """Renderiza o conteudo estruturado do laudo em um arquivo PDF,
     seguindo o formato exigido pelo RF12.

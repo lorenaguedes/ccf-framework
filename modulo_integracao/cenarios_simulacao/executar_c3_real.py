@@ -78,9 +78,14 @@ def main():
     print(json.dumps(log_entry, indent=2, default=str, ensure_ascii=False))
     print(f"\nLog salvo em: {log_path}")
 
-    from modulo_integracao.cenarios_simulacao.gerar_laudos_c1_c3 import gerar_laudos_c3
+    from modulo_integracao.cenarios_simulacao.gerar_laudos_c1_c3 import (
+        gerar_laudo_consolidado_c3,
+        gerar_laudos_c3,
+    )
     for saida in gerar_laudos_c3(log_path):
         print(f"Laudo salvo em: {saida}")
+    gerar_laudo_consolidado_c3(log_path, LOGS / "laudo_c3_consolidado.pdf")
+    print(f"Laudo consolidado salvo em: {LOGS / 'laudo_c3_consolidado.pdf'}")
 
 
 if __name__ == "__main__":

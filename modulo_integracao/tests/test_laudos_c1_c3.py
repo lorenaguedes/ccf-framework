@@ -4,10 +4,14 @@ log registra, sem afirmar classificacao que nao ocorreu.
 """
 import json
 
+import pytest
+
 from modulo_integracao.cenarios_simulacao.gerar_laudos_c1_c3 import (
     conteudo_laudo_c1,
+    conteudo_laudo_consolidado_c3,
     conteudos_laudo_c3,
 )
+from modulo_integracao.laudo_pericial import montar_conteudo_laudo_consolidado
 
 H_AWS, H_GCP, H_AZ = "a" * 64, "b" * 64, "c" * 64
 
@@ -71,3 +75,46 @@ def test_laudo_c1_com_classificador_forcado_declara_o_forcamento(tmp_path):
     assert conteudo["classificacao_ia"]["classificador_forcado"] is True
     assert "nao gerado" in conteudo["artefatos_xai"]
     assert conteudo["historico_blockchain"]["verificacao_integridade"]["integridade_valida"] is True
+
+
+def _log_c3_completo(tmp_path, registrar_gcp=True):
+    registros = [{"status": "success", "evidence_id": "e-aws", "hash": H_AWS},
+                 {"status": "success", "evidence_id": "e-az", "hash": H_AZ}]
+    if registrar_gcp:
+        registros.insert(1, {"status": "success", "evidence_id": "e-gcp", "hash": H_GCP})
+    return _log(tmp_path, {
+        "evidencias": [_ev("aws", H_AWS), _ev("gcp", H_GCP), _ev("azure", H_AZ)],
+        "registros_custodia": registros,
+        "correlacao": {"total_csps_envolvidos": 3, "providers_presentes": ["aws", "azure", "gcp"]},
+        "verificacoes_integridade": [
+            {"cloud_provider": p, "hash_original": h, "hash_recalculado": h, "integridade_valida": True}
+            for p, h in (("aws", H_AWS), ("gcp", H_GCP), ("azure", H_AZ))
+        ],
+    })
+
+
+def test_laudo_consolidado_c3_correlaciona_os_tres_provedores_em_uma_peca(tmp_path):
+    """Criterio de sucesso do C3: evidencias de 3 CSPs no mesmo laudo."""
+    c = conteudo_laudo_consolidado_c3(_log_c3_completo(tmp_path))
+    assert c["cenario"] == "C3"
+    assert c["correlacao"]["total_csps_envolvidos"] == 3
+    assert [e["cloud_provider"] for e in c["evidencias"]] == ["aws", "gcp", "azure"]
+    assert [e["hash"]["sha256"] for e in c["evidencias"]] == [H_AWS, H_GCP, H_AZ]
+    assert "nao executada" in c["classificacao_ia"]
+    assert "SFW" not in str(c)
+    gcp = c["evidencias"][1]["historico_blockchain"]
+    assert gcp["evidence_id"] == "e-gcp"
+    assert gcp["verificacao_integridade"]["integridade_valida"] is True
+
+
+def test_laudo_consolidado_declara_evidencia_nao_registrada(tmp_path):
+    c = conteudo_laudo_consolidado_c3(_log_c3_completo(tmp_path, registrar_gcp=False))
+    gcp = next(e for e in c["evidencias"] if e["cloud_provider"] == "gcp")
+    assert "nao registrada" in gcp["historico_blockchain"]
+
+
+def test_laudo_consolidado_rejeita_entradas_invalidas():
+    with pytest.raises(ValueError):
+        montar_conteudo_laudo_consolidado([], {}, {}, cenario="C3")
+    with pytest.raises(ValueError):
+        montar_conteudo_laudo_consolidado([_ev("aws", H_AWS)], {}, {}, cenario="C9")
