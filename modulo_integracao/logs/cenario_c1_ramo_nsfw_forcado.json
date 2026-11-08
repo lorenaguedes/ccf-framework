@@ -1,7 +1,7 @@
 {
   "cenario": "C1",
   "modo": "ramo_nsfw_forcado",
-  "executado_em": "2026-11-08T04:24:03.520403+00:00",
+  "executado_em": "2026-11-08T06:14:21.580934+00:00",
   "resultado": {
     "coleta": {
       "bucket": "ccf-evidence-bucket",
@@ -12,7 +12,7 @@
         "md5": "6c739f7df56d5cff6beb0805462f8c5c"
       },
       "size_bytes": 1412,
-      "collected_at": "2026-11-08T04:23:59.550112+00:00"
+      "collected_at": "2026-11-08T06:14:18.039888+00:00"
     },
     "classificacao": {
       "probabilidade_nsfw": 0.010225045494735241,
