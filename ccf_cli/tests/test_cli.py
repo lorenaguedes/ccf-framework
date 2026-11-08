@@ -82,11 +82,22 @@ def test_resumo_le_logs(tmp_path):
     assert any("ALTA" in l[3] for l in linhas) and any(l[3] == "log ilegivel" for l in linhas)
 
 
-def test_fabric_deploy_usa_v2_e_sequencia_2():
-    f = Falso()
+def _deploy(f):
+    return next(c for c in f.chamadas if "deployCC" in c)
+
+
+def test_fabric_deploy_atualizacao_usa_sequencia_seguinte():
+    f = Falso({"peer lifecycle chaincode": "Version: 1.0, Sequence: 1, Endorsement"})
     cli.main(["fabric", "deploy"], f)
-    cmd = f.chamadas[0]
+    cmd = _deploy(f)
     assert cmd[cmd.index("-ccv") + 1] == "2.0" and cmd[cmd.index("-ccs") + 1] == "2"
+
+
+def test_fabric_iniciar_em_rede_nova_usa_sequencia_1():
+    f = Falso()  # nada implantado: querycommitted sem saida
+    cli.main(["fabric", "iniciar"], f)
+    cmd = _deploy(f)
+    assert cmd[cmd.index("-ccv") + 1] == "2.0" and cmd[cmd.index("-ccs") + 1] == "1"
 
 
 def test_acao_invalida_rejeitada():

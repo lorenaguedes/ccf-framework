@@ -83,6 +83,15 @@ def versao_chaincode(executar=subprocess.run) -> str | None:
     return m.group(1) if m else None
 
 
+def sequencia_proxima(executar=subprocess.run) -> int:
+    """Proxima sequencia do chaincode: 1 em rede nova; sequencia implantada + 1 em atualizacao."""
+    from modulo_blockchain.registrar_custodia import CANAL, CHAINCODE, ambiente_peer
+    saida = _saida(["peer", "lifecycle", "chaincode", "querycommitted", "-C", CANAL, "-n", CHAINCODE],
+                   executar, env=ambiente_peer())
+    m = re.search(r"Sequence:\s*(\d+)", saida)
+    return int(m.group(1)) + 1 if m else 1
+
+
 def verificar_status(executar=subprocess.run, logs_dir: Path = LOGS) -> list:
     """Retorna [(rotulo, ok, detalhe)]."""
     from modulo_blockchain.registrar_custodia import CHAINCODE_VERSAO_ESPERADA
@@ -123,15 +132,16 @@ def cmd_ambiente(args, executar) -> int:
 def cmd_fabric(args, executar) -> int:
     from modulo_blockchain.registrar_custodia import FABRIC_TEST_NETWORK_DIR as rede
     nw = ["./network.sh"]
-    deploy = nw + ["deployCC", "-ccn", "custody", "-ccp", str(CHAINCODE_DIR), "-ccl", "go",
-                   "-c", "ccfchannel", "-ccv", "2.0", "-ccs", "2"]
+    def deploy_cmd():  # a sequencia depende do estado atual da rede (1 se nova)
+        return nw + ["deployCC", "-ccn", "custody", "-ccp", str(CHAINCODE_DIR), "-ccl", "go",
+                     "-c", "ccfchannel", "-ccv", "2.0", "-ccs", str(sequencia_proxima(executar))]
     if args.acao == "parar":
         print("ATENCAO: 'network.sh down' APAGA o ledger.")
         return _rodar(nw + ["down"], executar, cwd=rede)
     if args.acao == "iniciar":
         rc = _rodar(nw + ["up", "createChannel", "-c", "ccfchannel", "-ca"], executar, cwd=rede)
-        return rc or _rodar(deploy, executar, cwd=rede)
-    return _rodar(deploy, executar, cwd=rede)  # deploy: atualiza o chaincode (ledger preservado)
+        return rc or _rodar(deploy_cmd(), executar, cwd=rede)
+    return _rodar(deploy_cmd(), executar, cwd=rede)  # deploy: atualiza o chaincode (ledger preservado)
 
 
 # ---------------------------------------------------------------- execucao
