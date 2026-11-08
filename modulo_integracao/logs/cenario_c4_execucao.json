@@ -1,7 +1,7 @@
 {
   "cenario": "C4",
   "modo": "caso",
-  "executado_em": "2026-11-08T06:09:36.623598+00:00",
+  "executado_em": "2026-11-08T06:22:11.930146+00:00",
   "resultado": {
     "evidencias": [
       {
@@ -15,7 +15,7 @@
             "md5": "f3bfcba508ddf5ea9398800a91a2f288"
           },
           "size_bytes": 9518,
-          "collected_at": "2026-11-08T06:09:16.571491+00:00"
+          "collected_at": "2026-11-08T06:21:52.191494+00:00"
         },
         "estagios": {
           "E1": {
@@ -68,7 +68,7 @@
             "md5": "75d86bf2183229fac5ba1a97c91e4fee"
           },
           "size_bytes": 190,
-          "collected_at": "2026-11-08T06:09:19.772664+00:00"
+          "collected_at": "2026-11-08T06:21:54.997751+00:00"
         },
         "estagios": {
           "E4": {
@@ -116,7 +116,7 @@
             "md5": "9c232bbfdfa8e5c9f2f163ed3f75da70"
           },
           "size_bytes": 252,
-          "collected_at": "2026-11-08T06:09:29.788519+00:00"
+          "collected_at": "2026-11-08T06:22:05.002044+00:00"
         },
         "estagios": {
           "E5": {

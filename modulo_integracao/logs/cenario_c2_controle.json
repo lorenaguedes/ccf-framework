@@ -1,6 +1,6 @@
 {
   "cenario": "C2",
-  "executado_em": "2026-11-08T06:16:49.168333+00:00",
+  "executado_em": "2026-11-08T06:22:43.901680+00:00",
   "resultado": {
     "coleta": {
       "container_id": "container-msgs-c2",
@@ -11,7 +11,7 @@
         "md5": "17efb46635609dc9721aa65ae187f19d"
       },
       "size_bytes": 170,
-      "collected_at": "2026-11-08T06:16:37.697766+00:00",
+      "collected_at": "2026-11-08T06:22:35.538420+00:00",
       "conteudo_texto": "hi, how was school today\nit was fine, we had a math test\ncool, good luck with the results\nthanks, my friends and i are going to the park later\nhave fun, see you tomorrow\n"
     },
     "classificacao_grooming": {

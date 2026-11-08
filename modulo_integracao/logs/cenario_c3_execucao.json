@@ -1,6 +1,6 @@
 {
   "cenario": "C3",
-  "executado_em": "2026-11-08T06:09:14.659332+00:00",
+  "executado_em": "2026-11-08T06:21:50.374051+00:00",
   "resultado": {
     "evidencias": [
       {
@@ -12,7 +12,7 @@
           "md5": "6c739f7df56d5cff6beb0805462f8c5c"
         },
         "size_bytes": 1412,
-        "collected_at": "2026-11-08T06:09:14.350970+00:00"
+        "collected_at": "2026-11-08T06:21:43.595269+00:00"
       },
       {
         "bucket": "ccf-evidence-bucket-gcp",
@@ -23,7 +23,7 @@
           "md5": "cbebd43a8b8e0d8685a5998bd564ee93"
         },
         "size_bytes": 45,
-        "collected_at": "2026-11-08T06:09:14.360104+00:00"
+        "collected_at": "2026-11-08T06:21:43.601649+00:00"
       },
       {
         "container": "ccf-evidence-container",
@@ -34,7 +34,7 @@
           "md5": "3606c9ff2d510bde7200cf528ab3414c"
         },
         "size_bytes": 47,
-        "collected_at": "2026-11-08T06:09:14.369844+00:00"
+        "collected_at": "2026-11-08T06:21:43.610128+00:00"
       }
     ],
     "registros_custodia": [
@@ -44,7 +44,7 @@
         "chaincode_status": 200,
         "hash": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
         "hash_no_ledger": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
-        "acao": "ja_registrada"
+        "acao": "registrada"
       },
       {
         "status": "success",
@@ -52,7 +52,7 @@
         "chaincode_status": 200,
         "hash": "8e4c74fe4b8b009c18e7a0d93573c189ed63a7d580ffb115ebc75b863d50a8f0",
         "hash_no_ledger": "8e4c74fe4b8b009c18e7a0d93573c189ed63a7d580ffb115ebc75b863d50a8f0",
-        "acao": "ja_registrada"
+        "acao": "registrada"
       },
       {
         "status": "success",
@@ -60,7 +60,7 @@
         "chaincode_status": 200,
         "hash": "0222f7eea16788c0743ba2f7f4a0fa9950e4b09f19d6d1babe256f8b93bd3cba",
         "hash_no_ledger": "0222f7eea16788c0743ba2f7f4a0fa9950e4b09f19d6d1babe256f8b93bd3cba",
-        "acao": "ja_registrada"
+        "acao": "registrada"
       }
     ],
     "correlacao": {

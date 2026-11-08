@@ -1,6 +1,6 @@
 {
   "cenario": "C2",
-  "executado_em": "2026-11-08T06:09:12.802316+00:00",
+  "executado_em": "2026-11-08T06:21:41.974064+00:00",
   "resultado": {
     "coleta": {
       "container_id": "container-msgs-c2",
@@ -11,7 +11,7 @@
         "md5": "75d86bf2183229fac5ba1a97c91e4fee"
       },
       "size_bytes": 190,
-      "collected_at": "2026-11-08T06:09:01.665085+00:00",
+      "collected_at": "2026-11-08T06:21:31.144460+00:00",
       "conteudo_texto": "hey, i really like talking to you\nyou are so mature for your age\nthis is our secret, dont tell your parents ok?\ndelete our chat after we talk\ni can send you a gift if you keep it between us\n"
     },
     "classificacao_grooming": {
