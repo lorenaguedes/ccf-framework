@@ -1,0 +1,33 @@
+{
+  "cenario": "C2",
+  "executado_em": "2026-11-08T06:10:05.346009+00:00",
+  "resultado": {
+    "coleta": {
+      "container_id": "container-msgs-c2",
+      "log_path": "/logs/conversa.txt",
+      "cloud_provider": "docker",
+      "hashes": {
+        "sha256": "cb9bc082bf35643d315b7c63856f34a05b05ba1cafdecef5958355be7db761de",
+        "md5": "17efb46635609dc9721aa65ae187f19d"
+      },
+      "size_bytes": 170,
+      "collected_at": "2026-11-08T06:09:56.406450+00:00",
+      "conteudo_texto": "hi, how was school today\nit was fine, we had a math test\ncool, good luck with the results\nthanks, my friends and i are going to the park later\nhave fun, see you tomorrow\n"
+    },
+    "classificacao_grooming": {
+      "score_grooming": 0.05037628331036815,
+      "flag": "NORMAL",
+      "trechos_relevantes": [
+        "have fun, see you tomorrow",
+        "thanks, my friends and i are going to the park later"
+      ],
+      "n_janelas": 1,
+      "indice_janela_mais_suspeita": 0
+    },
+    "registro_custodia": null,
+    "status_pipeline": "SUCESSO"
+  },
+  "hash_para_registro_blockchain": "cb9bc082bf35643d315b7c63856f34a05b05ba1cafdecef5958355be7db761de",
+  "observacao": "Classificacao com o modelo E4 real (embeddings multilingues + regressao logistica; nao forcada). Triagem sujeita a revisao humana; ver ADR 008 e secao 4.4.4.7 do PGT.",
+  "modo": "controle_benigno"
+}

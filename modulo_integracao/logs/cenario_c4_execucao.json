@@ -1,7 +1,7 @@
 {
   "cenario": "C4",
   "modo": "caso",
-  "executado_em": "2026-11-08T05:44:07.794361+00:00",
+  "executado_em": "2026-11-08T06:09:36.623598+00:00",
   "resultado": {
     "evidencias": [
       {
@@ -15,7 +15,7 @@
             "md5": "f3bfcba508ddf5ea9398800a91a2f288"
           },
           "size_bytes": 9518,
-          "collected_at": "2026-11-08T05:43:48.970463+00:00"
+          "collected_at": "2026-11-08T06:09:16.571491+00:00"
         },
         "estagios": {
           "E1": {
@@ -35,7 +35,19 @@
             "motivo": "E3 so e aplicado a imagens sinalizadas pelo E2 (Tabela 12)"
           }
         },
-        "registro_custodia": null,
+        "registro_custodia": {
+          "status": "success",
+          "evidence_id": "evid-c4-aws-0a298fe1529a",
+          "chaincode_status": 200,
+          "hash": "0a298fe1529a67df1676b070ba4941460cc0a43f7b79d966298db403e75a0384",
+          "hash_no_ledger": "0a298fe1529a67df1676b070ba4941460cc0a43f7b79d966298db403e75a0384",
+          "acao": "registrada",
+          "verificacao_integridade": {
+            "hash_original": "0a298fe1529a67df1676b070ba4941460cc0a43f7b79d966298db403e75a0384",
+            "hash_recalculado": "0a298fe1529a67df1676b070ba4941460cc0a43f7b79d966298db403e75a0384",
+            "integridade_valida": true
+          }
+        },
         "indicios": [
           {
             "modalidade": "imagem",
@@ -56,7 +68,7 @@
             "md5": "75d86bf2183229fac5ba1a97c91e4fee"
           },
           "size_bytes": 190,
-          "collected_at": "2026-11-08T05:43:53.300006+00:00"
+          "collected_at": "2026-11-08T06:09:19.772664+00:00"
         },
         "estagios": {
           "E4": {
@@ -71,7 +83,19 @@
             "indice_janela_mais_suspeita": 0
           }
         },
-        "registro_custodia": null,
+        "registro_custodia": {
+          "status": "success",
+          "evidence_id": "evid-c4-azure-c09be7d97838",
+          "chaincode_status": 200,
+          "hash": "c09be7d9783867e8e832896bfd8e7cb3ccfb3babf2733dbb9eaeabffe55b07ab",
+          "hash_no_ledger": "c09be7d9783867e8e832896bfd8e7cb3ccfb3babf2733dbb9eaeabffe55b07ab",
+          "acao": "registrada",
+          "verificacao_integridade": {
+            "hash_original": "c09be7d9783867e8e832896bfd8e7cb3ccfb3babf2733dbb9eaeabffe55b07ab",
+            "hash_recalculado": "c09be7d9783867e8e832896bfd8e7cb3ccfb3babf2733dbb9eaeabffe55b07ab",
+            "integridade_valida": true
+          }
+        },
         "indicios": [
           {
             "modalidade": "texto",
@@ -92,7 +116,7 @@
             "md5": "9c232bbfdfa8e5c9f2f163ed3f75da70"
           },
           "size_bytes": 252,
-          "collected_at": "2026-11-08T05:44:07.206568+00:00"
+          "collected_at": "2026-11-08T06:09:29.788519+00:00"
         },
         "estagios": {
           "E5": {
@@ -103,7 +127,19 @@
             "menor_score": -0.1161
           }
         },
-        "registro_custodia": null,
+        "registro_custodia": {
+          "status": "success",
+          "evidence_id": "evid-c4-gcp-0f0595629479",
+          "chaincode_status": 200,
+          "hash": "0f0595629479ffcb6b4d1a4a2b3c60af7a4520ac47c2484e5cb4490fcaf8e718",
+          "hash_no_ledger": "0f0595629479ffcb6b4d1a4a2b3c60af7a4520ac47c2484e5cb4490fcaf8e718",
+          "acao": "registrada",
+          "verificacao_integridade": {
+            "hash_original": "0f0595629479ffcb6b4d1a4a2b3c60af7a4520ac47c2484e5cb4490fcaf8e718",
+            "hash_recalculado": "0f0595629479ffcb6b4d1a4a2b3c60af7a4520ac47c2484e5cb4490fcaf8e718",
+            "integridade_valida": true
+          }
+        },
         "indicios": [
           {
             "modalidade": "logs",
@@ -149,11 +185,7 @@
     },
     "erros_coleta": {},
     "erros_estagio": {},
-    "erros_custodia": {
-      "imagem": "Falha ao registrar a evidencia: Error: endorsement failure during invoke. response: status:500 message:\"incorrect number of params. Expected 7, received 6\"",
-      "texto": "Falha ao registrar a evidencia: Error: endorsement failure during invoke. response: status:500 message:\"incorrect number of params. Expected 7, received 6\"",
-      "logs": "Falha ao registrar a evidencia: Error: endorsement failure during invoke. response: status:500 message:\"incorrect number of params. Expected 7, received 6\""
-    },
-    "status_pipeline": "SUCESSO_PARCIAL"
+    "erros_custodia": {},
+    "status_pipeline": "SUCESSO"
   }
 }

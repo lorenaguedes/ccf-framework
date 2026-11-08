@@ -1,0 +1,40 @@
+{
+  "teste": "adulteracao",
+  "executado_em": "2026-11-08T06:09:41.050276+00:00",
+  "resultado": {
+    "evidence_id": "evid-adulteracao-aws-ee7911c243c8",
+    "registro_custodia": {
+      "status": "success",
+      "evidence_id": "evid-adulteracao-aws-ee7911c243c8",
+      "chaincode_status": 200,
+      "hash": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+      "hash_no_ledger": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+      "acao": "registrada"
+    },
+    "adulteracao_aplicada": {
+      "deslocamento": 706,
+      "byte_antes": 69,
+      "byte_depois": 68,
+      "chave_copia_adulterada": "evidencia-c1-real-adulterada.jpg"
+    },
+    "hash_original": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+    "hash_adulterado": "aad0ca9777060539169209ec4ae24eedac8ce248f47f4796eb20a04fcad2532d",
+    "verificacao_controle": {
+      "evidencia_id": "evid-adulteracao-aws-ee7911c243c8",
+      "hash_original": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+      "hash_recalculado": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+      "integridade_valida": true,
+      "historico_transferencias": []
+    },
+    "verificacao_adulterada": {
+      "evidencia_id": "evid-adulteracao-aws-ee7911c243c8",
+      "hash_original": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+      "hash_recalculado": "aad0ca9777060539169209ec4ae24eedac8ce248f47f4796eb20a04fcad2532d",
+      "integridade_valida": false,
+      "historico_transferencias": []
+    },
+    "controle_ok": true,
+    "adulteracao_detectada": true,
+    "status_teste": "SUCESSO"
+  }
+}

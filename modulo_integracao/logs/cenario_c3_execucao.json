@@ -1,6 +1,6 @@
 {
   "cenario": "C3",
-  "executado_em": "2026-11-08T05:44:25.799720+00:00",
+  "executado_em": "2026-11-08T06:09:14.659332+00:00",
   "resultado": {
     "evidencias": [
       {
@@ -12,7 +12,7 @@
           "md5": "6c739f7df56d5cff6beb0805462f8c5c"
         },
         "size_bytes": 1412,
-        "collected_at": "2026-11-08T05:44:25.471134+00:00"
+        "collected_at": "2026-11-08T06:09:14.350970+00:00"
       },
       {
         "bucket": "ccf-evidence-bucket-gcp",
@@ -23,7 +23,7 @@
           "md5": "cbebd43a8b8e0d8685a5998bd564ee93"
         },
         "size_bytes": 45,
-        "collected_at": "2026-11-08T05:44:25.476445+00:00"
+        "collected_at": "2026-11-08T06:09:14.360104+00:00"
       },
       {
         "container": "ccf-evidence-container",
@@ -34,7 +34,7 @@
           "md5": "3606c9ff2d510bde7200cf528ab3414c"
         },
         "size_bytes": 47,
-        "collected_at": "2026-11-08T05:44:25.483697+00:00"
+        "collected_at": "2026-11-08T06:09:14.369844+00:00"
       }
     ],
     "registros_custodia": [
