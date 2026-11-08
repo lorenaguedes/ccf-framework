@@ -2,7 +2,10 @@
 Orquestrador do Cenario C1 - Distribuicao de CSAM em Storage S3
 (Tabela 16, PGT).
 
-Pipeline: Coleta -> Hash Perceptual -> CNN -> XAI -> Blockchain
+Pipeline implementado: Coleta -> classificacao de conteudo explicito (E2)
+-> registro de custodia (apenas se NSFW). Os estagios E1 (hash
+perceptual) e E3 (idade) nao sao orquestrados neste cenario, e a
+explicabilidade de imagem (E6) nao e invocada por ele.
 
 Estrategia de design: os componentes de infraestrutura (coletor,
 classificador, registrador de custodia) sao recebidos por injecao de

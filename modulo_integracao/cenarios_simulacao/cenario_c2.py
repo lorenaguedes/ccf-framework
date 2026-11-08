@@ -2,7 +2,11 @@
 Orquestrador do Cenario C2 - Grooming em Plataforma de Mensagens
 (Tabela 16, PGT).
 
-Pipeline: Coleta Docker -> NLP BERT -> SHAP -> Blockchain
+Pipeline implementado: Coleta de log (Docker) -> deteccao de aliciamento
+(E4: embeddings multilingues congelados + regressao logistica) ->
+registro de custodia (apenas se SUSPEITO). A explicacao (oclusao por
+mensagem) e anexada ao laudo por modulo_integracao.laudo_pericial; SHAP
+nao esta implementado.
 
 Mesma estrategia de injecao de dependencia do Cenario C1.
 """
