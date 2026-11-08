@@ -146,7 +146,7 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_adulteracao_r
 | Coleta Multi-Nuvem (AWS/Azure/GCP/Docker) | 27+ | ~100% |
 | Blockchain (chaincode custody) | 19 (Go) + 13 (cliente Python) | — |
 | IA Multi-Modal (E1–E6) | 54 | 97% (`modulo_ia`; E4: 96%) |
-| Integração (C1/C2/C3 + Laudo Pericial + adulteração) | 30 | — |
+| Integração (C1/C2/C3 + Laudo Pericial + adulteração) | 32 | — |
 
 ## Estágios do Pipeline de IA (Tabela 12, PGT)
 

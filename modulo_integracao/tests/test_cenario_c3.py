@@ -2,9 +2,10 @@
 Teste do orquestrador do Cenario C3 - Operacao Combinada em
 Multi-Nuvem (Tabela 16, PGT).
 
-Modulos exercitados: todos (coleta multi-nuvem, hash, CNN, NLP,
-anomalias, XAI, blockchain). Criterio de sucesso: pipeline end-to-end
-sem erros, correlacao de evidencias de 3 CSPs no mesmo laudo.
+Etapas exercitadas: coleta multi-nuvem (com hashes), correlacao por
+provedor e registro de custodia. O cenario nao tem etapa de IA nem de
+explicabilidade. Criterio de sucesso: pipeline end-to-end sem erros,
+correlacao de evidencias de 3 CSPs no mesmo laudo.
 """
 import pytest
 
@@ -87,3 +88,34 @@ def test_executar_cenario_c3_partial_failure_is_reported():
     assert resultado["status_pipeline"] == "SUCESSO_PARCIAL"
     assert len(resultado["evidencias"]) == 2
     assert "gcp" in resultado["erros_por_provider"]
+
+def test_executar_cenario_c3_custody_failure_of_one_provider_does_not_abort_others():
+    """Falha de custodia de um CSP e reportada por provedor, sem abortar
+    o registro dos demais, e rebaixa o status para SUCESSO_PARCIAL."""
+    def custody_falha_no_gcp(evidence_id, hash_sha256, metadata):
+        if "gcp" in evidence_id:
+            raise RuntimeError("rede Fabric inacessivel")
+        return {"status": "success", "tx_id": f"tx-{evidence_id}"}
+
+    resultado = executar_cenario_c3(
+        aws_collector_fn=_aws_collector_fn,
+        gcp_collector_fn=_gcp_collector_fn,
+        azure_collector_fn=_azure_collector_fn,
+        custody_register_fn=custody_falha_no_gcp,
+    )
+
+    assert resultado["status_pipeline"] == "SUCESSO_PARCIAL"
+    assert len(resultado["evidencias"]) == 3
+    assert len(resultado["registros_custodia"]) == 2
+    assert list(resultado["erros_custodia"]) == ["gcp"]
+    assert "inacessivel" in resultado["erros_custodia"]["gcp"]
+
+
+def test_executar_cenario_c3_sem_erros_de_custodia_retorna_dict_vazio():
+    resultado = executar_cenario_c3(
+        aws_collector_fn=_aws_collector_fn,
+        gcp_collector_fn=_gcp_collector_fn,
+        azure_collector_fn=_azure_collector_fn,
+        custody_register_fn=_custody_register_fn_sucesso,
+    )
+    assert resultado["erros_custodia"] == {}

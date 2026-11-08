@@ -37,10 +37,13 @@ def executar_cenario_c3(
         - registros_custodia: lista de registros de custodia gerados
         - correlacao: metadados de correlacao (total de CSPs
           envolvidos, provedores presentes)
-        - erros_por_provider: dict de erros ocorridos, por provedor
-        - status_pipeline: "SUCESSO" (todos os 3 CSPs coletados),
-          "SUCESSO_PARCIAL" (pelo menos 1 falhou, mas ao menos 1
-          teve sucesso), ou "FALHA" (todos falharam)
+        - erros_por_provider: dict de erros de coleta, por provedor
+        - erros_custodia: dict de erros de registro de custodia, por
+          provedor (a evidencia foi coletada, mas nao registrada)
+        - status_pipeline: "SUCESSO" (3 CSPs coletados e registrados),
+          "SUCESSO_PARCIAL" (pelo menos 1 falhou na coleta ou no
+          registro, mas ao menos 1 foi coletado), ou "FALHA" (nenhuma
+          coleta teve sucesso)
     """
     coletores = {
         "aws": lambda: aws_collector_fn("ccf-evidence-bucket", "evidencia-c3.jpg"),
@@ -59,17 +62,23 @@ def executar_cenario_c3(
             erros_por_provider[provider] = str(e)
 
     registros_custodia = []
+    erros_custodia = {}
     for evidencia in evidencias:
-        registro = custody_register_fn(
-            f"evid-c3-{evidencia['cloud_provider']}",
-            evidencia["hashes"]["sha256"],
-            evidencia,
-        )
+        provider = evidencia["cloud_provider"]
+        try:
+            registro = custody_register_fn(
+                f"evid-c3-{provider}",
+                evidencia["hashes"]["sha256"],
+                evidencia,
+            )
+        except Exception as e:  # falha de custodia de um CSP nao aborta os demais
+            erros_custodia[provider] = str(e)
+            continue
         registros_custodia.append(registro)
 
     providers_coletados = {ev["cloud_provider"] for ev in evidencias}
 
-    if len(evidencias) == 3:
+    if len(evidencias) == 3 and not erros_custodia:
         status = "SUCESSO"
     elif len(evidencias) > 0:
         status = "SUCESSO_PARCIAL"
@@ -84,5 +93,6 @@ def executar_cenario_c3(
             "providers_presentes": sorted(providers_coletados),
         },
         "erros_por_provider": erros_por_provider,
+        "erros_custodia": erros_custodia,
         "status_pipeline": status,
     }

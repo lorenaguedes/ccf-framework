@@ -58,6 +58,8 @@ def main():
     # Verificacao de integridade: recoleta cada evidencia e confere com o ledger.
     verificacoes = []
     for ev in resultado["evidencias"]:
+        if ev["cloud_provider"] in resultado["erros_custodia"]:
+            continue  # nao registrada no ledger: nao ha o que verificar
         recoleta = _COLETORES[ev["cloud_provider"]]()
         eid = id_evidencia("c3", ev, ev["hashes"]["sha256"])
         verificacoes.append({"cloud_provider": ev["cloud_provider"],
