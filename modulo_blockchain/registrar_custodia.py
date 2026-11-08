@@ -12,6 +12,8 @@ Garantias:
   chamada, de modo que um marcador de posicao nunca chega ao ledger;
 - apos o registro, o ledger e consultado e o hash gravado e comparado
   com o hash coletado; o resultado so e "success" se forem iguais;
+- o contrato tambem valida o formato do hash e o timestamp, e usa o MSP do
+  certificado como agente coletor (a autoria nao e argumento do chamador);
 - o registro e idempotente: se o ID ja existir com o mesmo hash, nao
   ha nova gravacao, e a divergencia de hash e reportada como falha.
 
@@ -157,7 +159,6 @@ def registrar_e_verificar(
     csp_origem: str,
     regiao: str,
     tipo_artefato: str,
-    agente_msp: str = "Org1MSP",
     rede_dir: Path = FABRIC_TEST_NETWORK_DIR,
     runner: Callable = subprocess.run,
     tentativas_confirmacao: int = 15,
@@ -183,8 +184,10 @@ def registrar_e_verificar(
     existente = consultar_evidencia(evidence_id, rede_dir, runner)
     acao = "ja_registrada"
     if existente is None:
+        # O agente coletor nao e argumento: o contrato usa o MSP do
+        # certificado que assina a transacao.
         args = [evidence_id, hash_sha256, timestamp, csp_origem, regiao,
-                tipo_artefato, agente_msp]
+                tipo_artefato]
         r = runner(_comando_invoke(rede_dir, "RegistrarEvidencia", args),
                    env=_ambiente(rede_dir), capture_output=True, text=True)
         saida = f"{r.stdout}\n{r.stderr}"

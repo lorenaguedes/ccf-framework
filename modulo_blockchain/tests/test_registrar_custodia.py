@@ -58,6 +58,16 @@ def test_registra_e_confere_o_hash_gravado():
     assert runner.ledger["evid-1"]["hash_sha256"] == HASH
 
 
+def test_invoke_nao_envia_o_agente_coletor():
+    """A autoria vem do certificado que assina a transacao (MSP do
+    chamador), por isso o invoke leva exatamente 6 argumentos."""
+    runner = LedgerFalso()
+    _registrar(runner)
+    invoke = next(c for c in runner.chamadas if c[2] == "invoke")
+    args = json.loads(invoke[invoke.index("-c") + 1])["Args"]
+    assert args == ["evid-1", HASH, "2026-01-01T00:00:00+00:00", "aws", "local", "imagem"]
+
+
 def test_hash_com_marcador_de_posicao_e_rejeitado_antes_de_gravar():
     """O erro do registro manual (marcador no lugar do hash) nao pode
     chegar ao ledger."""

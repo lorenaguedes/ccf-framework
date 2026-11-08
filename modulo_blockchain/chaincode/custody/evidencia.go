@@ -5,14 +5,15 @@ package main
 // identificador, hash de integridade, metadados de coleta e histórico
 // de transferências de custódia.
 type Evidencia struct {
-	ID                      string                `json:"id"`
-	HashSHA256              string                `json:"hash_sha256"`
-	Timestamp               string                `json:"timestamp"`
-	CSPOrigem               string                `json:"csp_origem"`
-	Regiao                  string                `json:"regiao"`
-	TipoArtefato            string                `json:"tipo_artefato"`
-	AgenteColetorMSP        string                `json:"agente_coletor_msp"`
-	CustodianteAtual        string                `json:"custodiante_atual"`
+	ID                      string                  `json:"id"`
+	HashSHA256              string                  `json:"hash_sha256"`
+	Timestamp               string                  `json:"timestamp"`     // instante da coleta, declarado pelo cliente
+	RegistradoEm            string                  `json:"registrado_em"` // instante do registro, carimbo da transação
+	CSPOrigem               string                  `json:"csp_origem"`
+	Regiao                  string                  `json:"regiao"`
+	TipoArtefato            string                  `json:"tipo_artefato"`
+	AgenteColetorMSP        string                  `json:"agente_coletor_msp"`
+	CustodianteAtual        string                  `json:"custodiante_atual"`
 	HistoricoTransferencias []TransferenciaCustodia `json:"historico_transferencias"`
 }
 
@@ -22,7 +23,7 @@ type Evidencia struct {
 type TransferenciaCustodia struct {
 	MSPCedente     string `json:"msp_cedente"`
 	MSPCessionario string `json:"msp_cessionario"`
-	Timestamp      string `json:"timestamp"`
+	Timestamp      string `json:"timestamp"` // instante da transação (UTC), não informado pelo chamador
 	Motivacao      string `json:"motivacao"`
 }
 
@@ -31,8 +32,8 @@ type TransferenciaCustodia struct {
 // custódia para reconstrução da trajetória probatória (Seção 2.4.3, PGT).
 type ResultadoVerificacao struct {
 	EvidenciaID             string                  `json:"evidencia_id"`
-	HashOriginal             string                  `json:"hash_original"`
-	HashRecalculado          string                  `json:"hash_recalculado"`
-	IntegridadeValida        bool                    `json:"integridade_valida"`
-	HistoricoTransferencias  []TransferenciaCustodia `json:"historico_transferencias"`
+	HashOriginal            string                  `json:"hash_original"`
+	HashRecalculado         string                  `json:"hash_recalculado"`
+	IntegridadeValida       bool                    `json:"integridade_valida"`
+	HistoricoTransferencias []TransferenciaCustodia `json:"historico_transferencias"`
 }

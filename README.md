@@ -108,6 +108,16 @@ cd ~/fabric-dev/fabric-samples/test-network
 ./network.sh deployCC -ccn custody -ccp ~/projetos/ccf-framework/modulo_blockchain/chaincode/custody -ccl go -c ccfchannel
 ```
 
+**Atualizacao do chaincode (rede ja em execucao):** a versao 2.0 do contrato
+valida o formato do hash e o timestamp, usa o MSP do certificado como agente
+coletor e restringe a transferencia de custodia ao custodiante atual (a funcao
+`RegistrarEvidencia` passou a ter 6 argumentos, sem o agente). Reimplante com
+uma nova sequencia; os registros ja gravados sao preservados:
+
+```
+./network.sh deployCC -ccn custody -ccp ~/projetos/ccf-framework/modulo_blockchain/chaincode/custody -ccl go -c ccfchannel -ccv 2.0 -ccs 2
+```
+
 **Nota de compatibilidade:** se falhar com `broken pipe`, desabilite "Use
 containerd for pulling and storing images" em Docker Desktop → Settings →
 General (ver ADR 001).
@@ -126,6 +136,7 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_c1_real
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c1_real --validar-ramo-nsfw   # classificador forçado, declarado no laudo
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c2_real
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real
+poetry run python -m modulo_integracao.cenarios_simulacao.executar_adulteracao_real   # teste negativo: a adulteracao de 1 byte e detectada
 ```
 
 ## Testes e Qualidade
@@ -133,9 +144,9 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real
 | Módulo | Testes | Cobertura |
 |---|---|---|
 | Coleta Multi-Nuvem (AWS/Azure/GCP/Docker) | 27+ | ~100% |
-| Blockchain (chaincode custody) | 9 (Go) + 12 (cliente Python) | — |
+| Blockchain (chaincode custody) | 19 (Go) + 13 (cliente Python) | — |
 | IA Multi-Modal (E1–E6) | 54 | 97% (`modulo_ia`; E4: 96%) |
-| Integração (C1/C2/C3 + Laudo Pericial) | 24 | — |
+| Integração (C1/C2/C3 + Laudo Pericial + adulteração) | 30 | — |
 
 ## Estágios do Pipeline de IA (Tabela 12, PGT)
 
