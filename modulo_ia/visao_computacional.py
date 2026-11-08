@@ -78,3 +78,16 @@ def create_opennsfw2_predict_fn() -> Callable[[Image.Image], float]:  # pragma: 
         return n2.predict_image(image)
 
     return predict_fn
+
+def create_opennsfw2_batch_fn(batch_size: int = 32) -> Callable[[list], list]:  # pragma: no cover
+    """Predicao em lote do OpenNSFW2 (mais rapida para o LIME). Se a API em
+    lote falhar, recorre a uma chamada por imagem, com o mesmo pre-processamento."""
+    import opennsfw2 as n2
+
+    def predict_lote(imagens: list) -> list:
+        try:
+            return [float(x) for x in n2.predict_images(imagens, batch_size=batch_size)]
+        except Exception:
+            return [float(n2.predict_image(im)) for im in imagens]
+
+    return predict_lote

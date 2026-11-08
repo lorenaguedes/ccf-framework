@@ -30,7 +30,11 @@ from pathlib import Path
 
 from modulo_blockchain.registrar_custodia import verificar_integridade
 from modulo_coleta.aws_collector import collect_from_s3, get_s3_client
-from modulo_ia.visao_computacional import classify_explicit_content, create_opennsfw2_predict_fn
+from modulo_ia.visao_computacional import (
+    classify_explicit_content,
+    create_opennsfw2_batch_fn,
+    create_opennsfw2_predict_fn,
+)
 from modulo_integracao.cenarios_simulacao.cenario_c1 import executar_cenario_c1
 from modulo_integracao.cenarios_simulacao.custodia_real import criar_custody_register_fn, id_evidencia
 from modulo_integracao.explicabilidade_imagem import gerar_explicabilidade_imagem
@@ -60,7 +64,8 @@ def _classifier_fn_forcado_nsfw(conteudo: bytes) -> dict:
     return resultado
 
 
-def main(validar_ramo_nsfw: bool = False, xai_amostras: int = 200):
+def main(validar_ramo_nsfw: bool = False, xai_amostras: int = 200,
+         xai_segmentos: int | None = None, xai_espaco: str = "probabilidade"):
     client = get_s3_client()
     conteudo = client.get_object(Bucket=BUCKET, Key=KEY)["Body"].read()
 
@@ -87,7 +92,9 @@ def main(validar_ramo_nsfw: bool = False, xai_amostras: int = 200):
         # Explica a probabilidade REAL do modelo (mesmo no ramo forcado).
         nome_mapa = "mapa_xai_c1_forcado.png" if validar_ramo_nsfw else "mapa_xai_c1.png"
         resultado["explicabilidade"] = gerar_explicabilidade_imagem(
-            conteudo, create_opennsfw2_predict_fn(), LOGS, nome_mapa, num_samples=xai_amostras)
+            conteudo, create_opennsfw2_predict_fn(), LOGS, nome_mapa,
+            num_samples=xai_amostras, n_segmentos=xai_segmentos, espaco=xai_espaco,
+            predict_lote_fn=create_opennsfw2_batch_fn())
 
     log_entry = {
         "cenario": "C1",
@@ -115,5 +122,9 @@ if __name__ == "__main__":
                         help="forca o rotulo NSFW para validar o registro de custodia (declarado no laudo)")
     parser.add_argument("--xai-amostras", type=int, default=200,
                         help="perturbacoes do LIME (mais amostras tendem a estabilizar a explicacao)")
+    parser.add_argument("--xai-segmentos", type=int, default=None,
+                        help="usa SLIC com ~N segmentos (padrao: quickshift do LIME)")
+    parser.add_argument("--xai-espaco", choices=("probabilidade", "logit"), default="probabilidade",
+                        help="espaco da saida explicada pelo LIME")
     a = parser.parse_args()
-    main(a.validar_ramo_nsfw, a.xai_amostras)
+    main(a.validar_ramo_nsfw, a.xai_amostras, a.xai_segmentos, a.xai_espaco)

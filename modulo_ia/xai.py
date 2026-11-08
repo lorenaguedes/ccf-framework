@@ -24,6 +24,7 @@ def generate_lime_explanation(
     predict_fn: Callable[[np.ndarray], np.ndarray],
     num_samples: int = 200,
     random_state: int = 42,
+    segmentation_fn: Callable[[np.ndarray], np.ndarray] | None = None,
 ) -> np.ndarray:
     """Gera uma mascara de importancia via LIME para uma imagem,
     usando uma funcao de predicao externa (injecao de dependencia).
@@ -40,6 +41,10 @@ def generate_lime_explanation(
         predict_fn: funcao que recebe um array de imagens e retorna um
             array de previsoes (ex: idade estimada).
         num_samples: numero de perturbacoes usadas pelo LIME.
+        segmentation_fn: segmentador opcional (imagem -> mapa de rotulos).
+            Padrao do LIME: quickshift, que em imagens pequenas gera dezenas
+            de segmentos e torna o ajuste linear sub-determinado com poucas
+            perturbacoes.
 
     Returns:
         Mascara de importancia continua (H, W).
@@ -54,6 +59,7 @@ def generate_lime_explanation(
         hide_color=0,
         num_samples=num_samples,
         random_seed=random_state,
+        segmentation_fn=segmentation_fn,
     )
 
     segments = explicacao.segments
@@ -135,14 +141,45 @@ def compute_agreement_score(mask_a: np.ndarray, mask_b: np.ndarray) -> float:
 
 # --- Explicabilidade de imagem para o laudo (E2) -----------------------------
 
-def criar_predict_lote(predict_fn: Callable) -> Callable[[np.ndarray], np.ndarray]:
+def criar_predict_lote(predict_fn: Callable, espaco: str = "probabilidade",
+                       predict_lote_fn: Callable | None = None) -> Callable[[np.ndarray], np.ndarray]:
     """Adapta uma funcao de predicao de UMA imagem PIL (ex.: OpenNSFW2, que
-    retorna a probabilidade NSFW) para a assinatura em lote usada pelo LIME."""
+    retorna a probabilidade NSFW) para a assinatura em lote usada pelo LIME.
+
+    Args:
+        espaco: "probabilidade" (padrao) ou "logit". Quando o modelo satura
+            (probabilidade ~0,01), o LIME sobre a probabilidade ajusta variacoes
+            minusculas e instaveis; o logit amplifica essas variacoes.
+        predict_lote_fn: opcional; funcao que recebe uma lista de imagens PIL e
+            retorna as probabilidades (mais rapida que uma chamada por imagem).
+    """
     from PIL import Image
 
+    if espaco not in ("probabilidade", "logit"):
+        raise ValueError("espaco deve ser 'probabilidade' ou 'logit'")
+
     def predict_lote(imagens: np.ndarray) -> np.ndarray:
-        return np.array([float(predict_fn(Image.fromarray(img.astype("uint8")))) for img in imagens])
+        pil = [Image.fromarray(img.astype("uint8")) for img in imagens]
+        if predict_lote_fn is not None:
+            p = np.array([float(x) for x in predict_lote_fn(pil)])
+        else:
+            p = np.array([float(predict_fn(im)) for im in pil])
+        if espaco == "logit":
+            p = np.clip(p, 1e-6, 1 - 1e-6)
+            p = np.log(p / (1 - p))
+        return p
     return predict_lote
+
+
+def segmentador_slic(n_segmentos: int) -> Callable[[np.ndarray], np.ndarray]:
+    """Segmentador SLIC com numero fixo (aproximado) de segmentos. O padrao do
+    LIME (quickshift) gera dezenas de segmentos em imagens pequenas, e o ajuste
+    linear fica sub-determinado com poucas perturbacoes."""
+    from skimage.segmentation import slic
+
+    def segmentar(imagem: np.ndarray) -> np.ndarray:
+        return slic(imagem, n_segments=n_segmentos, compactness=10, start_label=0)
+    return segmentar
 
 
 def _regioes_altas(mascara: np.ndarray, threshold: float) -> np.ndarray:
@@ -188,6 +225,7 @@ def explicar_imagem_lime(
     num_samples: int = 200,
     sementes: tuple = (42, 43),
     threshold: float = 0.5,
+    n_segmentos: int | None = None,
 ) -> dict:
     """Explica a saida do modelo para uma imagem por LIME, com duas ou mais
     sementes para medir a estabilidade da explicacao (o LIME e amostral).
@@ -198,13 +236,15 @@ def explicar_imagem_lime(
         em que estabilidade_jaccard e o Jaccard medio entre a primeira
         semente e as demais (None se nao houver sinal).
     """
-    mascaras = [generate_lime_explanation(imagem, predict_lote, num_samples=num_samples, random_state=s)
-                for s in sementes]
+    seg = segmentador_slic(n_segmentos) if n_segmentos else None
+    mascaras = [generate_lime_explanation(imagem, predict_lote, num_samples=num_samples, random_state=s,
+                                          segmentation_fn=seg) for s in sementes]
     jaccards = [jaccard_regioes(mascaras[0], m, threshold) for m in mascaras[1:]]
     validos = [j for j in jaccards if j is not None]
     return {
         "mascara": mascaras[0],
         "metodo": "LIME (segmentos de imagem)",
+        "segmentacao": f"SLIC (~{n_segmentos} segmentos)" if n_segmentos else "quickshift (padrao do LIME)",
         "num_samples": num_samples,
         "sementes": list(sementes),
         "threshold": threshold,

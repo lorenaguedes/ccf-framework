@@ -121,6 +121,8 @@ def montar_xai_imagem(classificacao: dict, explicabilidade: dict | None) -> dict
         "metodo": explicabilidade["metodo"],
         "escore": escore,
         "limiar": explicabilidade.get("limiar_decisao", 0.5),
+        "segmentacao": explicabilidade.get("segmentacao"),
+        "espaco_explicado": explicabilidade.get("espaco_explicado"),
         "num_samples": explicabilidade.get("num_samples"),
         "sementes": explicabilidade.get("sementes"),
         "estabilidade_jaccard": explicabilidade.get("estabilidade_jaccard"),
@@ -137,6 +139,7 @@ def formatar_xai(x) -> str:
     if not isinstance(x, dict):
         return str(x)
     rotulos = {"metodo": "Metodo", "escore": "Escore do modelo", "limiar": "Limiar de decisao",
+               "segmentacao": "Segmentacao", "espaco_explicado": "Saida explicada",
                "num_samples": "Perturbacoes (LIME)", "sementes": "Sementes",
                "estabilidade_jaccard": "Estabilidade (Jaccard entre sementes)",
                "fracao_area_alta_importancia": "Fracao da imagem de alta importancia",

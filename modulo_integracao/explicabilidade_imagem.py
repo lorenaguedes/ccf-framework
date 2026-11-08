@@ -29,6 +29,9 @@ def gerar_explicabilidade_imagem(
     sementes: tuple = (42, 43, 44),
     limiar_decisao: float = 0.5,
     tamanho: tuple = TAMANHO_EXPLICACAO,
+    n_segmentos: int | None = None,
+    espaco: str = "probabilidade",
+    predict_lote_fn: Callable | None = None,
 ) -> dict:
     """Gera a explicacao LIME de uma imagem (bytes) e grava o mapa em PNG.
 
@@ -41,8 +44,10 @@ def gerar_explicabilidade_imagem(
     imagem = Image.open(io.BytesIO(conteudo)).convert("RGB").resize(tamanho)
     arr = np.array(imagem)
     explicacao = explicar_imagem_lime(
-        arr, criar_predict_lote(predict_fn), num_samples=num_samples, sementes=sementes
+        arr, criar_predict_lote(predict_fn, espaco, predict_lote_fn),
+        num_samples=num_samples, sementes=sementes, n_segmentos=n_segmentos,
     )
+    explicacao["espaco_explicado"] = espaco
     mascara = explicacao.pop("mascara")
     pasta_saida = Path(pasta_saida)
     pasta_saida.mkdir(parents=True, exist_ok=True)

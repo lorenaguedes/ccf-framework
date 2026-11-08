@@ -86,3 +86,21 @@ def test_medir_estabilidade_modelo_deterministico_e_estavel():
     arr = np.zeros((48, 48, 3), dtype="uint8"); arr[:24, :24] = 250; arr[24:, 24:] = 90
     r = medir_estabilidade(arr, criar_predict_lote(_predict_quadrante), amostras=80, pares=2)
     assert r["pares"] == 2 and r["jaccard_medio"] is not None and 0.0 <= r["jaccard_medio"] <= 1.0
+
+
+def test_predict_lote_logit_e_lote_fn():
+    from modulo_ia.xai import criar_predict_lote
+    arr = np.full((2, 8, 8, 3), 100, dtype="uint8")
+    pl = criar_predict_lote(lambda im: 0.5, "logit", predict_lote_fn=lambda ims: [0.5, 0.9])
+    r = pl(arr)
+    assert r[0] == pytest.approx(0.0) and r[1] == pytest.approx(np.log(9))
+    with pytest.raises(ValueError):
+        criar_predict_lote(lambda im: 0.5, "outro")
+
+
+def test_explicacao_slic_registra_segmentacao_e_espaco(tmp_path):
+    arr = np.zeros((64, 64, 3), dtype="uint8"); arr[:32, :32] = 250; arr[32:, 32:] = 90
+    buf = io.BytesIO(); Image.fromarray(arr).save(buf, format="PNG")
+    exp = gerar_explicabilidade_imagem(buf.getvalue(), _predict_quadrante, tmp_path, "m.png", num_samples=60,
+                                       sementes=(1, 2), tamanho=(64, 64), n_segmentos=8, espaco="logit")
+    assert exp["segmentacao"].startswith("SLIC") and exp["espaco_explicado"] == "logit"
