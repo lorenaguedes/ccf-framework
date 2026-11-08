@@ -60,7 +60,7 @@ def _classifier_fn_forcado_nsfw(conteudo: bytes) -> dict:
     return resultado
 
 
-def main(validar_ramo_nsfw: bool = False):
+def main(validar_ramo_nsfw: bool = False, xai_amostras: int = 200):
     client = get_s3_client()
     conteudo = client.get_object(Bucket=BUCKET, Key=KEY)["Body"].read()
 
@@ -87,7 +87,7 @@ def main(validar_ramo_nsfw: bool = False):
         # Explica a probabilidade REAL do modelo (mesmo no ramo forcado).
         nome_mapa = "mapa_xai_c1_forcado.png" if validar_ramo_nsfw else "mapa_xai_c1.png"
         resultado["explicabilidade"] = gerar_explicabilidade_imagem(
-            conteudo, create_opennsfw2_predict_fn(), LOGS, nome_mapa)
+            conteudo, create_opennsfw2_predict_fn(), LOGS, nome_mapa, num_samples=xai_amostras)
 
     log_entry = {
         "cenario": "C1",
@@ -113,4 +113,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executa o cenario C1 com componentes reais.")
     parser.add_argument("--validar-ramo-nsfw", action="store_true",
                         help="forca o rotulo NSFW para validar o registro de custodia (declarado no laudo)")
-    main(parser.parse_args().validar_ramo_nsfw)
+    parser.add_argument("--xai-amostras", type=int, default=200,
+                        help="perturbacoes do LIME (mais amostras tendem a estabilizar a explicacao)")
+    a = parser.parse_args()
+    main(a.validar_ramo_nsfw, a.xai_amostras)

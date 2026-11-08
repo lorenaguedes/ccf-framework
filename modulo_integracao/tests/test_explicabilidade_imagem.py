@@ -77,3 +77,12 @@ def test_montar_xai_imagem_forcado_declara_forcamento():
 
 def test_formatar_xai_aceita_texto_simples():
     assert formatar_xai("Nao aplicavel") == "Nao aplicavel"
+
+
+def test_medir_estabilidade_modelo_deterministico_e_estavel():
+    from modulo_integracao.cenarios_simulacao.experimento_xai_estabilidade import medir_estabilidade
+    from modulo_ia.xai import criar_predict_lote
+
+    arr = np.zeros((48, 48, 3), dtype="uint8"); arr[:24, :24] = 250; arr[24:, 24:] = 90
+    r = medir_estabilidade(arr, criar_predict_lote(_predict_quadrante), amostras=80, pares=2)
+    assert r["pares"] == 2 and r["jaccard_medio"] is not None and 0.0 <= r["jaccard_medio"] <= 1.0
