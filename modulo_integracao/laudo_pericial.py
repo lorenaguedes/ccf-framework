@@ -13,6 +13,7 @@ ver gerar_pdf_laudo).
 from datetime import datetime, timezone
 
 CENARIOS_VALIDOS = {"C1", "C2", "C3"}
+FLAGS_BENIGNOS = {"SFW", "NORMAL"}
 
 
 def montar_conteudo_laudo(
@@ -32,8 +33,10 @@ def montar_conteudo_laudo(
         classificacao: resultado da classificacao de IA (flag,
             probabilidade/score).
         xai_info: informacoes de explicabilidade (metodo, regioes
-            relevantes), ou None se nao aplicavel (ex: conteudo
-            benigno, sem necessidade de explicacao).
+            relevantes), ou None. Sem artefato, o laudo distingue tres
+            estados: conteudo classificado como benigno (SFW/NORMAL),
+            classificacao nao executada (sem flag) e conteudo sinalizado
+            sem artefato de explicacao.
         historico_blockchain: resultado do registro na cadeia de
             custodia (tx_id, status), ou None se nao registrado.
         cenario: identificador do cenario de simulacao (C1, C2 ou C3,
@@ -51,15 +54,28 @@ def montar_conteudo_laudo(
             "(Tabela 16, PGT)."
         )
 
-    if xai_info is None:
-        artefatos_xai = "Nao aplicavel - conteudo classificado como SFW"
-    else:
-        artefatos_xai = xai_info
+    flag = (classificacao or {}).get("flag")
+    benigno = flag in FLAGS_BENIGNOS
 
-    if historico_blockchain is None:
+    if xai_info is not None:
+        artefatos_xai = xai_info
+    elif benigno:
+        artefatos_xai = f"Nao aplicavel - conteudo classificado como {flag}"
+    elif flag is None:
+        # Nao afirma classificacao que nao ocorreu (ex.: cenario C3,
+        # que valida coleta e custodia, sem etapa de IA).
+        artefatos_xai = "Nao aplicavel - classificacao por IA nao executada neste cenario"
+    else:
+        artefatos_xai = (
+            f"Artefato de explicabilidade nao gerado para conteudo classificado como {flag}"
+        )
+
+    if historico_blockchain is not None:
+        historico_blockchain_final = historico_blockchain
+    elif benigno:
         historico_blockchain_final = "Evidencia nao registrada na cadeia de custodia (conteudo benigno)"
     else:
-        historico_blockchain_final = historico_blockchain
+        historico_blockchain_final = "Evidencia nao registrada na cadeia de custodia neste laudo"
 
     return {
         "cenario": cenario,

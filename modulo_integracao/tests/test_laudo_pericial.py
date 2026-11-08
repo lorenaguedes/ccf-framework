@@ -107,3 +107,59 @@ def test_montar_xai_texto_sem_sinalizacao_retorna_none():
     from modulo_integracao.laudo_pericial import montar_xai_texto
 
     assert montar_xai_texto({"score_grooming": 0.1, "flag": "NORMAL", "trechos_relevantes": []}) is None
+
+
+def _evidencia_minima():
+    return {
+        "bucket": "b", "key": "k", "cloud_provider": "aws",
+        "collected_at": "2026-01-01T00:00:00+00:00",
+        "hashes": {"sha256": "a" * 64, "md5": "b" * 32},
+    }
+
+
+def test_laudo_sem_classificacao_nao_afirma_classificacao_inexistente():
+    """Cenario sem etapa de IA (ex.: C3) nao pode constar como
+    'classificado como SFW': o laudo deve declarar que a classificacao
+    nao foi executada."""
+    from modulo_integracao.laudo_pericial import montar_conteudo_laudo
+
+    conteudo = montar_conteudo_laudo(
+        evidencia=_evidencia_minima(),
+        classificacao={"observacao": "correlacao multi-nuvem"},
+        xai_info=None,
+        historico_blockchain={"status": "success"},
+        cenario="C3",
+    )
+    assert "SFW" not in conteudo["artefatos_xai"]
+    assert "nao executada" in conteudo["artefatos_xai"]
+
+
+def test_laudo_conteudo_sinalizado_sem_artefato_nao_diz_nao_aplicavel():
+    """Conteudo sinalizado sem artefato de explicacao deve constar como
+    explicacao nao gerada, e nao como 'nao aplicavel'."""
+    from modulo_integracao.laudo_pericial import montar_conteudo_laudo
+
+    conteudo = montar_conteudo_laudo(
+        evidencia=_evidencia_minima(),
+        classificacao={"flag": "SUSPEITO", "score_grooming": 0.9},
+        xai_info=None,
+        historico_blockchain=None,
+        cenario="C2",
+    )
+    assert "nao gerado" in conteudo["artefatos_xai"]
+    assert "SUSPEITO" in conteudo["artefatos_xai"]
+    assert "benigno" not in conteudo["historico_blockchain"]
+
+
+def test_laudo_conteudo_normal_e_tratado_como_benigno():
+    """Flag NORMAL (texto) segue a mesma regra do SFW (imagem)."""
+    from modulo_integracao.laudo_pericial import montar_conteudo_laudo
+
+    conteudo = montar_conteudo_laudo(
+        evidencia=_evidencia_minima(),
+        classificacao={"flag": "NORMAL", "score_grooming": 0.05},
+        xai_info=None,
+        historico_blockchain=None,
+        cenario="C2",
+    )
+    assert conteudo["artefatos_xai"] == "Nao aplicavel - conteudo classificado como NORMAL"
