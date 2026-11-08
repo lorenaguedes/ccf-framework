@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Atalho do framework CCF: ./ccf <comando>   (./ccf --ajuda lista os comandos)
+cd "$(dirname "$0")" || exit 1
+exec poetry run python -m ccf_cli "$@"

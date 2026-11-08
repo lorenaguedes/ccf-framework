@@ -58,7 +58,7 @@ def _grooming_classifier_fn_real(texto: str) -> dict:
 _CUSTODY_REGISTER_FN = criar_custody_register_fn("c2")
 
 
-def main():
+def main(controle: bool = False):
     container_id = "container-msgs-c2"
     log_path = "/logs/conversa.txt"
 
@@ -82,17 +82,26 @@ def main():
         "observacao": "Classificacao com o modelo E4 real (embeddings multilingues + regressao logistica; nao forcada). Triagem sujeita a revisao humana; ver ADR 008 e secao 4.4.4.7 do PGT.",
     }
 
-    log_path_output = Path(__file__).parent.parent / "logs" / "cenario_c2_execucao.json"
-    with open(log_path_output, "w") as f:
-        json.dump(log_entry, f, indent=2, default=str)
+    if controle:
+        log_entry["modo"] = "controle_benigno"
+    logs = Path(__file__).parent.parent / "logs"
+    log_path_output = logs / ("cenario_c2_controle.json" if controle else "cenario_c2_execucao.json")
+    with open(log_path_output, "w", encoding="utf-8") as f:
+        json.dump(log_entry, f, indent=2, default=str, ensure_ascii=False)
 
     print(json.dumps(log_entry, indent=2, default=str))
     print(f"\nLog salvo em: {log_path_output}")
     
     from modulo_integracao.cenarios_simulacao.gerar_laudo_c2 import gerar_laudo_c2
-    gerar_laudo_c2()
-    print("Laudo salvo em: modulo_integracao/logs/laudo_c2.pdf")
+    saida = logs / ("laudo_c2_controle.pdf" if controle else "laudo_c2.pdf")
+    gerar_laudo_c2(log_path_output, saida)
+    print(f"Laudo salvo em: {saida}")
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Executa o cenario C2 com componentes reais.")
+    parser.add_argument("--controle", action="store_true",
+                        help="caso de controle benigno (a conversa do container deve ser a normal)")
+    main(parser.parse_args().controle)

@@ -152,6 +152,25 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_c4_real
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c4_real --controle
 ```
 
+## Interface de linha de comando (`./ccf`)
+
+Atalho para não digitar módulos longos. Todas as execuções usam dados sintéticos.
+
+```bash
+./ccf status                 # emuladores, rede Fabric, versão do chaincode (esperada 2.0) e logs
+./ccf ambiente               # sobe LocalStack, Azurite e fake-gcs-server   (./ccf ambiente parar)
+./ccf fabric iniciar         # rede Fabric + canal + chaincode v2           (./ccf fabric deploy atualiza o chaincode, ledger preservado)
+./ccf preparar               # evidências sintéticas nos emuladores e container do C2
+./ccf cenario c4             # c1 | c2 | c3 | c4 | adulteracao | todos
+./ccf cenario c4 --controle  # caso de controle benigno (também c2)
+./ccf cenario c1 --forcado   # classificador forçado, declarado no laudo
+./ccf demo --pausar          # C4, controle e adulteração, com Enter entre os passos (--completo inclui C1–C3)
+./ccf resumo                 # tabela dos logs        ./ccf laudos   # lista os PDFs
+./ccf testes --go            # pytest + go test do chaincode
+```
+
+`./ccf status` aponta chaincode desatualizado antes de qualquer execução; `./ccf demo` aborta se a infraestrutura estiver incompleta. `./ccf --ajuda` lista os comandos.
+
 ## Testes e Qualidade
 
 | Módulo | Testes | Cobertura |

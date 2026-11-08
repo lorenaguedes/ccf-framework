@@ -32,6 +32,9 @@ from typing import Callable
 FABRIC_TEST_NETWORK_DIR = Path.home() / "fabric-dev/fabric-samples/test-network"
 CANAL = "ccfchannel"
 CHAINCODE = "custody"
+# Versao do chaincode que este cliente espera (RegistrarEvidencia com 6 argumentos,
+# validacao no contrato). A CLI 'ccf status' compara com a versao implantada.
+CHAINCODE_VERSAO_ESPERADA = "2.0"
 
 _RE_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
@@ -50,6 +53,11 @@ def _ambiente(rede_dir: Path) -> dict:
         "CORE_PEER_ADDRESS": "localhost:7051",
     })
     return env
+
+
+def ambiente_peer(rede_dir: Path = FABRIC_TEST_NETWORK_DIR) -> dict:
+    """Variaveis de ambiente do peer CLI (organizacao 1, administrador)."""
+    return _ambiente(rede_dir)
 
 
 def _comando_invoke(rede_dir: Path, funcao: str, args: list) -> list:
