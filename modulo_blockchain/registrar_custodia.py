@@ -39,25 +39,32 @@ CHAINCODE_VERSAO_ESPERADA = "2.0"
 _RE_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
-def _ambiente(rede_dir: Path) -> dict:
-    """Variaveis de ambiente do peer CLI (organizacao 1, administrador)."""
-    org = rede_dir / "organizations" / "peerOrganizations" / "org1.example.com"
+_ORGS = {
+    1: {"msp": "Org1MSP", "dominio": "org1.example.com", "porta": 7051},
+    2: {"msp": "Org2MSP", "dominio": "org2.example.com", "porta": 9051},
+}
+
+
+def _ambiente(rede_dir: Path, org: int = 1) -> dict:
+    """Variaveis de ambiente do peer CLI (administrador da organizacao `org`)."""
+    cfg = _ORGS[org]
+    base = rede_dir / "organizations" / "peerOrganizations" / cfg["dominio"]
     env = dict(os.environ)
     env.update({
         "PATH": f"{rede_dir.parent / 'bin'}{os.pathsep}{os.environ.get('PATH', '')}",
         "FABRIC_CFG_PATH": str(rede_dir.parent / "config"),
         "CORE_PEER_TLS_ENABLED": "true",
-        "CORE_PEER_LOCALMSPID": "Org1MSP",
-        "CORE_PEER_TLS_ROOTCERT_FILE": str(org / "peers/peer0.org1.example.com/tls/ca.crt"),
-        "CORE_PEER_MSPCONFIGPATH": str(org / "users/Admin@org1.example.com/msp"),
-        "CORE_PEER_ADDRESS": "localhost:7051",
+        "CORE_PEER_LOCALMSPID": cfg["msp"],
+        "CORE_PEER_TLS_ROOTCERT_FILE": str(base / f"peers/peer0.{cfg['dominio']}/tls/ca.crt"),
+        "CORE_PEER_MSPCONFIGPATH": str(base / f"users/Admin@{cfg['dominio']}/msp"),
+        "CORE_PEER_ADDRESS": f"localhost:{cfg['porta']}",
     })
     return env
 
 
-def ambiente_peer(rede_dir: Path = FABRIC_TEST_NETWORK_DIR) -> dict:
-    """Variaveis de ambiente do peer CLI (organizacao 1, administrador)."""
-    return _ambiente(rede_dir)
+def ambiente_peer(rede_dir: Path = FABRIC_TEST_NETWORK_DIR, org: int = 1) -> dict:
+    """Variaveis de ambiente do peer CLI (administrador da organizacao `org`)."""
+    return _ambiente(rede_dir, org)
 
 
 def _comando_invoke(rede_dir: Path, funcao: str, args: list) -> list:
@@ -227,4 +234,61 @@ def registrar_e_verificar(
         "hash": hash_sha256,
         "hash_no_ledger": hash_ledger,
         "acao": acao,
+    }
+
+
+def transferir_custodia(
+    evidence_id: str,
+    msp_cessionario: str,
+    motivacao: str,
+    org: int = 1,
+    rede_dir: Path = FABRIC_TEST_NETWORK_DIR,
+    runner: Callable = subprocess.run,
+    tentativas_confirmacao: int = 15,
+    intervalo_confirmacao: float = 2.0,
+    dormir: Callable = time.sleep,
+    relogio: Callable = time.monotonic,
+) -> dict:
+    """Transfere a custodia da evidencia, com a identidade da organizacao `org`.
+
+    O contrato so aceita a transferencia se o MSP do chamador for o custodiante
+    atual; a rejeicao chega aqui como RuntimeError com a mensagem do contrato
+    (ja decodificada). Apos o invoke, consulta o ledger ate o historico de
+    transferencias crescer, o que confirma o commit do bloco.
+
+    Returns:
+        {"status": "success", "evidence_id", "custodiante_atual",
+         "n_transferencias", "latencia_confirmacao_s"}
+    """
+    if not evidence_id or not msp_cessionario or not motivacao:
+        raise ValueError("evidence_id, msp_cessionario e motivacao sao obrigatorios.")
+    antes = consultar_evidencia(evidence_id, rede_dir, runner)
+    if antes is None:
+        raise RuntimeError(f"Evidencia '{evidence_id}' nao encontrada no ledger.")
+    n_antes = len(antes.get("historico_transferencias") or [])
+
+    inicio = relogio()
+    args = [evidence_id, msp_cessionario, motivacao]
+    r = runner(_comando_invoke(rede_dir, "TransferirCustodia", args),
+               env=_ambiente(rede_dir, org), capture_output=True, text=True)
+    saida = f"{r.stdout}\n{r.stderr}"
+    if r.returncode != 0 or "status:200" not in saida:
+        raise RuntimeError(_mensagem_falha("Falha ao transferir a custodia", saida))
+
+    atual = None
+    for tentativa in range(tentativas_confirmacao):
+        atual = consultar_evidencia(evidence_id, rede_dir, runner)
+        if atual is not None and len(atual.get("historico_transferencias") or []) > n_antes:
+            break
+        atual = None
+        if tentativa < tentativas_confirmacao - 1:
+            dormir(intervalo_confirmacao)
+    if atual is None:
+        raise RuntimeError("Transferencia enviada, mas nao confirmada no ledger no prazo.")
+    return {
+        "status": "success",
+        "evidence_id": evidence_id,
+        "custodiante_atual": atual.get("custodiante_atual"),
+        "n_transferencias": len(atual["historico_transferencias"]),
+        "latencia_confirmacao_s": round(relogio() - inicio, 3),
     }

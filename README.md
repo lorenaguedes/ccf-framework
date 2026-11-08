@@ -137,6 +137,7 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_c1_real --val
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c2_real
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real   # gera 3 laudos por provedor + laudo_c3_consolidado.pdf
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_adulteracao_real   # teste negativo: a adulteracao de 1 byte e detectada
+poetry run python -m modulo_integracao.cenarios_simulacao.executar_custodia_completa_real   # H2: transferencia Org1->Org2, rejeicoes e cadeia reconstituida do ledger
 ```
 
 **Cenário C4 (caso multimodal, adicional à Tabela 16).** Reúne imagem (AWS),
@@ -161,7 +162,7 @@ Atalho para não digitar módulos longos. Todas as execuções usam dados sinté
 ./ccf ambiente               # sobe LocalStack, Azurite e fake-gcs-server   (./ccf ambiente parar)
 ./ccf fabric iniciar         # rede Fabric + canal + chaincode v2           (./ccf fabric deploy atualiza o chaincode, ledger preservado)
 ./ccf preparar               # evidências sintéticas nos emuladores e container do C2
-./ccf cenario c4             # c1 | c2 | c3 | c4 | adulteracao | todos
+./ccf cenario c4             # c1 | c2 | c3 | c4 | adulteracao | custodia | todos
 ./ccf cenario c4 --controle  # caso de controle benigno (também c2)
 ./ccf cenario c1 --forcado   # classificador forçado, declarado no laudo
 ./ccf demo --pausar          # C4, controle e adulteração, com Enter entre os passos (--completo inclui C1–C3)
@@ -176,9 +177,9 @@ Atalho para não digitar módulos longos. Todas as execuções usam dados sinté
 | Módulo | Testes | Cobertura |
 |---|---|---|
 | Coleta Multi-Nuvem (AWS/Azure/GCP/Docker) | 27+ | ~100% |
-| Blockchain (chaincode custody) | 19 (Go) + 13 (cliente Python) | — |
+| Blockchain (chaincode custody) | 19 (Go) + 21 (cliente Python) | — |
 | IA Multi-Modal (E1–E6) | 54 | 97% (`modulo_ia`; E4: 96%) |
-| Integração (C1/C2/C3 + Laudo Pericial + adulteração + C4 multimodal) | 65 | — |
+| Integração (C1/C2/C3 + Laudo Pericial + adulteração + C4 multimodal + custódia completa) | 74 | — |
 
 ## Estágios do Pipeline de IA (Tabela 12, PGT)
 

@@ -5,7 +5,7 @@ CLI do framework CCF: comandos curtos no lugar das chamadas longas de modulos.
   ./ccf ambiente [up|parar]     emuladores multi-cloud (LocalStack, Azurite, fake-gcs)
   ./ccf fabric [iniciar|deploy|parar]   rede Hyperledger Fabric e chaincode v2
   ./ccf preparar                cria as evidencias SINTETICAS nos emuladores e no container C2
-  ./ccf cenario c1|c2|c3|c4|adulteracao|todos [--controle] [--forcado]
+  ./ccf cenario c1|c2|c3|c4|adulteracao|custodia|todos [--controle] [--forcado]
   ./ccf demo [--completo] [--pausar]
   ./ccf resumo                  tabela dos logs de execucao
   ./ccf laudos                  lista os laudos PDF gerados
@@ -28,8 +28,9 @@ EMULADORES = ("localstack", "azurite", "fake-gcs-server")
 PEER = "peer0.org1.example.com"
 LOGS_ESPERADOS = ("cenario_c1_ramo_nsfw_forcado.json", "cenario_c2_execucao.json",
                   "cenario_c3_execucao.json", "cenario_c4_execucao.json",
-                  "cenario_c4_controle.json", "teste_adulteracao_execucao.json")
-CENARIOS = ("c1", "c2", "c3", "c4", "adulteracao")
+                  "cenario_c4_controle.json", "teste_adulteracao_execucao.json",
+                  "cenario_custodia_completa.json")
+CENARIOS = ("c1", "c2", "c3", "c4", "adulteracao", "custodia")
 
 
 def _py(modulo: str, *args: str) -> list:
@@ -49,6 +50,8 @@ def comandos_cenario(nome: str, controle: bool = False, forcado: bool = False) -
         return [_py("executar_c4_real", *(["--controle"] if controle else []))]
     if nome == "adulteracao":
         return [_py("executar_adulteracao_real")]
+    if nome == "custodia":
+        return [_py("executar_custodia_completa_real")]
     raise ValueError(f"cenario desconhecido: {nome}")
 
 
@@ -159,7 +162,8 @@ def cmd_cenario(args, executar) -> int:
 def cmd_demo(args, executar, entrada=input) -> int:
     passos = [("Caso multimodal C4 (suspeito)", comandos_cenario("c4")),
               ("Caso de controle benigno C4", comandos_cenario("c4", controle=True)),
-              ("Teste de adulteracao de 1 byte", comandos_cenario("adulteracao"))]
+              ("Teste de adulteracao de 1 byte", comandos_cenario("adulteracao")),
+              ("Custodia completa: transferencia entre organizacoes", comandos_cenario("custodia"))]
     if args.completo:
         passos = ([("C1 (ramo NSFW forcado)", comandos_cenario("c1", forcado=True)),
                    ("C2 (conversa -> grooming)", comandos_cenario("c2")),

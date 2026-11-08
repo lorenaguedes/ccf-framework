@@ -38,10 +38,10 @@ def test_cenario_c2_prepara_antes_de_executar():
     assert cmds[0][-1] == cmds[1][-1] == "--controle"
 
 
-def test_todos_executa_cinco_cenarios_e_interrompe_na_falha():
+def test_todos_executa_seis_cenarios_e_interrompe_na_falha():
     f = Falso()
     cli.main(["cenario", "todos"], f)
-    assert len(f.chamadas) == 6  # c2 tem 2 comandos
+    assert len(f.chamadas) == 7  # c2 tem 2 comandos
     f = Falso(falha_em="executar_c1_real")
     assert cli.main(["cenario", "todos"], f) == 1
     assert len(f.chamadas) == 1
@@ -103,3 +103,9 @@ def test_fabric_iniciar_em_rede_nova_usa_sequencia_1():
 def test_acao_invalida_rejeitada():
     with pytest.raises(SystemExit):
         cli.main(["fabric", "explodir"], Falso())
+
+
+def test_cenario_custodia_gera_comando():
+    f = Falso()
+    assert cli.main(["cenario", "custodia"], f) == 0
+    assert f.chamadas[0][-1].endswith("executar_custodia_completa_real")
