@@ -16,7 +16,7 @@ Autora: Lorena Guedes.
 - ✅ Módulo de Coleta Multi-Nuvem (AWS, Azure, GCP, Docker)
 - ✅ Módulo de Blockchain (Hyperledger Fabric — chaincode de custódia)
 - ✅ Módulo de IA Multi-Modal (6 estágios: E1–E6)
-- ✅ Módulo de Integração (3 cenários RF14, laudo pericial RF12)
+- ✅ Módulo de Integração (cenários C1–C3 da Tabela 16 + C4 multimodal adicional, RF14; laudo pericial RF12)
 - ✅ Fase 6 — Validação (comparação com ferramentas tradicionais, matriz de riscos)
 
 ## Arquitetura
@@ -139,6 +139,19 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real   # g
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_adulteracao_real   # teste negativo: a adulteracao de 1 byte e detectada
 ```
 
+**Cenário C4 (caso multimodal, adicional à Tabela 16).** Reúne imagem (AWS),
+conversa (Azure) e logs de acesso (GCP) sintéticos em um único caso, aplica
+E1/E2/E4/E5 (E3 somente se o E2 sinalizar NSFW), avalia o caso por regras
+explícitas (R1–R4, ver `modulo_integracao/avaliacao_caso.py`: prioridade de
+revisão, sem soma de escores) e emite o laudo do caso. O caso de controle
+benigno deve resultar em prioridade BAIXA e nenhum registro de custódia.
+
+```
+poetry run python -m modulo_integracao.cenarios_simulacao.preparar_ambiente_c4
+poetry run python -m modulo_integracao.cenarios_simulacao.executar_c4_real
+poetry run python -m modulo_integracao.cenarios_simulacao.executar_c4_real --controle
+```
+
 ## Testes e Qualidade
 
 | Módulo | Testes | Cobertura |
@@ -146,7 +159,7 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_adulteracao_r
 | Coleta Multi-Nuvem (AWS/Azure/GCP/Docker) | 27+ | ~100% |
 | Blockchain (chaincode custody) | 19 (Go) + 13 (cliente Python) | — |
 | IA Multi-Modal (E1–E6) | 54 | 97% (`modulo_ia`; E4: 96%) |
-| Integração (C1/C2/C3 + Laudo Pericial + adulteração) | 35 | — |
+| Integração (C1/C2/C3 + Laudo Pericial + adulteração + C4 multimodal) | 65 | — |
 
 ## Estágios do Pipeline de IA (Tabela 12, PGT)
 

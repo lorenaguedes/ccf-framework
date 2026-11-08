@@ -118,3 +118,13 @@ def test_laudo_consolidado_rejeita_entradas_invalidas():
         montar_conteudo_laudo_consolidado([], {}, {}, cenario="C3")
     with pytest.raises(ValueError):
         montar_conteudo_laudo_consolidado([_ev("aws", H_AWS)], {}, {}, cenario="C9")
+
+
+def test_tipo_de_artefato_usa_a_modalidade_quando_informada():
+    from modulo_integracao.cenarios_simulacao.custodia_real import tipo_artefato
+    assert tipo_artefato({"modalidade": "texto", "blob_name": "conversa.txt"}) == "mensagens"
+    assert tipo_artefato({"modalidade": "logs", "blob_name": "log.csv"}) == "logs"
+    assert tipo_artefato({"modalidade": "imagem", "key": "x.bin"}) == "imagem"
+    # sem modalidade, mantem o comportamento anterior (pela extensao)
+    assert tipo_artefato({"key": "foto.jpg"}) == "imagem"
+    assert tipo_artefato({"blob_name": "x.txt", "cloud_provider": "azure"}) == "arquivo"

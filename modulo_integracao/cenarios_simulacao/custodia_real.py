@@ -13,8 +13,15 @@ from modulo_blockchain.registrar_custodia import registrar_e_verificar
 _EXTENSOES_IMAGEM = (".jpg", ".jpeg", ".png", ".gif", ".bmp")
 
 
+_TIPO_POR_MODALIDADE = {"imagem": "imagem", "texto": "mensagens", "logs": "logs"}
+
+
 def tipo_artefato(metadados: dict) -> str:
-    """Classifica o artefato pelo identificador (imagem, mensagens ou arquivo)."""
+    """Classifica o artefato: pela modalidade, quando informada (cenario
+    multimodal C4); senao, pelo identificador (imagem, mensagens ou arquivo)."""
+    modalidade = metadados.get("modalidade")
+    if modalidade in _TIPO_POR_MODALIDADE:
+        return _TIPO_POR_MODALIDADE[modalidade]
     ident = str(metadados.get("key") or metadados.get("blob_name") or metadados.get("log_path") or "").lower()
     if ident.endswith(_EXTENSOES_IMAGEM):
         return "imagem"

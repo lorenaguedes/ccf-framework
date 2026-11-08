@@ -12,7 +12,7 @@ ver gerar_pdf_laudo).
 """
 from datetime import datetime, timezone
 
-CENARIOS_VALIDOS = {"C1", "C2", "C3"}
+CENARIOS_VALIDOS = {"C1", "C2", "C3", "C4"}
 FLAGS_BENIGNOS = {"SFW", "NORMAL"}
 
 
@@ -242,6 +242,180 @@ def gerar_pdf_laudo_consolidado(conteudo: dict, output_path: str) -> None:  # pr
             texto = f"<b>{ev['cloud_provider']}</b>: {h}"
         story.append(Paragraph(texto, styles["Normal"]))
         story.append(Spacer(1, 4))
+
+    doc.build(story)
+
+
+def _resumo_estagio(nome: str, d: dict) -> str:
+    """Uma linha legivel por estagio, fiel ao que o estagio retornou."""
+    if d.get("executado") is False:
+        return f"{nome}: nao executado ({d.get('motivo', 'sem motivo informado')})"
+    flag = d.get("flag")
+    detalhes = {
+        "E1": f"similaridade {d.get('score_similaridade')}",
+        "E2": f"probabilidade NSFW {d.get('probabilidade_nsfw')}",
+        "E3": f"idade estimada {d.get('idade_estimada')}",
+        "E4": f"escore {d.get('score_grooming')}",
+        "E5": f"{d.get('n_anomalos')} de {d.get('n_registros')} registros anomalos",
+    }.get(nome, "")
+    extra = " [referencia SIMULADA]" if d.get("base_referencia_simulada") else ""
+    return f"{nome}: {flag} ({detalhes}){extra}"
+
+
+def montar_conteudo_laudo_caso(
+    resultado: dict,
+    cenario: str = "C4",
+    limiar_e4: float | None = None,
+    declaracoes: list | None = None,
+) -> dict:
+    """Monta o laudo de um CASO MULTIMODAL (Cenario C4): avaliacao do caso,
+    evidencias de varias modalidades, resultados por estagio, explicacao
+    (apenas onde existe artefato), custodia e declaracoes de limitacao.
+
+    O laudo nao afirma o que nao ocorreu: estagio nao executado consta como
+    tal, evidencia sem indicio consta como nao registrada e a explicacao
+    so e apresentada para a modalidade que a produz (texto, E4).
+
+    Args:
+        resultado: retorno de executar_cenario_c4 (com, opcionalmente,
+            'verificacao_integridade' dentro de cada registro de custodia).
+        limiar_e4: limiar do E4, para constar no artefato de explicacao.
+        declaracoes: ressalvas de uso de dados/bases simulados ou sinteticos.
+
+    Raises:
+        ValueError: cenario invalido, ou caso sem avaliacao (nada foi analisado).
+    """
+    if cenario not in CENARIOS_VALIDOS:
+        raise ValueError(f"Cenario invalido: '{cenario}'. Deve ser um de {CENARIOS_VALIDOS}.")
+    if resultado.get("avaliacao_caso") is None:
+        raise ValueError("Caso sem avaliacao: nenhuma evidencia foi analisada; nao ha laudo a emitir.")
+
+    itens = []
+    for ev in resultado["evidencias"]:
+        coleta, modalidade = ev["coleta"], ev["modalidade"]
+        tem_indicio = bool(ev["indicios"])
+
+        if modalidade == "texto" and tem_indicio:
+            xai = montar_xai_texto(ev["estagios"]["E4"], limiar_e4) or \
+                "Artefato de explicabilidade nao gerado para esta evidencia"
+        elif tem_indicio:
+            xai = "Artefato de explicabilidade nao gerado para esta modalidade neste cenario"
+        else:
+            xai = "Nao aplicavel - sem indicio nesta evidencia"
+
+        if ev.get("registro_custodia") is not None:
+            custodia = ev["registro_custodia"]
+        elif modalidade in resultado.get("erros_custodia", {}):
+            custodia = f"Falha no registro de custodia: {resultado['erros_custodia'][modalidade]}"
+        elif not tem_indicio:
+            custodia = "Evidencia nao registrada na cadeia de custodia (sem indicio)"
+        else:
+            custodia = "Evidencia nao registrada na cadeia de custodia neste laudo"
+
+        itens.append({
+            "modalidade": modalidade,
+            "cloud_provider": coleta["cloud_provider"],
+            "origem": coleta.get("bucket") or coleta.get("container"),
+            "identificador": coleta.get("key") or coleta.get("blob_name"),
+            "hash": coleta["hashes"],
+            "coletado_em": coleta["collected_at"],
+            "estagios": [_resumo_estagio(n, d) for n, d in ev["estagios"].items()],
+            "indicios": ev["indicios"],
+            "artefatos_xai": xai,
+            "historico_blockchain": custodia,
+        })
+
+    return {
+        "cenario": cenario,
+        "gerado_em": datetime.now(timezone.utc).isoformat(),
+        "avaliacao_caso": resultado["avaliacao_caso"],
+        "evidencias": itens,
+        "erros_coleta": resultado.get("erros_coleta", {}),
+        "declaracoes": list(declaracoes or []),
+    }
+
+
+def gerar_pdf_laudo_caso(conteudo: dict, output_path: str) -> None:  # pragma: no cover
+    """Renderiza o laudo do caso multimodal em PDF (validado por inspecao)."""
+    from xml.sax.saxutils import escape
+
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import letter
+    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+    from reportlab.lib.units import cm
+    from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+
+    doc = SimpleDocTemplate(output_path, pagesize=letter, topMargin=2*cm, bottomMargin=2*cm,
+                            leftMargin=1.8*cm, rightMargin=1.8*cm)
+    st = getSampleStyleSheet()
+    titulo = ParagraphStyle("TituloCaso", parent=st["Title"], fontSize=16, spaceAfter=12)
+    secao = ParagraphStyle("SecaoCaso", parent=st["Heading2"], fontSize=12, spaceBefore=14, spaceAfter=6)
+    celula = ParagraphStyle("CelulaCaso", parent=st["Normal"], fontSize=8, leading=10)
+    hash_estilo = ParagraphStyle("HashCaso", parent=celula, fontName="Courier", fontSize=6.5, leading=8)
+    p = lambda t, estilo=None: Paragraph(escape(str(t)), estilo or st["Normal"])  # noqa: E731
+
+    av = conteudo["avaliacao_caso"]
+    story = [
+        Paragraph("Laudo Pericial de Caso Multimodal - Framework CCF", titulo),
+        p(f"Cenario de Investigacao: {conteudo['cenario']} | Gerado em: {conteudo['gerado_em']}"),
+        Paragraph("1. Avaliacao do Caso (prioridade de revisao pericial)", secao),
+        Paragraph(f"<b>Prioridade:</b> {av['prioridade']} &nbsp; <b>Regra aplicada:</b> "
+                  f"{av['regra_aplicada']} ({escape(av['justificativa'])})", st["Normal"]),
+        p(f"Modalidades com indicio: {', '.join(av['modalidades_com_indicio']) or 'nenhuma'}"),
+    ]
+    if av["avaliacao_incompleta"]:
+        story.append(Paragraph("<b>AVALIACAO INCOMPLETA.</b> Pendencias: "
+                               f"{escape(', '.join(av['pendencias']))}", st["Normal"]))
+    story.append(p(av["ressalva"]))
+
+    story.append(Paragraph("2. Evidencias, Metadados e Hashes de Integridade", secao))
+    linhas = [["Modalidade", "Provedor", "Origem / identificador", "SHA-256"]]
+    for ev in conteudo["evidencias"]:
+        linhas.append([Paragraph(ev["modalidade"], celula), Paragraph(ev["cloud_provider"], celula),
+                       Paragraph(escape(f"{ev['origem']} / {ev['identificador']}"), celula),
+                       Paragraph(ev["hash"]["sha256"], hash_estilo)])
+    t = Table(linhas, colWidths=[2.0*cm, 1.8*cm, 5.6*cm, 8.2*cm], repeatRows=1)
+    t.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#2c3e50")),
+                           ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+                           ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
+                           ("FONTSIZE", (0, 0), (-1, 0), 8), ("VALIGN", (0, 0), (-1, -1), "TOP")]))
+    story.append(t)
+
+    story.append(Paragraph("3. Resultados por Estagio e Indicios", secao))
+    for ev in conteudo["evidencias"]:
+        story.append(Paragraph(f"<b>{escape(ev['modalidade'])} ({escape(ev['cloud_provider'])})</b>", st["Normal"]))
+        for linha in ev["estagios"]:
+            story.append(p(f"- {linha}"))
+        for i in ev["indicios"]:
+            story.append(p(f"Indicio {i['forca']} ({i['estagio']}): {i['descricao']}"))
+        story.append(Spacer(1, 4))
+
+    story.append(Paragraph("4. Artefatos de Explicabilidade (XAI)", secao))
+    for ev in conteudo["evidencias"]:
+        x = ev["artefatos_xai"]
+        if isinstance(x, dict):
+            story.append(p(f"{ev['modalidade']}: {x['metodo']}; escore {x['escore']}; limiar {x['limiar']}."))
+            for trecho in x["trechos_relevantes"]:
+                story.append(p(f'   trecho relevante: "{trecho}"'))
+            story.append(p(x["ressalva"]))
+        else:
+            story.append(p(f"{ev['modalidade']}: {x}"))
+
+    story.append(Paragraph("5. Historico de Cadeia de Custodia (Blockchain)", secao))
+    for ev in conteudo["evidencias"]:
+        h = ev["historico_blockchain"]
+        if isinstance(h, dict):
+            ver = h.get("verificacao_integridade") or {}
+            story.append(p(f"{ev['modalidade']}: registrada (ID {h.get('evidence_id')}; status "
+                           f"{h.get('status')}; acao {h.get('acao')}). Integridade na recoleta: "
+                           f"{ver.get('integridade_valida', 'nao verificada')}."))
+        else:
+            story.append(p(f"{ev['modalidade']}: {h}"))
+
+    if conteudo["declaracoes"]:
+        story.append(Paragraph("6. Declaracoes e Limitacoes", secao))
+        for d in conteudo["declaracoes"]:
+            story.append(p(f"- {d}"))
 
     doc.build(story)
 
