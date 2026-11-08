@@ -1,6 +1,6 @@
 {
   "cenario": "C3",
-  "executado_em": "2026-07-22T17:11:24.508554+00:00",
+  "executado_em": "2026-11-08T05:44:25.799720+00:00",
   "resultado": {
     "evidencias": [
       {
@@ -8,11 +8,11 @@
         "key": "evidencia-c1-real.jpg",
         "cloud_provider": "aws",
         "hashes": {
-          "sha256": "1b33f05aac9b7727df59bc1d3774c8d5b2fd17904535da342eec90d8cea8c0f3",
-          "md5": "b06e103aa1c41c76cbf35359a120eb16"
+          "sha256": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+          "md5": "6c739f7df56d5cff6beb0805462f8c5c"
         },
         "size_bytes": 1412,
-        "collected_at": "2026-07-22T17:11:24.492505+00:00"
+        "collected_at": "2026-11-08T05:44:25.471134+00:00"
       },
       {
         "bucket": "ccf-evidence-bucket-gcp",
@@ -23,7 +23,7 @@
           "md5": "cbebd43a8b8e0d8685a5998bd564ee93"
         },
         "size_bytes": 45,
-        "collected_at": "2026-07-22T17:11:24.497784+00:00"
+        "collected_at": "2026-11-08T05:44:25.476445+00:00"
       },
       {
         "container": "ccf-evidence-container",
@@ -34,27 +34,33 @@
           "md5": "3606c9ff2d510bde7200cf528ab3414c"
         },
         "size_bytes": 47,
-        "collected_at": "2026-07-22T17:11:24.508461+00:00"
+        "collected_at": "2026-11-08T05:44:25.483697+00:00"
       }
     ],
     "registros_custodia": [
       {
-        "evidence_id": "evid-c3-aws",
         "status": "success",
+        "evidence_id": "evid-c3-aws-ee7911c243c8",
         "chaincode_status": 200,
-        "hash": "1b33f05aac9b7727df59bc1d3774c8d5b2fd17904535da342eec90d8cea8c0f3"
+        "hash": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+        "hash_no_ledger": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+        "acao": "ja_registrada"
       },
       {
-        "evidence_id": "evid-c3-gcp",
         "status": "success",
+        "evidence_id": "evid-c3-gcp-8e4c74fe4b8b",
         "chaincode_status": 200,
-        "hash": "8e4c74fe4b8b009c18e7a0d93573c189ed63a7d580ffb115ebc75b863d50a8f0"
+        "hash": "8e4c74fe4b8b009c18e7a0d93573c189ed63a7d580ffb115ebc75b863d50a8f0",
+        "hash_no_ledger": "8e4c74fe4b8b009c18e7a0d93573c189ed63a7d580ffb115ebc75b863d50a8f0",
+        "acao": "ja_registrada"
       },
       {
-        "evidence_id": "evid-c3-azure",
         "status": "success",
+        "evidence_id": "evid-c3-azure-0222f7eea167",
         "chaincode_status": 200,
-        "hash": "0222f7eea16788c0743ba2f7f4a0fa9950e4b09f19d6d1babe256f8b93bd3cba"
+        "hash": "0222f7eea16788c0743ba2f7f4a0fa9950e4b09f19d6d1babe256f8b93bd3cba",
+        "hash_no_ledger": "0222f7eea16788c0743ba2f7f4a0fa9950e4b09f19d6d1babe256f8b93bd3cba",
+        "acao": "ja_registrada"
       }
     ],
     "correlacao": {
@@ -66,21 +72,33 @@
       ]
     },
     "erros_por_provider": {},
-    "status_pipeline": "SUCESSO_END_TO_END",
-    "verificacao_integridade": {
-      "aws": {
-        "hash": "1b33f05aac9b7727df59bc1d3774c8d5b2fd17904535da342eec90d8cea8c0f3",
-        "integridade_valida": true
+    "erros_custodia": {},
+    "status_pipeline": "SUCESSO",
+    "verificacoes_integridade": [
+      {
+        "cloud_provider": "aws",
+        "evidencia_id": "evid-c3-aws-ee7911c243c8",
+        "hash_original": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+        "hash_recalculado": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+        "integridade_valida": true,
+        "historico_transferencias": []
       },
-      "gcp": {
-        "hash": "8e4c74fe4b8b009c18e7a0d93573c189ed63a7d580ffb115ebc75b863d50a8f0",
-        "integridade_valida": true
+      {
+        "cloud_provider": "gcp",
+        "evidencia_id": "evid-c3-gcp-8e4c74fe4b8b",
+        "hash_original": "8e4c74fe4b8b009c18e7a0d93573c189ed63a7d580ffb115ebc75b863d50a8f0",
+        "hash_recalculado": "8e4c74fe4b8b009c18e7a0d93573c189ed63a7d580ffb115ebc75b863d50a8f0",
+        "integridade_valida": true,
+        "historico_transferencias": []
       },
-      "azure": {
-        "hash": "0222f7eea16788c0743ba2f7f4a0fa9950e4b09f19d6d1babe256f8b93bd3cba",
-        "integridade_valida": true
+      {
+        "cloud_provider": "azure",
+        "evidencia_id": "evid-c3-azure-0222f7eea167",
+        "hash_original": "0222f7eea16788c0743ba2f7f4a0fa9950e4b09f19d6d1babe256f8b93bd3cba",
+        "hash_recalculado": "0222f7eea16788c0743ba2f7f4a0fa9950e4b09f19d6d1babe256f8b93bd3cba",
+        "integridade_valida": true,
+        "historico_transferencias": []
       }
-    }
-  },
-  "achado_correcao": "Bug de inconsistencia de chave (provider vs cloud_provider) identificado e corrigido durante a execucao real - nao detectado pelos testes unitarios com mocks, pois os mocks reproduziam a inconsistencia em vez do formato real dos coletores."
+    ]
+  }
 }

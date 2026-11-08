@@ -1,0 +1,111 @@
+{
+  "cenario": "C4",
+  "modo": "controle_benigno",
+  "executado_em": "2026-11-08T05:44:23.190013+00:00",
+  "resultado": {
+    "evidencias": [
+      {
+        "modalidade": "imagem",
+        "coleta": {
+          "bucket": "ccf-evidence-bucket",
+          "key": "evidencia-c4-imagem-controle.jpg",
+          "cloud_provider": "aws",
+          "hashes": {
+            "sha256": "8188f46aba6aa871bebb32c7cfc79c43b0e8400f5588331817fa351b96ae2c9d",
+            "md5": "79218744e520c848f6596908537de243"
+          },
+          "size_bytes": 11465,
+          "collected_at": "2026-11-08T05:44:10.108538+00:00"
+        },
+        "estagios": {
+          "E1": {
+            "executado": true,
+            "flag": "NOMATCH",
+            "matched_id": null,
+            "score_similaridade": 0.5078,
+            "base_referencia_simulada": true
+          },
+          "E2": {
+            "executado": true,
+            "probabilidade_nsfw": 0.00010597203072393313,
+            "flag": "SFW"
+          },
+          "E3": {
+            "executado": false,
+            "motivo": "E3 so e aplicado a imagens sinalizadas pelo E2 (Tabela 12)"
+          }
+        },
+        "registro_custodia": null,
+        "indicios": []
+      },
+      {
+        "modalidade": "texto",
+        "coleta": {
+          "container": "ccf-evidence-container",
+          "blob_name": "conversa-c4-controle.txt",
+          "cloud_provider": "azure",
+          "hashes": {
+            "sha256": "cb9bc082bf35643d315b7c63856f34a05b05ba1cafdecef5958355be7db761de",
+            "md5": "17efb46635609dc9721aa65ae187f19d"
+          },
+          "size_bytes": 170,
+          "collected_at": "2026-11-08T05:44:13.663807+00:00"
+        },
+        "estagios": {
+          "E4": {
+            "executado": true,
+            "score_grooming": 0.05037628331036815,
+            "flag": "NORMAL",
+            "trechos_relevantes": [
+              "have fun, see you tomorrow",
+              "thanks, my friends and i are going to the park later"
+            ],
+            "n_janelas": 1,
+            "indice_janela_mais_suspeita": 0
+          }
+        },
+        "registro_custodia": null,
+        "indicios": []
+      },
+      {
+        "modalidade": "logs",
+        "coleta": {
+          "bucket": "ccf-evidence-bucket-gcp",
+          "blob_name": "log-acesso-c4-controle.csv",
+          "cloud_provider": "gcp",
+          "hashes": {
+            "sha256": "017dbb8878f3b0df3291748ed0df013a61689a25259996568c1fa1322359e201",
+            "md5": "07b03475fe104cb158a46704fe0607ae"
+          },
+          "size_bytes": 248,
+          "collected_at": "2026-11-08T05:44:23.165634+00:00"
+        },
+        "estagios": {
+          "E5": {
+            "executado": true,
+            "flag": "NORMAL",
+            "n_registros": 8,
+            "n_anomalos": 0,
+            "menor_score": 0.1211
+          }
+        },
+        "registro_custodia": null,
+        "indicios": []
+      }
+    ],
+    "avaliacao_caso": {
+      "prioridade": "BAIXA",
+      "regra_aplicada": "R4",
+      "justificativa": "nenhum indicio moderado ou forte",
+      "indicios": [],
+      "modalidades_com_indicio": [],
+      "avaliacao_incompleta": false,
+      "pendencias": [],
+      "ressalva": "Prioridade de revisao pericial obtida por regras heuristicas, sem validacao empirica; nao e probabilidade nem conclusao sobre a pratica de crime. Cada estagio de IA e uma triagem sujeita a revisao humana."
+    },
+    "erros_coleta": {},
+    "erros_estagio": {},
+    "erros_custodia": {},
+    "status_pipeline": "SUCESSO"
+  }
+}

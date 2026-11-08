@@ -1,7 +1,7 @@
 {
   "cenario": "C1",
   "modo": "ramo_nsfw_forcado",
-  "executado_em": "2026-11-08T04:22:33.071788+00:00",
+  "executado_em": "2026-11-08T04:24:03.520403+00:00",
   "resultado": {
     "coleta": {
       "bucket": "ccf-evidence-bucket",
@@ -12,7 +12,7 @@
         "md5": "6c739f7df56d5cff6beb0805462f8c5c"
       },
       "size_bytes": 1412,
-      "collected_at": "2026-11-08T04:22:29.055555+00:00"
+      "collected_at": "2026-11-08T04:23:59.550112+00:00"
     },
     "classificacao": {
       "probabilidade_nsfw": 0.010225045494735241,
@@ -20,8 +20,21 @@
       "flag_original": "SFW",
       "classificador_forcado": true
     },
-    "registro_custodia": null,
-    "status_pipeline": "FALHA",
-    "erro": "Falha no registro de custodia: Evidencia registrada nao foi encontrada na consulta ao ledger."
+    "registro_custodia": {
+      "status": "success",
+      "evidence_id": "evid-c1-aws-ee7911c243c8",
+      "chaincode_status": 200,
+      "hash": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+      "hash_no_ledger": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+      "acao": "ja_registrada"
+    },
+    "status_pipeline": "SUCESSO",
+    "verificacao_integridade": {
+      "evidencia_id": "evid-c1-aws-ee7911c243c8",
+      "hash_original": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+      "hash_recalculado": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+      "integridade_valida": true,
+      "historico_transferencias": []
+    }
   }
 }

@@ -1,0 +1,159 @@
+{
+  "cenario": "C4",
+  "modo": "caso",
+  "executado_em": "2026-11-08T05:44:07.794361+00:00",
+  "resultado": {
+    "evidencias": [
+      {
+        "modalidade": "imagem",
+        "coleta": {
+          "bucket": "ccf-evidence-bucket",
+          "key": "evidencia-c4-imagem.jpg",
+          "cloud_provider": "aws",
+          "hashes": {
+            "sha256": "0a298fe1529a67df1676b070ba4941460cc0a43f7b79d966298db403e75a0384",
+            "md5": "f3bfcba508ddf5ea9398800a91a2f288"
+          },
+          "size_bytes": 9518,
+          "collected_at": "2026-11-08T05:43:48.970463+00:00"
+        },
+        "estagios": {
+          "E1": {
+            "executado": true,
+            "flag": "MATCH",
+            "matched_id": "ref-sintetica-001",
+            "score_similaridade": 0.9922,
+            "base_referencia_simulada": true
+          },
+          "E2": {
+            "executado": true,
+            "probabilidade_nsfw": 0.00013478386972565204,
+            "flag": "SFW"
+          },
+          "E3": {
+            "executado": false,
+            "motivo": "E3 so e aplicado a imagens sinalizadas pelo E2 (Tabela 12)"
+          }
+        },
+        "registro_custodia": null,
+        "indicios": [
+          {
+            "modalidade": "imagem",
+            "estagio": "E1",
+            "forca": "forte",
+            "descricao": "correspondencia de hash perceptual com a base de referencia (similaridade 0.9922)"
+          }
+        ]
+      },
+      {
+        "modalidade": "texto",
+        "coleta": {
+          "container": "ccf-evidence-container",
+          "blob_name": "conversa-c4.txt",
+          "cloud_provider": "azure",
+          "hashes": {
+            "sha256": "c09be7d9783867e8e832896bfd8e7cb3ccfb3babf2733dbb9eaeabffe55b07ab",
+            "md5": "75d86bf2183229fac5ba1a97c91e4fee"
+          },
+          "size_bytes": 190,
+          "collected_at": "2026-11-08T05:43:53.300006+00:00"
+        },
+        "estagios": {
+          "E4": {
+            "executado": true,
+            "score_grooming": 0.8687201035474422,
+            "flag": "SUSPEITO",
+            "trechos_relevantes": [
+              "you are so mature for your age",
+              "this is our secret, dont tell your parents ok?"
+            ],
+            "n_janelas": 1,
+            "indice_janela_mais_suspeita": 0
+          }
+        },
+        "registro_custodia": null,
+        "indicios": [
+          {
+            "modalidade": "texto",
+            "estagio": "E4",
+            "forca": "moderado",
+            "descricao": "conversa com padrao de aliciamento (escore 0.8687201035474422)"
+          }
+        ]
+      },
+      {
+        "modalidade": "logs",
+        "coleta": {
+          "bucket": "ccf-evidence-bucket-gcp",
+          "blob_name": "log-acesso-c4.csv",
+          "cloud_provider": "gcp",
+          "hashes": {
+            "sha256": "0f0595629479ffcb6b4d1a4a2b3c60af7a4520ac47c2484e5cb4490fcaf8e718",
+            "md5": "9c232bbfdfa8e5c9f2f163ed3f75da70"
+          },
+          "size_bytes": 252,
+          "collected_at": "2026-11-08T05:44:07.206568+00:00"
+        },
+        "estagios": {
+          "E5": {
+            "executado": true,
+            "flag": "ANOMALO",
+            "n_registros": 8,
+            "n_anomalos": 2,
+            "menor_score": -0.1161
+          }
+        },
+        "registro_custodia": null,
+        "indicios": [
+          {
+            "modalidade": "logs",
+            "estagio": "E5",
+            "forca": "contextual",
+            "descricao": "comportamento atipico de acesso a nuvem (2 de 8 registros)"
+          }
+        ]
+      }
+    ],
+    "avaliacao_caso": {
+      "prioridade": "ALTA",
+      "regra_aplicada": "R1",
+      "justificativa": "ha ao menos um indicio forte",
+      "indicios": [
+        {
+          "modalidade": "imagem",
+          "estagio": "E1",
+          "forca": "forte",
+          "descricao": "correspondencia de hash perceptual com a base de referencia (similaridade 0.9922)"
+        },
+        {
+          "modalidade": "texto",
+          "estagio": "E4",
+          "forca": "moderado",
+          "descricao": "conversa com padrao de aliciamento (escore 0.8687201035474422)"
+        },
+        {
+          "modalidade": "logs",
+          "estagio": "E5",
+          "forca": "contextual",
+          "descricao": "comportamento atipico de acesso a nuvem (2 de 8 registros)"
+        }
+      ],
+      "modalidades_com_indicio": [
+        "imagem",
+        "logs",
+        "texto"
+      ],
+      "avaliacao_incompleta": false,
+      "pendencias": [],
+      "ressalva": "Prioridade de revisao pericial obtida por regras heuristicas, sem validacao empirica; nao e probabilidade nem conclusao sobre a pratica de crime. Cada estagio de IA e uma triagem sujeita a revisao humana."
+    },
+    "erros_coleta": {},
+    "erros_estagio": {},
+    "erros_custodia": {
+      "imagem": "Falha ao registrar a evidencia: Error: endorsement failure during invoke. response: status:500 message:\"incorrect number of params. Expected 7, received 6\"",
+      "texto": "Falha ao registrar a evidencia: Error: endorsement failure during invoke. response: status:500 message:\"incorrect number of params. Expected 7, received 6\"",
+      "logs": "Falha ao registrar a evidencia: Error: endorsement failure during invoke. response: status:500 message:\"incorrect number of params. Expected 7, received 6\""
+    },
+    "status_pipeline": "SUCESSO_PARCIAL"
+  }
+}
