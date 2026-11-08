@@ -1,20 +1,21 @@
 {
   "cenario": "C1",
-  "executado_em": "2026-07-22T16:44:12.320168+00:00",
+  "modo": "classificacao_real",
+  "executado_em": "2026-11-08T04:18:41.001649+00:00",
   "resultado": {
     "coleta": {
       "bucket": "ccf-evidence-bucket",
       "key": "evidencia-c1-real.jpg",
       "cloud_provider": "aws",
       "hashes": {
-        "sha256": "1b33f05aac9b7727df59bc1d3774c8d5b2fd17904535da342eec90d8cea8c0f3",
-        "md5": "b06e103aa1c41c76cbf35359a120eb16"
+        "sha256": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+        "md5": "6c739f7df56d5cff6beb0805462f8c5c"
       },
       "size_bytes": 1412,
-      "collected_at": "2026-07-22T16:44:04.700363+00:00"
+      "collected_at": "2026-11-08T04:18:31.154232+00:00"
     },
     "classificacao": {
-      "probabilidade_nsfw": 0.08173290640115738,
+      "probabilidade_nsfw": 0.010225045494735241,
       "flag": "SFW"
     },
     "registro_custodia": null,

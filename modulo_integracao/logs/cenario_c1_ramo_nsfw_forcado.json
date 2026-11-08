@@ -1,0 +1,27 @@
+{
+  "cenario": "C1",
+  "modo": "ramo_nsfw_forcado",
+  "executado_em": "2026-11-08T04:22:33.071788+00:00",
+  "resultado": {
+    "coleta": {
+      "bucket": "ccf-evidence-bucket",
+      "key": "evidencia-c1-real.jpg",
+      "cloud_provider": "aws",
+      "hashes": {
+        "sha256": "ee7911c243c8edc580037ca910dff01287de72fe1e0f7bff36f3a980a3e02a20",
+        "md5": "6c739f7df56d5cff6beb0805462f8c5c"
+      },
+      "size_bytes": 1412,
+      "collected_at": "2026-11-08T04:22:29.055555+00:00"
+    },
+    "classificacao": {
+      "probabilidade_nsfw": 0.010225045494735241,
+      "flag": "NSFW",
+      "flag_original": "SFW",
+      "classificador_forcado": true
+    },
+    "registro_custodia": null,
+    "status_pipeline": "FALHA",
+    "erro": "Falha no registro de custodia: Evidencia registrada nao foi encontrada na consulta ao ledger."
+  }
+}
