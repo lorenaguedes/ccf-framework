@@ -64,8 +64,17 @@ def _classifier_fn_forcado_nsfw(conteudo: bytes) -> dict:
     return resultado
 
 
-def main(validar_ramo_nsfw: bool = False, xai_amostras: int = 200,
-         xai_segmentos: int | None = None, xai_espaco: str = "probabilidade"):
+# Configuracao do LIME escolhida no experimento de calibracao
+# (experimento_xai_estabilidade, 3 imagens sinteticas, 3 pares de sementes):
+# SLIC ~16 segmentos, espaco logit, 1000 perturbacoes. Foi a de menor dispersao
+# entre pares de sementes (desvio de 0,002 a 0,18), com Jaccard medio de 0,55 a 0,86.
+XAI_AMOSTRAS_PADRAO = 1000
+XAI_SEGMENTOS_PADRAO = 16
+XAI_ESPACO_PADRAO = "logit"
+
+
+def main(validar_ramo_nsfw: bool = False, xai_amostras: int = XAI_AMOSTRAS_PADRAO,
+         xai_segmentos: int | None = XAI_SEGMENTOS_PADRAO, xai_espaco: str = XAI_ESPACO_PADRAO):
     client = get_s3_client()
     conteudo = client.get_object(Bucket=BUCKET, Key=KEY)["Body"].read()
 
@@ -120,11 +129,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executa o cenario C1 com componentes reais.")
     parser.add_argument("--validar-ramo-nsfw", action="store_true",
                         help="forca o rotulo NSFW para validar o registro de custodia (declarado no laudo)")
-    parser.add_argument("--xai-amostras", type=int, default=200,
+    parser.add_argument("--xai-amostras", type=int, default=XAI_AMOSTRAS_PADRAO,
                         help="perturbacoes do LIME (mais amostras tendem a estabilizar a explicacao)")
-    parser.add_argument("--xai-segmentos", type=int, default=None,
-                        help="usa SLIC com ~N segmentos (padrao: quickshift do LIME)")
-    parser.add_argument("--xai-espaco", choices=("probabilidade", "logit"), default="probabilidade",
+    parser.add_argument("--xai-segmentos", type=int, default=XAI_SEGMENTOS_PADRAO,
+                        help="usa SLIC com ~N segmentos (0 = quickshift do LIME)")
+    parser.add_argument("--xai-espaco", choices=("probabilidade", "logit"), default=XAI_ESPACO_PADRAO,
                         help="espaco da saida explicada pelo LIME")
     a = parser.parse_args()
-    main(a.validar_ramo_nsfw, a.xai_amostras, a.xai_segmentos, a.xai_espaco)
+    main(a.validar_ramo_nsfw, a.xai_amostras, a.xai_segmentos or None, a.xai_espaco)
