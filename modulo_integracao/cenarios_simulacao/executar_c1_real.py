@@ -33,6 +33,7 @@ from modulo_coleta.aws_collector import collect_from_s3, get_s3_client
 from modulo_ia.visao_computacional import classify_explicit_content, create_opennsfw2_predict_fn
 from modulo_integracao.cenarios_simulacao.cenario_c1 import executar_cenario_c1
 from modulo_integracao.cenarios_simulacao.custodia_real import criar_custody_register_fn, id_evidencia
+from modulo_integracao.explicabilidade_imagem import gerar_explicabilidade_imagem
 
 BUCKET = "ccf-evidence-bucket"
 KEY = "evidencia-c1-real.jpg"
@@ -80,6 +81,13 @@ def main(validar_ramo_nsfw: bool = False):
         resultado["verificacao_integridade"] = verificar_integridade(
             eid, recoleta["hashes"]["sha256"]
         )
+
+    classificacao = resultado.get("classificacao") or {}
+    if classificacao.get("flag") == "NSFW":
+        # Explica a probabilidade REAL do modelo (mesmo no ramo forcado).
+        nome_mapa = "mapa_xai_c1_forcado.png" if validar_ramo_nsfw else "mapa_xai_c1.png"
+        resultado["explicabilidade"] = gerar_explicabilidade_imagem(
+            conteudo, create_opennsfw2_predict_fn(), LOGS, nome_mapa)
 
     log_entry = {
         "cenario": "C1",

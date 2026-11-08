@@ -93,6 +93,66 @@ def montar_conteudo_laudo(
     }
 
 
+def montar_xai_imagem(classificacao: dict, explicabilidade: dict | None) -> dict | None:
+    """Monta o artefato de explicabilidade de uma classificacao de IMAGEM (E2),
+    a partir da explicacao LIME registrada no log do cenario.
+
+    A explicacao descreve a probabilidade NSFW REAL calculada pelo modelo. Quando
+    o rotulo foi forcado para validar o ramo de custodia (classificador_forcado),
+    o artefato declara que a explicacao refere-se ao escore do modelo, e nao ao
+    rotulo forcado.
+
+    Returns:
+        Dicionario com o artefato, ou None se a imagem nao foi sinalizada ou a
+        explicacao nao foi gerada (o laudo declara a ausencia).
+    """
+    if not explicabilidade or classificacao.get("flag") != "NSFW":
+        return None
+    forcado = bool(classificacao.get("classificador_forcado"))
+    escore = classificacao.get("probabilidade_nsfw")
+    escore = round(escore, 4) if isinstance(escore, (int, float)) else escore
+    ressalva = ("Explicacao do comportamento do modelo, nao causal; sujeita a revisao pericial humana. "
+                "O LIME e amostral: a estabilidade entre sementes e informada.")
+    if forcado:
+        ressalva = ("O rotulo NSFW foi FORCADO para validar o ramo de custodia; a explicacao refere-se a "
+                    f"probabilidade real do modelo ({escore}, rotulo original "
+                    f"{classificacao.get('flag_original')}), nao ao rotulo forcado. ") + ressalva
+    return {
+        "metodo": explicabilidade["metodo"],
+        "escore": escore,
+        "limiar": explicabilidade.get("limiar_decisao", 0.5),
+        "num_samples": explicabilidade.get("num_samples"),
+        "sementes": explicabilidade.get("sementes"),
+        "estabilidade_jaccard": explicabilidade.get("estabilidade_jaccard"),
+        "fracao_area_alta_importancia": (explicabilidade.get("resumo") or {}).get("fracao_area_alta_importancia"),
+        "caixa_delimitadora": (explicabilidade.get("resumo") or {}).get("caixa_delimitadora"),
+        "mapa_arquivo": explicabilidade.get("mapa_arquivo"),
+        "mapa_sha256": explicabilidade.get("mapa_sha256"),
+        "ressalva": ressalva,
+    }
+
+
+def formatar_xai(x) -> str:
+    """Texto legivel de um artefato de explicabilidade (dict ou mensagem)."""
+    if not isinstance(x, dict):
+        return str(x)
+    rotulos = {"metodo": "Metodo", "escore": "Escore do modelo", "limiar": "Limiar de decisao",
+               "num_samples": "Perturbacoes (LIME)", "sementes": "Sementes",
+               "estabilidade_jaccard": "Estabilidade (Jaccard entre sementes)",
+               "fracao_area_alta_importancia": "Fracao da imagem de alta importancia",
+               "caixa_delimitadora": "Caixa delimitadora (linha/coluna min, max)",
+               "mapa_arquivo": "Mapa de importancia (arquivo)", "mapa_sha256": "SHA-256 do mapa",
+               "trechos_relevantes": "Trechos relevantes", "ressalva": "Ressalva"}
+    linhas = []
+    for chave, valor in x.items():
+        if valor is None:
+            continue
+        if isinstance(valor, list) and chave == "trechos_relevantes":
+            valor = " | ".join(f'"{t}"' for t in valor)
+        linhas.append(f"{rotulos.get(chave, chave)}: {valor}")
+    return "\n".join(linhas)
+
+
 def montar_xai_texto(classificacao: dict, limiar: float | None = None) -> dict | None:
     """Monta o artefato de explicabilidade para uma classificacao textual
     do estagio E4 (secao 4.4.6 do PGT).
@@ -481,7 +541,8 @@ def gerar_pdf_laudo(conteudo: dict, output_path: str) -> None:  # pragma: no cov
     story.append(Paragraph(str(conteudo["classificacao_ia"]), styles["Normal"]))
 
     story.append(Paragraph("4. Artefatos de Explicabilidade (XAI)", secao_style))
-    story.append(Paragraph(str(conteudo["artefatos_xai"]), styles["Normal"]))
+    from xml.sax.saxutils import escape as _esc
+    story.append(Paragraph(_esc(formatar_xai(conteudo["artefatos_xai"])).replace("\n", "<br/>"), styles["Normal"]))
 
     story.append(Paragraph("5. Historico de Cadeia de Custodia (Blockchain)", secao_style))
     story.append(Paragraph(str(conteudo["historico_blockchain"]), styles["Normal"]))

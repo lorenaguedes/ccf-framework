@@ -21,6 +21,7 @@ from modulo_integracao.laudo_pericial import (
     gerar_pdf_laudo_consolidado,
     montar_conteudo_laudo,
     montar_conteudo_laudo_consolidado,
+    montar_xai_imagem,
 )
 
 LOGS = Path(__file__).parent.parent / "logs"
@@ -47,7 +48,7 @@ def conteudo_laudo_c1(caminho_log: Path = LOGS / "cenario_c1_execucao.json") -> 
     return montar_conteudo_laudo(
         evidencia=resultado["coleta"],
         classificacao=resultado["classificacao"],
-        xai_info=None,
+        xai_info=montar_xai_imagem(resultado["classificacao"], resultado.get("explicabilidade")),
         historico_blockchain=_custodia_com_verificacao(
             resultado.get("registro_custodia"), resultado.get("verificacao_integridade")),
         cenario="C1",

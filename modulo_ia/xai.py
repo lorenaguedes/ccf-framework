@@ -131,3 +131,104 @@ def compute_agreement_score(mask_a: np.ndarray, mask_b: np.ndarray) -> float:
     correlacao = np.corrcoef(a_flat, b_flat)[0, 1]
 
     return (correlacao + 1) / 2
+
+
+# --- Explicabilidade de imagem para o laudo (E2) -----------------------------
+
+def criar_predict_lote(predict_fn: Callable) -> Callable[[np.ndarray], np.ndarray]:
+    """Adapta uma funcao de predicao de UMA imagem PIL (ex.: OpenNSFW2, que
+    retorna a probabilidade NSFW) para a assinatura em lote usada pelo LIME."""
+    from PIL import Image
+
+    def predict_lote(imagens: np.ndarray) -> np.ndarray:
+        return np.array([float(predict_fn(Image.fromarray(img.astype("uint8")))) for img in imagens])
+    return predict_lote
+
+
+def _regioes_altas(mascara: np.ndarray, threshold: float) -> np.ndarray:
+    """Mascara booleana das regioes de alta importancia (mesmo criterio de
+    identify_high_importance_regions)."""
+    alta = np.zeros(mascara.shape, dtype=bool)
+    coords = identify_high_importance_regions(mascara, threshold=threshold)
+    if coords:
+        linhas, colunas = zip(*coords)
+        alta[list(linhas), list(colunas)] = True
+    return alta
+
+
+def resumir_mascara(mascara: np.ndarray, threshold: float = 0.5) -> dict:
+    """Resumo numerico de um mapa de importancia: fracao da area de alta
+    importancia e caixa delimitadora (linha_min, coluna_min, linha_max, coluna_max)."""
+    alta = _regioes_altas(mascara, threshold)
+    if not alta.any():
+        return {"sinal_suficiente": False, "fracao_area_alta_importancia": 0.0, "caixa_delimitadora": None}
+    linhas, colunas = np.where(alta)
+    return {
+        "sinal_suficiente": True,
+        "fracao_area_alta_importancia": round(float(alta.mean()), 4),
+        "caixa_delimitadora": [int(linhas.min()), int(colunas.min()), int(linhas.max()), int(colunas.max())],
+    }
+
+
+def jaccard_regioes(mascara_a: np.ndarray, mascara_b: np.ndarray, threshold: float = 0.5) -> float | None:
+    """Indice de Jaccard entre as regioes de alta importancia de duas
+    explicacoes (estabilidade entre execucoes, Secao 3.2.1 do PGT).
+
+    Retorna None quando nenhuma das duas tem sinal (nao ha regiao a comparar)."""
+    a, b = _regioes_altas(mascara_a, threshold), _regioes_altas(mascara_b, threshold)
+    uniao = int((a | b).sum())
+    if uniao == 0:
+        return None
+    return round(int((a & b).sum()) / uniao, 4)
+
+
+def explicar_imagem_lime(
+    imagem: np.ndarray,
+    predict_lote: Callable[[np.ndarray], np.ndarray],
+    num_samples: int = 200,
+    sementes: tuple = (42, 43),
+    threshold: float = 0.5,
+) -> dict:
+    """Explica a saida do modelo para uma imagem por LIME, com duas ou mais
+    sementes para medir a estabilidade da explicacao (o LIME e amostral).
+
+    Returns:
+        {"mascara": ndarray da primeira semente, "metodo", "num_samples",
+         "sementes", "threshold", "resumo", "estabilidade_jaccard"}
+        em que estabilidade_jaccard e o Jaccard medio entre a primeira
+        semente e as demais (None se nao houver sinal).
+    """
+    mascaras = [generate_lime_explanation(imagem, predict_lote, num_samples=num_samples, random_state=s)
+                for s in sementes]
+    jaccards = [jaccard_regioes(mascaras[0], m, threshold) for m in mascaras[1:]]
+    validos = [j for j in jaccards if j is not None]
+    return {
+        "mascara": mascaras[0],
+        "metodo": "LIME (segmentos de imagem)",
+        "num_samples": num_samples,
+        "sementes": list(sementes),
+        "threshold": threshold,
+        "resumo": resumir_mascara(mascaras[0], threshold),
+        "estabilidade_jaccard": round(float(np.mean(validos)), 4) if validos else None,
+    }
+
+
+def salvar_mapa_importancia(imagem: np.ndarray, mascara: np.ndarray, caminho) -> str:
+    """Grava a sobreposicao do mapa de importancia (vermelho = contribui para a
+    saida, azul = reduz) sobre a imagem e retorna o SHA-256 do arquivo, para
+    que o artefato de explicabilidade tambem tenha integridade verificavel."""
+    import hashlib
+    from pathlib import Path
+
+    from PIL import Image
+
+    maximo = float(np.abs(mascara).max()) or 1.0
+    norm = mascara / maximo
+    overlay = np.zeros(imagem.shape, dtype=np.float64)
+    overlay[..., 0] = np.clip(norm, 0, 1) * 255
+    overlay[..., 2] = np.clip(-norm, 0, 1) * 255
+    peso = np.clip(np.abs(norm), 0, 1)[..., None] * 0.6
+    misto = (imagem.astype(np.float64) * (1 - peso) + overlay * peso).clip(0, 255).astype("uint8")
+    caminho = Path(caminho)
+    Image.fromarray(misto).save(caminho, format="PNG")
+    return hashlib.sha256(caminho.read_bytes()).hexdigest()
