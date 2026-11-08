@@ -114,8 +114,16 @@ General (ver ADR 001).
 
 ### 6. Executar os cenários de simulação forense (RF14)
 
+Os emuladores não persistem dados entre reinícios: semeie as evidências
+sintéticas antes dos cenários. O registro na cadeia de custódia é feito
+pelo próprio script (peer CLI via `modulo_blockchain.registrar_custodia`),
+com conferência do hash gravado no ledger, e cada execução gera o laudo
+em `modulo_integracao/logs/`.
+
 ```
+poetry run python -m modulo_integracao.cenarios_simulacao.preparar_ambiente_c1_c3
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c1_real
+poetry run python -m modulo_integracao.cenarios_simulacao.executar_c1_real --validar-ramo-nsfw   # classificador forçado, declarado no laudo
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c2_real
 poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real
 ```
@@ -125,9 +133,9 @@ poetry run python -m modulo_integracao.cenarios_simulacao.executar_c3_real
 | Módulo | Testes | Cobertura |
 |---|---|---|
 | Coleta Multi-Nuvem (AWS/Azure/GCP/Docker) | 27+ | ~100% |
-| Blockchain (chaincode custody) | 9 | — (Go) |
+| Blockchain (chaincode custody) | 9 (Go) + 7 (cliente Python) | — |
 | IA Multi-Modal (E1–E6) | 54 | 97% (`modulo_ia`; E4: 96%) |
-| Integração (C1/C2/C3 + Laudo Pericial) | 21 | — |
+| Integração (C1/C2/C3 + Laudo Pericial) | 24 | — |
 
 ## Estágios do Pipeline de IA (Tabela 12, PGT)
 

@@ -5,7 +5,8 @@ Conecta os componentes reais:
 - modulo_coleta.docker_collector (Docker real)
 - modulo_ia.deteccao_grooming (embeddings multilingues + regressao
   logistica, treinados sobre o PAN12 com rotulos por janela)
-- Chaincode 'custody' na rede Hyperledger Fabric real
+- Chaincode 'custody' na rede Hyperledger Fabric real (registro e
+  conferencia do hash via modulo_blockchain.registrar_custodia)
 
 NOTA METODOLOGICA: o classificador usado aqui e o modelo final do
 estagio E4 (modulo_ia/models/modelo_e4_embeddings.json, exportado do
@@ -29,6 +30,7 @@ from modulo_ia.deteccao_grooming import (
     create_embedding_predict_fn,
 )
 from modulo_integracao.cenarios_simulacao.cenario_c2 import executar_cenario_c2
+from modulo_integracao.cenarios_simulacao.custodia_real import criar_custody_register_fn
 
 CAMINHO_MODELO_E4 = "modulo_ia/models/modelo_e4_embeddings.json"
 
@@ -53,10 +55,7 @@ def _grooming_classifier_fn_real(texto: str) -> dict:
     return classificar_conversa(texto.splitlines(), _PREDICT_FN, threshold=limiar)
 
 
-def _custody_register_fn_placeholder(evidence_id, hash_sha256, metadata):
-    """Placeholder - o registro real e feito via peer CLI separadamente,
-    mesmo padrao adotado no Cenario C1."""
-    return {"status": "pendente_shell", "evidence_id": evidence_id}
+_CUSTODY_REGISTER_FN = criar_custody_register_fn("c2")
 
 
 def main():
@@ -72,7 +71,7 @@ def main():
         texto_conversa=texto_conversa,
         collector_fn=_collector_fn_real,
         grooming_classifier_fn=_grooming_classifier_fn_real,
-        custody_register_fn=_custody_register_fn_placeholder,
+        custody_register_fn=_CUSTODY_REGISTER_FN,
     )
 
     log_entry = {
@@ -89,8 +88,7 @@ def main():
 
     print(json.dumps(log_entry, indent=2, default=str))
     print(f"\nLog salvo em: {log_path_output}")
-    print(f"\nHash para registro manual na blockchain: {coleta_real['hashes']['sha256']}")
-
+    
     from modulo_integracao.cenarios_simulacao.gerar_laudo_c2 import gerar_laudo_c2
     gerar_laudo_c2()
     print("Laudo salvo em: modulo_integracao/logs/laudo_c2.pdf")
