@@ -23,6 +23,7 @@ import json
 import os
 import re
 import subprocess
+import time
 from pathlib import Path
 from typing import Callable
 
@@ -159,6 +160,9 @@ def registrar_e_verificar(
     agente_msp: str = "Org1MSP",
     rede_dir: Path = FABRIC_TEST_NETWORK_DIR,
     runner: Callable = subprocess.run,
+    tentativas_confirmacao: int = 15,
+    intervalo_confirmacao: float = 2.0,
+    dormir: Callable = time.sleep,
 ) -> dict:
     """Registra a evidencia no ledger (se ainda nao existir) e confere o
     hash gravado.
@@ -187,9 +191,22 @@ def registrar_e_verificar(
         if r.returncode != 0 or "status:200" not in saida:
             raise RuntimeError(f"Falha ao registrar a evidencia: {saida.strip()}")
         acao = "registrada"
-        existente = consultar_evidencia(evidence_id, rede_dir, runner)
+        # O invoke retorna quando o orderer aceita a transacao; o peer so
+        # a enxerga apos a confirmacao do bloco. Consulta ate confirmar.
+        existente = None
+        for tentativa in range(tentativas_confirmacao):
+            existente = consultar_evidencia(evidence_id, rede_dir, runner)
+            if existente is not None:
+                break
+            if tentativa < tentativas_confirmacao - 1:
+                dormir(intervalo_confirmacao)
         if existente is None:
-            raise RuntimeError("Evidencia registrada nao foi encontrada na consulta ao ledger.")
+            raise RuntimeError(
+                "Evidencia enviada, mas nao confirmada no ledger apos "
+                f"{tentativas_confirmacao * intervalo_confirmacao:.0f} s "
+                "(transacao possivelmente invalidada na confirmacao do bloco). "
+                f"Saida do invoke: {saida.strip()}"
+            )
 
     hash_ledger = existente.get("hash_sha256")
     return {
