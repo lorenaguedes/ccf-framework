@@ -3,9 +3,15 @@ Módulo de hash perceptual (PDQ Hash) — Estágio E1 do pipeline
 multi-modal (Tabela 12, PGT).
 
 Triagem inicial por hash perceptual: identifica similaridade com
-conteúdo previamente conhecido, mesmo diante de pequenas transformações
-(recorte, recompressão, redimensionamento), diferentemente do hash
-criptográfico (SHA-256), que é sensível a qualquer alteração mínima.
+conteúdo previamente conhecido, mesmo diante de transformações como
+recompressão JPEG, redimensionamento e desfoque leve, diferentemente do
+hash criptográfico (SHA-256), que é sensível a qualquer alteração mínima.
+
+Limite medido (modulo_ia/experimentos/experimento_e1.py, corpus sintético):
+o PDQ NÃO é robusto a recorte (mesmo de 5%), marca-d'água sobreposta,
+espelhamento nem rotação de 90 graus quando se compara apenas o hash
+original; essas transformações exigem comparar variantes diedricas ou
+outra técnica.
 
 Referência: Facebook/Meta PDQ Hash (open-source), usado por bases de
 referência como NCMEC/Interpol para identificação de material conhecido.
