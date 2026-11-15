@@ -165,6 +165,7 @@ Atalho para não digitar módulos longos. Todas as execuções usam dados sinté
 ./ccf cenario c4             # c1 | c2 | c3 | c4 | adulteracao | custodia | todos
 ./ccf cenario c4 --controle  # caso de controle benigno (também c2)
 ./ccf cenario c1 --forcado   # classificador forçado, declarado no laudo
+./ccf benchmark              # 1.000 coletas (integridade SHA-256, latência) + 100 registros no ledger (latência de confirmação); log em modulo_integracao/logs/benchmark_framework.json
 ./ccf demo --pausar          # C4, controle e adulteração, com Enter entre os passos (--completo inclui C1–C3)
 ./ccf resumo                 # tabela dos logs        ./ccf laudos   # lista os PDFs
 ./ccf testes --go            # pytest + go test do chaincode

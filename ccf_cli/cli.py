@@ -7,6 +7,7 @@ CLI do framework CCF: comandos curtos no lugar das chamadas longas de modulos.
   ./ccf preparar                cria as evidencias SINTETICAS nos emuladores e no container C2
   ./ccf cenario c1|c2|c3|c4|adulteracao|custodia|todos [--controle] [--forcado]
   ./ccf demo [--completo] [--pausar]
+  ./ccf benchmark [--n 1000] [--n-fabric 100] [--sem-fabric]   integridade de 1.000 coletas e latencia no ledger
   ./ccf resumo                  tabela dos logs de execucao
   ./ccf laudos                  lista os laudos PDF gerados
   ./ccf testes [--go]           suite pytest (e testes do chaincode)
@@ -159,6 +160,11 @@ def cmd_cenario(args, executar) -> int:
     return _sequencia(cmds, executar)
 
 
+def cmd_benchmark(args, executar) -> int:
+    extra = ["--n", str(args.n), "--n-fabric", str(args.n_fabric)] + (["--sem-fabric"] if args.sem_fabric else [])
+    return _sequencia([_py("executar_benchmark_real", *extra)], executar)
+
+
 def cmd_demo(args, executar, entrada=input) -> int:
     passos = [("Caso multimodal C4 (suspeito)", comandos_cenario("c4")),
               ("Caso de controle benigno C4", comandos_cenario("c4", controle=True)),
@@ -251,6 +257,11 @@ def criar_parser() -> argparse.ArgumentParser:
     d.add_argument("--completo", action="store_true")
     d.add_argument("--pausar", action="store_true", help="espera Enter entre os passos")
     d.set_defaults(f=cmd_demo)
+    b = sub.add_parser("benchmark")
+    b.add_argument("--n", type=int, default=1000, help="numero de coletas (padrao 1000)")
+    b.add_argument("--n-fabric", type=int, default=100, help="registros no ledger (padrao 100)")
+    b.add_argument("--sem-fabric", action="store_true", help="so a parte de coleta")
+    b.set_defaults(f=cmd_benchmark)
     sub.add_parser("resumo").set_defaults(f=cmd_resumo)
     sub.add_parser("laudos").set_defaults(f=cmd_laudos)
     t = sub.add_parser("testes")

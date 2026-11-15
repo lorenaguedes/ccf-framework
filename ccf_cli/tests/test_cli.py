@@ -109,3 +109,11 @@ def test_cenario_custodia_gera_comando():
     f = Falso()
     assert cli.main(["cenario", "custodia"], f) == 0
     assert f.chamadas[0][-1].endswith("executar_custodia_completa_real")
+
+
+def test_benchmark_gera_comando_com_parametros():
+    f = Falso()
+    assert cli.main(["benchmark", "--n", "50", "--n-fabric", "5", "--sem-fabric"], f) == 0
+    assert f.chamadas == [["poetry", "run", "python", "-m",
+                           "modulo_integracao.cenarios_simulacao.executar_benchmark_real",
+                           "--n", "50", "--n-fabric", "5", "--sem-fabric"]]
