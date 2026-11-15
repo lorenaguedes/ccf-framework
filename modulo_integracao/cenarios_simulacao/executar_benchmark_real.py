@@ -51,13 +51,21 @@ def _provedores() -> dict:  # pragma: no cover - depende dos emuladores
 
 
 def main(n: int = 1000, n_fabric: int = 100, sem_fabric: bool = False, intervalo_fabric: float = 0.1):  # pragma: no cover
-    from modulo_blockchain.registrar_custodia import registrar_e_verificar
+    from modulo_blockchain.registrar_custodia import consultar_evidencia, registrar_e_verificar
 
     resultado = {"coleta": executar_coletas(n, _provedores())}
     g = resultado["coleta"]["global"]
     print(f"Coleta: {g['integras']}/{g['coletas']} integras ({g['taxa_integridade']:.4%}); "
           f"p50 {g['p50_s']} s, p95 {g['p95_s']} s")
+    fabric_no_ar = True
     if not sem_fabric:
+        try:  # verificacao previa: evita registrar N falhas se a rede estiver parada
+            consultar_evidencia("evid-bench-preflight")
+        except RuntimeError as e:
+            fabric_no_ar = False
+            resultado["fabric"] = {"status": "nao_executado", "motivo": str(e)[:300]}
+            print("Fabric: NAO EXECUTADO (rede inacessivel). Rode ./ccf fabric iniciar e ./ccf fabric deploy.")
+    if not sem_fabric and fabric_no_ar:
         sufixo = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
 
         def registrar(eid, h):
